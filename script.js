@@ -1,8 +1,13 @@
+// narrative - starts at night, brightens to day after some time, dims back down, regenerates the background as something different, which is revealed at day
+// as a mechanic, you could 'spend' to modify things for next generation (like greater chance of x appearing, new appearance possibilities)
+
+
+// things to fix:
+// or is the sparkle good while screen is still black? like maybe just less frequent? Since less light before fire starts
+// change the sparkle function to append asterisks instead of generating random colors
+
 const gridContainer = document.querySelector(`#gridContainer`);
 
-// function getOriginCell(e) {
-//     originArray.push(e.target.id)
-// }
 
 let originArray = [];
 
@@ -10,7 +15,9 @@ let originRow = 0;
 
 let originColumn = 0;
 
-let hasBeenClicked = false;
+let sparkleCounter = 0;
+
+let hasBeenClicked = false; // keeps track of if the grid has been clicked and activated already, and then if true, stops function from running again
 
 function getWidth() { // returns width of browser window
     if (self.innerWidth) {
@@ -41,8 +48,24 @@ const documentHeight = getHeight();
 
 let minOfRowsOrColumns = Math.min((Math.floor(documentHeight / 30)),(Math.floor(documentWidth / 30))); // gets the height/width of the view screen, and then caps number of rows/columns at whichever is smaller, so it makes a square
 
-let numberOfRows = minOfRowsOrColumns;
-let numberOfColumns = minOfRowsOrColumns;
+let maxOfRowsOrColumns = Math.max((Math.floor(documentHeight / 30)),(Math.floor(documentWidth / 30)));
+
+// let numberOfRows = minOfRowsOrColumns;
+// let numberOfColumns = minOfRowsOrColumns;
+
+//sets the rows and columns to be a square, smaller than view window
+
+// let numberOfRows = maxOfRowsOrColumns;
+// let numberOfColumns = maxOfRowsOrColumns;
+
+//sets the rows and columns to be a square, larger than view window. 
+
+let numberOfRows = (Math.floor(documentHeight / 30));
+let numberOfColumns = (Math.floor(documentWidth / 30));
+
+// sets at browser width
+// this one looks best
+
 
 function randomNumber(min,max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -59,7 +82,13 @@ function getRandomGreen() {
     return greenArray[Math.floor(Math.random() * greenArray.length)];
 }
 
-let greenArray = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];  
+function getRandomPink() {
+    return pinkArray[Math.floor(Math.random() * pinkArray.length)];
+}
+
+let greenArray = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let pinkArray = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
 
 function getRow(cell) {
     return Number((cell.id).substring(0,2));
@@ -69,24 +98,27 @@ function getColumn(cell) {
     return (Number((cell.id).substring(3)));
 }
 
+let distanceArray = [];
 
 function setDistanceFromOrigin(cell) {
     cellRow = getRow(cell);
     cellColumn = getColumn(cell);
     cell.classList.add('distanceAssigned');
     columnDistance = (Math.abs(cellColumn - originArray[1]));
+    // should this calc be different, some way of averaging the row/column distance and rounding - so you get more circle going out instead of square
     rowDistance = (Math.abs(cellRow - originArray[0]));
     greaterDistance = Math.max(columnDistance,rowDistance);
-    cell.classList.add(`.distance${greaterDistance}`);
-    // cell.append(greaterDistance);
+    averageDistance = Math.floor((columnDistance+rowDistance)/2);
+    cell.classList.add(`.distance${averageDistance+greaterDistance}`);
+    distanceArray.push(averageDistance+greaterDistance);
+
+    // cell.append(averageDistance+greaterDistance);
+
+    // adjusting formula above changes shape?
 }
 
-let wait = (ms) => {
-    const start = Date.now();
-    let now = start;
-    while (now - start < ms) {
-      now = Date.now();
-    }
+function getFurthestDistance() { // return distance number of furthest cell
+    return Math.max(...distanceArray);
 }
 
 function makeGrid(numberOfRows,numberOfColumns) { // generates a grid 
@@ -100,7 +132,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             let cell = document.createElement('div');
             cell.classList.add(`cell`,`row${i}`,`column${j}`);
             cell.style.backgroundColor = 'black';
-            if (i < 10 && i < 10) {
+            if (i < 10 && j < 10) {
                 cell.setAttribute('id',`0${i}-0${j}`)
             }
             if (i < 10 && j >= 10) {
@@ -112,7 +144,6 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             if (i >= 10 && j >= 10) {
                 cell.setAttribute('id',`${i}-${j}`)
             }
-            // cell.textContent = `${i}-${j}`;
             gridRow.appendChild(cell);
             cell.addEventListener('click', e => {
                 e.target.classList.add('originCell');
@@ -121,10 +152,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
                 originArray.push(Number((e.target.id).substring(3)));
                 originRow = originArray[0];
                 originColumn = originArray[1];
-                // console.log(originArray)
             })
-
-            // run getDistanceFromOrigin over all cells here
         }
     }
 }
@@ -144,32 +172,259 @@ gridContainer.addEventListener('click', (e) => {
     hasBeenClicked = true;
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
         setDistanceFromOrigin(el);
-        for (let i = 0; i <= Math.max(numberOfColumns,numberOfRows); i++) {
+        for (let i = 0; i <= getFurthestDistance(); i++) {
+            if (el.classList.contains(`.distance0`)) {
+                el.innerHTML = (String.fromCodePoint(0x1F525));
+                el.style.fontSize = 'x-large';
+                el.style.textAlign = 'center';
+            }
             if (el.classList.contains(`.distance${i}`)) {
                 setGreen = getRandomGreen();
                 el.style.backgroundColor = `${setGreen}`;
-                el.style.filter = `brightness(${100-(i*2)}%)`; //need to set brightness so it gets to 0 at max of row or columns
+
+
+                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                    el.style.filter = `brightness(0%)`
+                    // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+
+                    // el.style.backgroundColor = `black`;
+
+                    // above options sets the background color to black instead of setting brightness to zero, which solves the sparkle text disappearing, but doesn't assing a green color to them
+                    // could assign green color as a class?
+                } else {
+                    el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                }
+                //need to set brightness so it gets to 0 at max of row or columns
+                // the multiplier of i adjusts size of circle - higher number == smalelr circle
+                // how to make the fading more circular than square?
+                // if (rowDistance >= 12 && columnDistance >= 12) {
+                //     el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+90}%)`;
+                //     // el.style.backgroundColor = "red"; could make spooky around the edge?
+                // }
             }
-        await sleep(1);
+            if (el.classList.contains(`.distance0`) || el.classList.contains(`.distance1`) || el.classList.contains(`.distance2`)) {
+                // el.style.backgroundColor = "darkred";
+            }
+        await sleep(15); // make sleep start slow and speed up as it goes?
         }
+        // dayNightCycle();
     });
 });
 
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
+        parent.removeChild(parent.firstChild)
     }
 }
 
+function getRandomCellID() {
+    let firstNumber = randomNumber(0,minOfRowsOrColumns); // this should be updated to reflect change in window size - no more square display
+    let secondNumber = randomNumber(0,minOfRowsOrColumns);
+    if (firstNumber < 10 && secondNumber < 10) {
+        return `0${firstNumber}-0${secondNumber}`;
+    }
+    if (firstNumber < 10 && secondNumber >= 10) {
+        return `0${firstNumber}-${secondNumber}`;
+    }
+    if (firstNumber >= 10 && secondNumber < 10) {
+        return `${firstNumber}-0${secondNumber}`;
+    }
+    if (firstNumber >= 10 && secondNumber >= 10) {
+        return `${firstNumber}-${secondNumber}`;
+    }
+}
+
+// could set a radius around the fire, and anything outside that radius (got by > distance), has the day/night dimming/brightening cycle so it doesn't show up close to the fire
+
+function generateTrees() {
+    let randomCell = document.getElementById(`${getRandomCellID()}`);
+}
+
+let sparkleSubCells = [];
+
+setInterval(sparkle, 200);
+
+async function sparkle() {
+    // the speed of this is impacted by ratio of width/height, since there are fewer random cell possibilities in a smaller grid
+    // I like the speed that it goes when screen is like half width - how to calculate what it should be set to for about this speed?
+    if (randomNumber(0,1000) <= 700) { //this is chance of it running every 100 ms
+        return;
+    }
+    // console.log("sparkle ran");
+    sparkleCounter += 1;
+    let randomCell = document.getElementById(`${getRandomCellID()}`);
+    randomCell.classList.add('sparkleCell');
+    // randomCell.style.filter = "brightness(100%)"
+    let randomCellStoredColor = randomCell.style.backgroundColor;
+    // console.log(randomCellStoredColor);
+
+
+    for (let i = 0; i < 3; i++) {
+        let sparkleCellRow = document.createElement('div');
+        randomCell.appendChild(sparkleCellRow);
+        sparkleCellRow.classList.add(`sparkleCellRow`);
+        for (let j = 0; j < 3; j++) {
+            let sparkleCellSubCell = document.createElement('div');
+            sparkleCellRow.appendChild(sparkleCellSubCell);
+            sparkleCellSubCell.classList.add(`sparkleCellSubCell`,`sparkleCounter${sparkleCounter}`,`sparkleCellSubCell${i+1}${j+1}`);
+            // console.log(`sparkleCellSubCell${i+1}${j+1}`);
+            // sparkleCellSubCell.append("*");
+        }
+    }
+    let sparklePatternArray = setSparklePatternOption1();
+    let startingPink = getRandomPink(); // try having it be a redder or deeper color closer to the fire, more washed out further away
+    let sparkleSubCells = document.querySelectorAll(`.sparkleCounter${sparkleCounter}`).forEach(async (el) => {
+        // the waiting portion isn't working
+        if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[0]}3`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
+            el.style.color = `${startingPink}`;
+            el.textContent = "*";
+        }
+        await sleep(250)
+        // removeAllChildNodes(el);
+        if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[1]}2`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
+            el.style.color = `${startingPink}`;
+            el.textContent = "*";
+        }
+        await sleep(250)
+        // removeAllChildNodes(el);
+        if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[2]}1`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
+            el.style.color = `${startingPink}`;
+            el.textContent = "*";
+        }
+        // await sleep(500)
+    });
+
+    await sleep(1000); // set to 10000 when not testing
+
+    removeAllChildNodes(randomCell);
+
+    // randomCell.style.filter = randomCellStoredBrightness;
+
+
+    randomCell.classList.remove('sparkleCell');
+}
+
+function setSparklePatternOption1(){ // sets the pattern from bottom to top of the sparkleSubCells
+    bottomRow = randomNumber(1,3);
+    if (bottomRow == 1){
+        middleRow = randomNumber(1,2);
+        if (middleRow == 1) {
+            topRow = randomNumber(1,2);
+        }
+        if (middleRow == 2) {
+            topRow = randomNumber(1,3);
+        }
+    }
+    if (bottomRow == 2){
+        middleRow = randomNumber(1,3);
+        if (middleRow == 1){
+            topRow = randomNumber(1,2);
+        }
+        if (middleRow == 2){
+            topRow = randomNumber(1,3);
+        }
+        if (middleRow == 3){
+            topRow = randomNumber(2,3);
+        }
+    }
+    if (bottomRow == 3) {
+        middleRow = randomNumber(2,3);
+        if (middleRow == 2){
+            topRow = randomNumber(1,3);
+        }
+        if (middleRow == 3){
+            topRow = randomNumber(2,3);
+        }
+    }
+    return [bottomRow,middleRow,topRow];
+}
+
+function setSparkleBrightness() {
+
+}
+
+function makePond() {
+    let randomCell = document.getElementById(`${getRandomCellID()}`);
+    randomCell.classList.add('pondOrigin');
+    // set starting point, like setting random version of origin point
+
+    // set a random width for the pond based on distance
+    // have a bit of randomness to the edge pieces (like if over a certain distance, there is a 30% chance a piece is still green)
+    // sparkle should change that brightness of background slightly if above water
+    
+}
+
+function setRiverStart() {
+    // set starting pixels by
+    // 1. picking the starting side
+    // 2. randomly picking the left (or top, depending on if start is side or top/bottom) square and selecting other square based on that
+    // 3. setting the path - this wouid be based on picking one of the adjacent squares (that isn't to the right because that's for width), and 
+    // then expanding until it hits another wall (check by the address of each cell, and it's hit a wall when either the x or y is over the max)
+}
+
+const dayNightButton = document.getElementById("DayNightCycleButton");
+dayNightButton.addEventListener("click", dayNightCycle)
+
+let dayTime = false;
+let nightTime = true;
+
+function dayNightCycle() {
+    if (nightTime) {
+        transitionToDayTime();
+    };
+    if (dayTime) {
+        transitionToNightTime();
+    };
+
+// async function dayNightCycle() {
+//     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
+//         for (let i = 0; i <= 100; i++) {
+//             el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+1}%)`;
+//             i += 1;
+//             // await sleep (100000000);
+//         }
+//     })
+// }
+}
+
+function transitionToDayTime() {
+    dayTime = true;
+    nightTime = false;
+    let fullGrid = document.getElementById(`gridContainer`);
+    let cells = document.querySelectorAll(`.cell`).forEach(async (el) => { // general idea is working
+        for (let i = 0; i < 10; i++) {
+            el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)}%)`;
+            await sleep(200); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
+        };
+
+
+    // let sparkleSubCells = document.querySelectorAll(`.sparkleCounter${sparkleCounter}`).forEach(async (el) => {
+    //     // the waiting portion isn't working
+    //     if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[0]}3`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
+    //         el.style.color = `${startingPink}`;
+    //         el.textContent = "*";
+    //     }
+    //     await sleep(250)
+    //     // removeAllChildNodes(el);
+    //     if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[1]}2`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
+    //         el.style.color = `${startingPink}`;
+    //         el.textContent = "*";
+    //     }
+    //     await sleep(250)
+    //     // removeAllChildNodes(el);
+    //     if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[2]}1`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
+    //         el.style.color = `${startingPink}`;
+    //         el.textContent = "*";
+    //     }
+
+    });
+};
+
+function transitionToNightTime() {
+    dayTime = false;
+    nightTime = true;
+
+};
+
+
 makeGrid(numberOfRows,numberOfColumns);
-
-
-// const clearGridButton = document.querySelector(`.clearGridButton`);
-
-// clearGridButton.addEventListener('click', () => {
-//     numberOfRows = prompt('How many rows?');
-//     numberOfColumns = prompt('How many columns?');
-//     const gridContainer = document.querySelector(`#gridContainer`);
-//     removeAllChildNodes(gridContainer);
-//     makeGrid(numberOfRows,numberOfColumns);
-// });
