@@ -166,6 +166,16 @@ function sleep(ms) {
     });
 }
 
+let closeCells = [];
+
+function createCloseCellsArray(el) {
+  for (let i = 1; i <= 7; i++) {
+      if (el.classList.contains(`.distance${i}`)) {
+        closeCells.push(el);
+      }
+  }
+};
+
 gridContainer.addEventListener('click', (e) => {
     if (hasBeenClicked == true) {
         return;
@@ -173,6 +183,7 @@ gridContainer.addEventListener('click', (e) => {
     hasBeenClicked = true;
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
         setDistanceFromOrigin(el);
+        createCloseCellsArray(el);
         for (let i = 0; i <= getFurthestDistance(); i++) {
             if (el.classList.contains(`.distance0`)) {
                 el.innerHTML = (String.fromCodePoint(0x1F525));
@@ -203,6 +214,7 @@ gridContainer.addEventListener('click', (e) => {
         }
         // dayNightCycle();
     });
+
 });
 
 async function startingFire() {
@@ -431,15 +443,17 @@ function dayNightCycle() {
 // }
 }
 
+
+
 function transitionToDayTime() {
     dayTime = true;
     nightTime = false;
     let fullGrid = document.getElementById(`gridContainer`);
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => { // general idea is working
-        for (let i = 0; i < 10; i++) {
-            el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)}%)`;
-            await sleep(200); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
-        };
+      for (let i = 0; i < 10; i++) {
+          el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)}%)`;
+          await sleep(200); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
+      };
     });
 };
 
