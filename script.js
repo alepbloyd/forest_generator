@@ -450,7 +450,13 @@ function transitionToDayTime() {
     nightTime = false;
     let fullGrid = document.getElementById(`gridContainer`);
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => { // general idea is working
+      if (closeCells.includes(el.id)) {
+        return;
+      }
       for (let i = 0; i < 10; i++) {
+        // if (closeCells.includes(el.id)) {
+        //   return;
+        // } else {
           el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)}%)`;
           await sleep(200); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
       };
