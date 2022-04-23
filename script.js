@@ -244,14 +244,44 @@ let sparkleSubCells = [];
 
 setInterval(sparkle, 200);
 
+// just need to get the number of
+
+let totalCells = numberOfRows * numberOfColumns;
+
+
+
 async function sparkle() {
     // the speed of this is impacted by ratio of width/height, since there are fewer random cell possibilities in a smaller grid
     // I like the speed that it goes when screen is like half width - how to calculate what it should be set to for about this speed?
-    if (randomNumber(0,1000) <= 700) { //this is chance of it running every 100 ms
+
+
+    // we need like a "target number" - something that has the speed right
+    // and we get it by multiplying the chance number by the total cells
+    // x = 1500
+    // c*t = x
+    // c*t = 1500
+    // c = 500
+    // t = 3
+
+    // 3000
+    // 500
+    // 6
+
+    // 9000
+    // 500
+    // 18
+
+    if (randomNumber(0,1000) <= 500) { //this is chance of it running every 100 ms
         return;
     }
     sparkleCounter += 1;
+    // if
     let randomCell = document.getElementById(`${getRandomCellID()}`);
+
+    if ((parseInt((randomCell.id).substring(0,2)) == originRow) && (parseInt((randomCell.id).slice(-2)) == originColumn)) {
+      return
+    }; // checks if randomeCell is the origin cell, and ignores it if so, so it doesn't overwrite the fire
+    
     randomCell.classList.add('sparkleCell');
     // randomCell.style.filter = "brightness(100%)"
     let randomCellStoredColor = randomCell.style.backgroundColor;
