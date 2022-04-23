@@ -250,7 +250,6 @@ async function sparkle() {
     if (randomNumber(0,1000) <= 700) { //this is chance of it running every 100 ms
         return;
     }
-    // console.log("sparkle ran");
     sparkleCounter += 1;
     let randomCell = document.getElementById(`${getRandomCellID()}`);
     randomCell.classList.add('sparkleCell');
