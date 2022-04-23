@@ -132,18 +132,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             let cell = document.createElement('div');
             cell.classList.add(`cell`,`row${i}`,`column${j}`);
             cell.style.backgroundColor = 'black';
-            if (i < 10 && j < 10) {
-                cell.setAttribute('id',`0${i}-0${j}`)
-            }
-            if (i < 10 && j >= 10) {
-                cell.setAttribute(`id`,`0${i}-${j}`)
-            }
-            if (i >= 10 && j < 10) {
-                cell.setAttribute(`id`,`${i}-0${j}`)
-            }
-            if (i >= 10 && j >= 10) {
-                cell.setAttribute('id',`${i}-${j}`)
-            }
+            cell.setAttribute(`id`,`${parseInt(i)}-${parseInt(j)}`);
             gridRow.appendChild(cell);
             cell.addEventListener('click', e => {
                 e.target.classList.add('originCell');
@@ -220,24 +209,29 @@ function removeAllChildNodes(parent) {
 function getRandomCellID() {
     let firstNumber = randomNumber(0,numberOfRows); // this should be updated to reflect change in window size - no more square display
     let secondNumber = randomNumber(0,numberOfColumns);
-    if (firstNumber < 10 && secondNumber < 10) {
-        return `0${firstNumber}-0${secondNumber}`;
-    }
-    if (firstNumber < 10 && secondNumber >= 10) {
-        return `0${firstNumber}-${secondNumber}`;
-    }
-    if (firstNumber >= 10 && secondNumber < 10) {
-        return `${firstNumber}-0${secondNumber}`;
-    }
-    if (firstNumber >= 10 && secondNumber >= 10) {
-        return `${firstNumber}-${secondNumber}`;
-    }
+    // if (firstNumber < 10 && secondNumber < 10) {
+    //     return `0${firstNumber}-0${secondNumber}`;
+    // }
+    // if (firstNumber < 10 && secondNumber >= 10) {
+    //     return `0${firstNumber}-${secondNumber}`;
+    // }
+    // if (firstNumber >= 10 && secondNumber < 10) {
+    //     return `${firstNumber}-0${secondNumber}`;
+    // }
+    // if (firstNumber >= 10 && secondNumber >= 10) {
+    //     return `${firstNumber}-${secondNumber}`;
+    // }
+    return `${parseInt(firstNumber)}-${parseInt(secondNumber)}`;
 }
+
+// parseInt
 
 // could set a radius around the fire, and anything outside that radius (got by > distance), has the day/night dimming/brightening cycle so it doesn't show up close to the fire
 
 function generateTrees() {
     let randomCell = document.getElementById(`${getRandomCellID()}`);
+    // should check if it is within set distance radius of origin, and if yes, skip placing start of tree there
+    // maybe if distance < 7?
 }
 
 let sparkleSubCells = [];
@@ -253,8 +247,7 @@ let totalCells = numberOfRows * numberOfColumns;
 async function sparkle() {
     // the speed of this is impacted by ratio of width/height, since there are fewer random cell possibilities in a smaller grid
     // I like the speed that it goes when screen is like half width - how to calculate what it should be set to for about this speed?
-
-
+    //
     // we need like a "target number" - something that has the speed right
     // and we get it by multiplying the chance number by the total cells
     // x = 1500
@@ -271,17 +264,21 @@ async function sparkle() {
     // 500
     // 18
 
+    // could also just do this with setting the chance number with a case statement based on total number of cells
+    // e.g. if cells > 500 && cells < 1000, chance == x. if cells > 1000 && cells < 1500, chance == y
+
     if (randomNumber(0,1000) <= 500) { //this is chance of it running every 100 ms
         return;
-    }
+    };
+
     sparkleCounter += 1;
-    // if
+
     let randomCell = document.getElementById(`${getRandomCellID()}`);
 
     if ((parseInt((randomCell.id).substring(0,2)) == originRow) && (parseInt((randomCell.id).slice(-2)) == originColumn)) {
-      return
+      return;
     }; // checks if randomeCell is the origin cell, and ignores it if so, so it doesn't overwrite the fire
-    
+
     randomCell.classList.add('sparkleCell');
     // randomCell.style.filter = "brightness(100%)"
     let randomCellStoredColor = randomCell.style.backgroundColor;
