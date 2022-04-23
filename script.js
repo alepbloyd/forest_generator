@@ -182,16 +182,9 @@ gridContainer.addEventListener('click', (e) => {
             if (el.classList.contains(`.distance${i}`)) {
                 setGreen = getRandomGreen();
                 el.style.backgroundColor = `${setGreen}`;
-
-
                 if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
                     el.style.filter = `brightness(0%)`
                     // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
-
-                    // el.style.backgroundColor = `black`;
-
-                    // above options sets the background color to black instead of setting brightness to zero, which solves the sparkle text disappearing, but doesn't assing a green color to them
-                    // could assign green color as a class?
                 } else {
                     el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
                 }
@@ -211,6 +204,13 @@ gridContainer.addEventListener('click', (e) => {
         // dayNightCycle();
     });
 });
+
+async function startingFire() {
+  if (el.classList.contains(`.distance1`)) {
+    el.style.filter = `brightness(${100-(1*7)}%)`;
+    await sleep(15);
+  }
+}
 
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
@@ -440,27 +440,6 @@ function transitionToDayTime() {
             el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)}%)`;
             await sleep(200); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
         };
-
-
-    // let sparkleSubCells = document.querySelectorAll(`.sparkleCounter${sparkleCounter}`).forEach(async (el) => {
-    //     // the waiting portion isn't working
-    //     if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[0]}3`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-    //         el.style.color = `${startingPink}`;
-    //         el.textContent = "*";
-    //     }
-    //     await sleep(250)
-    //     // removeAllChildNodes(el);
-    //     if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[1]}2`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-    //         el.style.color = `${startingPink}`;
-    //         el.textContent = "*";
-    //     }
-    //     await sleep(250)
-    //     // removeAllChildNodes(el);
-    //     if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[2]}1`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-    //         el.style.color = `${startingPink}`;
-    //         el.textContent = "*";
-    //     }
-
     });
 };
 
