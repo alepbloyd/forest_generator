@@ -132,7 +132,19 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             let cell = document.createElement('div');
             cell.classList.add(`cell`,`row${i}`,`column${j}`);
             cell.style.backgroundColor = 'black';
-            cell.setAttribute(`id`,`${parseInt(i)}-${parseInt(j)}`);
+            if (i < 10 && j < 10) {
+                cell.setAttribute('id',`0${i}-0${j}`)
+            }
+            if (i < 10 && j >= 10) {
+                cell.setAttribute(`id`,`0${i}-${j}`)
+            }
+            if (i >= 10 && j < 10) {
+                cell.setAttribute(`id`,`${i}-0${j}`)
+            }
+            if (i >= 10 && j >= 10) {
+                cell.setAttribute('id',`${i}-${j}`)
+            }
+            // cell.setAttribute(`id`,`${parseInt(i)}-${parseInt(j)}`);
             gridRow.appendChild(cell);
             cell.addEventListener('click', e => {
                 e.target.classList.add('originCell');
@@ -209,7 +221,19 @@ function removeAllChildNodes(parent) {
 function getRandomCellID() {
     let firstNumber = randomNumber(1,numberOfRows); // this should be updated to reflect change in window size - no more square display
     let secondNumber = randomNumber(1,numberOfColumns);
-    return `${parseInt(firstNumber)}-${parseInt(secondNumber)}`;
+    if (firstNumber < 10 && secondNumber < 10) {
+        return `0${firstNumber}-0${secondNumber}`;
+    }
+    if (firstNumber < 10 && secondNumber >= 10) {
+        return `0${firstNumber}-${secondNumber}`;
+    }
+    if (firstNumber >= 10 && secondNumber < 10) {
+        return `${firstNumber}-0${secondNumber}`;
+    }
+    if (firstNumber >= 10 && secondNumber >= 10) {
+        return `${firstNumber}-${secondNumber}`;
+    }
+    // return `${parseInt(firstNumber)}-${parseInt(secondNumber)}`;
 }
 
 // parseInt
@@ -263,9 +287,15 @@ async function sparkle() {
 
     let randomCell = document.getElementById(`${getRandomCellID()}`);
 
-    if ((parseInt((randomCell.id).substring(0,2)) == originRow) && (parseInt((randomCell.id).slice(-2)) == originColumn)) {
+    // if ((parseInt((randomCell.id).substring(0,2)) == originRow) && (parseInt((randomCell.id).slice(-2)) == originColumn)) {
+    //   return;
+    // }; // checks if randomeCell is the origin cell, and ignores it if so, so it doesn't overwrite the fire
+
+    // console.log(randomCell.classList);
+    //
+    if (randomCell.classList.contains("originCell")){
       return;
-    }; // checks if randomeCell is the origin cell, and ignores it if so, so it doesn't overwrite the fire
+    };
 
     randomCell.classList.add('sparkleCell');
     // randomCell.style.filter = "brightness(100%)"
