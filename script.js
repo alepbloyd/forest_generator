@@ -41,7 +41,7 @@ function getHeight() { // returns height of browser window
     if (document.body) {
       return document.body.clientHeight;
     }
-};  
+};
 
 const documentWidth = getWidth();
 const documentHeight = getHeight();
@@ -58,7 +58,7 @@ let maxOfRowsOrColumns = Math.max((Math.floor(documentHeight / 30)),(Math.floor(
 // let numberOfRows = maxOfRowsOrColumns;
 // let numberOfColumns = maxOfRowsOrColumns;
 
-//sets the rows and columns to be a square, larger than view window. 
+//sets the rows and columns to be a square, larger than view window.
 
 let numberOfRows = (Math.floor(documentHeight / 30));
 let numberOfColumns = (Math.floor(documentWidth / 30));
@@ -121,7 +121,7 @@ function getFurthestDistance() { // return distance number of furthest cell
     return Math.max(...distanceArray);
 }
 
-function makeGrid(numberOfRows,numberOfColumns) { // generates a grid 
+function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
     for (let i = 1; i <= numberOfRows; i++) {
         let gridRow = document.createElement('div');
         gridRow.classList.add('gridRow');
@@ -218,8 +218,8 @@ function removeAllChildNodes(parent) {
 }
 
 function getRandomCellID() {
-    let firstNumber = randomNumber(0,minOfRowsOrColumns); // this should be updated to reflect change in window size - no more square display
-    let secondNumber = randomNumber(0,minOfRowsOrColumns);
+    let firstNumber = randomNumber(0,numberOfRows); // this should be updated to reflect change in window size - no more square display
+    let secondNumber = randomNumber(0,numberOfColumns);
     if (firstNumber < 10 && secondNumber < 10) {
         return `0${firstNumber}-0${secondNumber}`;
     }
@@ -294,7 +294,7 @@ async function sparkle() {
         // await sleep(500)
     });
 
-    await sleep(1000); // set to 10000 when not testing
+    await sleep(2500); // set to 10000 when not testing
 
     removeAllChildNodes(randomCell);
 
@@ -351,14 +351,14 @@ function makePond() {
     // set a random width for the pond based on distance
     // have a bit of randomness to the edge pieces (like if over a certain distance, there is a 30% chance a piece is still green)
     // sparkle should change that brightness of background slightly if above water
-    
+
 }
 
 function setRiverStart() {
     // set starting pixels by
     // 1. picking the starting side
     // 2. randomly picking the left (or top, depending on if start is side or top/bottom) square and selecting other square based on that
-    // 3. setting the path - this wouid be based on picking one of the adjacent squares (that isn't to the right because that's for width), and 
+    // 3. setting the path - this wouid be based on picking one of the adjacent squares (that isn't to the right because that's for width), and
     // then expanding until it hits another wall (check by the address of each cell, and it's hit a wall when either the x or y is over the max)
 }
 
