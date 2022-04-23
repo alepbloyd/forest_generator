@@ -450,7 +450,7 @@ function transitionToDayTime() {
     nightTime = false;
     let fullGrid = document.getElementById(`gridContainer`);
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => { // general idea is working
-      if (closeCells.includes(el.id)) {
+      if (closeCells.includes(el.id) || el.classList.contains(`originCell`)) {
         return;
       }
       for (let i = 0; i < 10; i++) {
