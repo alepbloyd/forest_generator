@@ -171,7 +171,7 @@ let closeCells = [];
 function createCloseCellsArray(el) {
   for (let i = 1; i <= 7; i++) {
       if (el.classList.contains(`.distance${i}`)) {
-        closeCells.push(el);
+        closeCells.push(el.id);
       }
   }
 };
