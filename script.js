@@ -207,20 +207,8 @@ function removeAllChildNodes(parent) {
 }
 
 function getRandomCellID() {
-    let firstNumber = randomNumber(0,numberOfRows); // this should be updated to reflect change in window size - no more square display
-    let secondNumber = randomNumber(0,numberOfColumns);
-    // if (firstNumber < 10 && secondNumber < 10) {
-    //     return `0${firstNumber}-0${secondNumber}`;
-    // }
-    // if (firstNumber < 10 && secondNumber >= 10) {
-    //     return `0${firstNumber}-${secondNumber}`;
-    // }
-    // if (firstNumber >= 10 && secondNumber < 10) {
-    //     return `${firstNumber}-0${secondNumber}`;
-    // }
-    // if (firstNumber >= 10 && secondNumber >= 10) {
-    //     return `${firstNumber}-${secondNumber}`;
-    // }
+    let firstNumber = randomNumber(1,numberOfRows); // this should be updated to reflect change in window size - no more square display
+    let secondNumber = randomNumber(1,numberOfColumns);
     return `${parseInt(firstNumber)}-${parseInt(secondNumber)}`;
 }
 
