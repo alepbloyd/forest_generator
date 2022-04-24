@@ -86,6 +86,10 @@ function getRandomPink() {
     return pinkArray[Math.floor(Math.random() * pinkArray.length)];
 }
 
+function getRandomBlue() {
+    return pondColorArray[Math.floor(Math.random() * greenArray.length)];
+}
+
 let greenArray = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
 
 let pinkArray = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
