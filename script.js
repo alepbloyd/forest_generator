@@ -431,30 +431,47 @@ function getRandomAdjacentCellAddress(cell) {
   let bottomLeftCellAddress = `${cellRow+1}-${cellColumn-1}`;
   let bottomCenterCellAddress = `${cellRow+1}-${cellColumn}`;
   let bottomRightCellAddress = `${cellRow+1}-${cellColumn+1}`;
+  let address = ``;
   switch (randomNumber(1,8)) {
     case 1:
-      return topLeftCellAddress;
+      address = topLeftCellAddress;
       break;
     case 2:
-      return topCenterCellAddress;
+      address = topCenterCellAddress;
       break;
     case 3:
-      return topRightCellAddress;
+      address = topRightCellAddress;
       break;
     case 4:
-      return middleLeftCellAddress;
+      address = middleLeftCellAddress;
       break;
     case 5:
-      return middleRightCellAddress;
+      address = middleRightCellAddress;
       break;
     case 6:
-      return bottomLeftCellAddress;
+      address = bottomLeftCellAddress;
       break;
     case 7:
-      return bottomCenterCellAddress;
+      address = bottomCenterCellAddress;
       break;
     case 8:
-      return bottomRightCellAddress;
+      address = bottomRightCellAddress;
+  }
+
+  let firstNumber = parseInt(address.substr(0,address.indexOf('-')));
+  let secondNumber = parseInt(address.split(`-`)[1]);
+
+  if (firstNumber < 10 && secondNumber < 10) {
+      return `0${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber < 10 && secondNumber >= 10) {
+      return `0${firstNumber}-${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber < 10) {
+      return `${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber >= 10) {
+      return `${firstNumber}-${secondNumber}`;
   }
 }
 
@@ -464,11 +481,12 @@ function makePond() {
     randomCell.append("Pond Origin");
     setBlue = getRandomBlue();
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
-    let pondSize = randomNumber(10,15); // sets random pond size between two parameters
+    let pondSize = randomNumber(2,4); // sets random pond size between two parameters
     randomCell.style.backgroundColor = `${setBlue}`;
-    getRandomAdjacentCellAddress(randomCell);
     for (let i = 1; i <= pondSize; i++) {
-
+      let randomAdjacentCell = document.getElementById(`${getRandomAdjacentCellAddress(randomCell)}`);
+      console.log(randomAdjacentCell);
+      randomAdjacentCell.style.backgroundColor = `${setBlue}`;
     }
 
     // need to get distance from pondOrigin cell
