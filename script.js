@@ -405,7 +405,7 @@ function setSparkleBrightness() {
 
 const pondColorArray = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
 
-function getRandomAdjacentCells(cell) {
+function getRandomAdjacentCellAddress(cell) {
   let cellID = cell.id;
   let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
   let cellColumn = parseInt(cellID.split(`-`)[1]);
@@ -515,16 +515,28 @@ function getRandomAdjacentAndDiagonalCellAddress(cell) {
   }
 }
 
+function getRandomPondCellAddress() {
+  let pondCells = document.getElementsByClassName("pondCell");
+  let pondCellAddressArray = [];
+  for (let i = 0; i <= pondCells.length-1; i++) {
+    pondCellAddressArray.push(pondCells[i].id);
+  };
+  return pondCellAddressArray[randomNumber(0,pondCellAddressArray.length-1)];
+};
+
 function makePond() {
     let randomCell = document.getElementById(`${getRandomCellID()}`);
     randomCell.classList.add('pondOrigin');
-    randomCell.append("Pond Origin");
+    randomCell.classList.add(`pondCell`);
+    // randomCell.append("Pond Origin");
     setBlue = getRandomBlue();
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
     let pondSize = randomNumber(2,4); // sets random pond size between two parameters
+    // pondSize needs to be relative to totalCells (as like a percentage)
     randomCell.style.backgroundColor = `${setBlue}`;
     for (let i = 1; i <= pondSize; i++) {
-      let randomAdjacentCell = document.getElementById(`${getRandomAdjacentAndDiagonalCellAddress(randomCell)}`);
+      let randomAdjacentCell = document.getElementById(`${getRandomAdjacentCellAddress(randomCell)}`);
+      randomAdjacentCell.classList.add(`pondCell`);
       randomAdjacentCell.style.backgroundColor = `${setBlue}`;
     }
 
