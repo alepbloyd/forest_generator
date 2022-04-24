@@ -529,16 +529,23 @@ function makePond() {
     randomCell.classList.add('pondOrigin');
     randomCell.classList.add(`pondCell`);
     // randomCell.append("Pond Origin");
-    setBlue = getRandomBlue();
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
-    let pondSize = randomNumber(2,4); // sets random pond size between two parameters
+    let pondSize = randomNumber(300,500); // sets random pond size between two parameters
     // pondSize needs to be relative to totalCells (as like a percentage)
-    randomCell.style.backgroundColor = `${setBlue}`;
-    for (let i = 1; i <= pondSize; i++) {
+    randomCell.style.backgroundColor = `${getRandomBlue()}`;
+
+    for (let i = 1; i <= 4; i++) {
       let randomAdjacentCell = document.getElementById(`${getRandomAdjacentCellAddress(randomCell)}`);
       randomAdjacentCell.classList.add(`pondCell`);
-      randomAdjacentCell.style.backgroundColor = `${setBlue}`;
-    }
+      randomAdjacentCell.style.backgroundColor = `${getRandomBlue()}`;
+    };
+
+    for (let i = 0; i <= pondSize; i++){
+      let randomPondCell = document.getElementById(`${getRandomPondCellAddress()}`);
+      let randomAdjacentToPondCell = document.getElementById(`${getRandomAdjacentCellAddress(randomPondCell)}`);
+      randomAdjacentToPondCell.classList.add(`pondCell`);
+      randomAdjacentToPondCell.style.backgroundColor = `${getRandomBlue()}`;
+    };
 
     // need to get distance from pondOrigin cell
     // set starting point, like setting random version of origin point
