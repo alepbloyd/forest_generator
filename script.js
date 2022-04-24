@@ -405,19 +405,54 @@ function setSparkleBrightness() {
 
 const pondColorArray = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
 
-function getAdjacentCells(cell) {
+function getRandomAdjacentCells(cell) {
   let cellID = cell.id;
   let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
   let cellColumn = parseInt(cellID.split(`-`)[1]);
-  let topLeftCellAddress = `${cellRow-1}-${cellColumn-1}`;
+
+  let initialOptions = [];
+
   let topCenterCellAddress = `${cellRow-1}-${cellColumn}`;
-  let topRightCellAddress = `${cellRow-1}-${cellColumn+1}`;
+  initialOptions.push(topCenterCellAddress);
   let middleLeftCellAddress = `${cellRow}-${cellColumn-1}`;
+  initialOptions.push(middleLeftCellAddress);
   let middleRightCellAddress = `${cellRow}-${cellColumn+1}`;
-  let bottomLeftCellAddress = `${cellRow+1}-${cellColumn-1}`;
+  initialOptions.push(middleRightCellAddress);
   let bottomCenterCellAddress = `${cellRow+1}-${cellColumn}`;
-  let bottomRightCellAddress = `${cellRow+1}-${cellColumn+1}`;
-}
+  initialOptions.push(bottomCenterCellAddress);
+
+  let viableOptions = [];
+
+  for (let i = 0; i <= initialOptions.length-1; i++) {
+    if (
+      (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) >= 1) &&
+      (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) <= numberOfRows) &&
+      (parseInt(initialOptions[i].split(`-`)[1]) >= 1) &&
+      (parseInt(initialOptions[i].split(`-`)[1]) <= numberOfColumns)
+    ) {
+      viableOptions.push(initialOptions[i]);
+    };
+  };
+  //above checks if cell exists/is within the boundaries of the map
+
+  address = viableOptions[randomNumber(0,viableOptions.length-1)];
+
+  let firstNumber = parseInt(address.substr(0,address.indexOf('-')));
+  let secondNumber = parseInt(address.split(`-`)[1]);
+
+  if (firstNumber < 10 && secondNumber < 10) {
+      return `0${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber < 10 && secondNumber >= 10) {
+      return `0${firstNumber}-${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber < 10) {
+      return `${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber >= 10) {
+      return `${firstNumber}-${secondNumber}`;
+  }
+};
 
 
 
