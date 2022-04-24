@@ -185,6 +185,7 @@ gridContainer.addEventListener('click', (e) => {
         return;
     }
     hasBeenClicked = true;
+    makePond(); // need to adjust code below so pond doesn't get overwritten
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
         setDistanceFromOrigin(el);
         createCloseCellsArray(el);
@@ -533,10 +534,11 @@ function makePond() {
     let pondSize = randomNumber(300,500); // sets random pond size between two parameters
     // pondSize needs to be relative to totalCells (as like a percentage)
     randomCell.style.backgroundColor = `${getRandomBlue()}`;
-
+    randomCell.style.filter = `brightness(0%)`
     for (let i = 1; i <= 4; i++) {
       let randomAdjacentCell = document.getElementById(`${getRandomAdjacentCellAddress(randomCell)}`);
       randomAdjacentCell.classList.add(`pondCell`);
+      randomAdjacentCell.style.filter = `brightness(0%)`
       randomAdjacentCell.style.backgroundColor = `${getRandomBlue()}`;
     };
 
@@ -544,6 +546,7 @@ function makePond() {
       let randomPondCell = document.getElementById(`${getRandomPondCellAddress()}`);
       let randomAdjacentToPondCell = document.getElementById(`${getRandomAdjacentCellAddress(randomPondCell)}`);
       randomAdjacentToPondCell.classList.add(`pondCell`);
+      randomAdjacentToPondCell.style.filter = `brightness(0%)`
       randomAdjacentToPondCell.style.backgroundColor = `${getRandomBlue()}`;
     };
 
