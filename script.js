@@ -418,8 +418,8 @@ function setRiverStart() {
     // then expanding until it hits another wall (check by the address of each cell, and it's hit a wall when either the x or y is over the max)
 }
 
-const dayNightButton = document.getElementById("DayNightCycleButton");
-dayNightButton.addEventListener("click", dayNightCycle)
+// const dayNightButton = document.getElementById("DayNightCycleButton");
+// dayNightButton.addEventListener("click", dayNightCycle)
 
 let dayTime = false;
 let nightTime = true;
