@@ -443,7 +443,7 @@ function dayNightCycle() {
 // }
 }
 
-
+let brightnessLimit = 75;
 
 function transitionToDayTime() {
     dayTime = true;
@@ -456,8 +456,8 @@ function transitionToDayTime() {
       for (let i = 0; i < 10; i++) {
         // need a way to cap brightness at 100%
         // use the function bellow and incorporate an if statement
-        if ((parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)) >= 100){
-          el.style.filter = `brightness(100%)`;
+        if ((parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)) >= brightnessLimit){
+          el.style.filter = `brightness(${brightnessLimit}%)`;
         } else {
           el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)}%)`;
         };
