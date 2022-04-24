@@ -419,15 +419,54 @@ function getAdjacentCells(cell) {
   let bottomRightCellAddress = `${cellRow+1}-${cellColumn+1}`;
 }
 
+function getRandomAdjacentCellAddress(cell) {
+  let cellID = cell.id;
+  let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
+  let cellColumn = parseInt(cellID.split(`-`)[1]);
+  let topLeftCellAddress = `${cellRow-1}-${cellColumn-1}`;
+  let topCenterCellAddress = `${cellRow-1}-${cellColumn}`;
+  let topRightCellAddress = `${cellRow-1}-${cellColumn+1}`;
+  let middleLeftCellAddress = `${cellRow}-${cellColumn-1}`;
+  let middleRightCellAddress = `${cellRow}-${cellColumn+1}`;
+  let bottomLeftCellAddress = `${cellRow+1}-${cellColumn-1}`;
+  let bottomCenterCellAddress = `${cellRow+1}-${cellColumn}`;
+  let bottomRightCellAddress = `${cellRow+1}-${cellColumn+1}`;
+  switch (randomNumber(1,8)) {
+    case 1:
+      return topLeftCellAddress;
+      break;
+    case 2:
+      return topCenterCellAddress;
+      break;
+    case 3:
+      return topRightCellAddress;
+      break;
+    case 4:
+      return middleLeftCellAddress;
+      break;
+    case 5:
+      return middleRightCellAddress;
+      break;
+    case 6:
+      return bottomLeftCellAddress;
+      break;
+    case 7:
+      return bottomCenterCellAddress;
+      break;
+    case 8:
+      return bottomRightCellAddress;
+  }
+}
+
 function makePond() {
     let randomCell = document.getElementById(`${getRandomCellID()}`);
     randomCell.classList.add('pondOrigin');
     randomCell.append("Pond Origin");
     setBlue = getRandomBlue();
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
-    let pondSize = randomNumber(20,40); // sets random pond size between two parameters
+    let pondSize = randomNumber(10,15); // sets random pond size between two parameters
     randomCell.style.backgroundColor = `${setBlue}`;
-    getAdjacentCells(randomCell);
+    getRandomAdjacentCellAddress(randomCell);
     for (let i = 1; i <= pondSize; i++) {
 
     }
