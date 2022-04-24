@@ -421,7 +421,7 @@ function getAdjacentCells(cell) {
 
 
 
-function getRandomAdjacentCellAddress(cell) {
+function getRandomAdjacentAndDiagonalCellAddress(cell) {
 
   let cellID = cell.id;
   let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
@@ -459,36 +459,9 @@ function getRandomAdjacentCellAddress(cell) {
       viableOptions.push(initialOptions[i]);
     };
   };
-
-  // need to check if cell or row is out of frame (< or > 1 on either)
+  //above checks if cell exists/is within the boundaries of the map
 
   address = viableOptions[randomNumber(0,viableOptions.length-1)];
-
-  // switch (randomNumber(1,viableOptions.length)) {
-    // case 1:
-    //   address = topLeftCellAddress;
-    //   break;
-    // case 2:
-    //   address = topCenterCellAddress;
-    //   break;
-    // case 3:
-    //   address = topRightCellAddress;
-    //   break;
-    // case 4:
-    //   address = middleLeftCellAddress;
-    //   break;
-    // case 5:
-    //   address = middleRightCellAddress;
-    //   break;
-    // case 6:
-    //   address = bottomLeftCellAddress;
-    //   break;
-    // case 7:
-    //   address = bottomCenterCellAddress;
-    //   break;
-    // case 8:
-    //   address = bottomRightCellAddress;
-  // }
 
   let firstNumber = parseInt(address.substr(0,address.indexOf('-')));
   let secondNumber = parseInt(address.split(`-`)[1]);
@@ -516,8 +489,7 @@ function makePond() {
     let pondSize = randomNumber(2,4); // sets random pond size between two parameters
     randomCell.style.backgroundColor = `${setBlue}`;
     for (let i = 1; i <= pondSize; i++) {
-      let randomAdjacentCell = document.getElementById(`${getRandomAdjacentCellAddress(randomCell)}`);
-      console.log(randomAdjacentCell);
+      let randomAdjacentCell = document.getElementById(`${getRandomAdjacentAndDiagonalCellAddress(randomCell)}`);
       randomAdjacentCell.style.backgroundColor = `${setBlue}`;
     }
 
@@ -571,13 +543,8 @@ function transitionToDayTime() {
     dayTime = true;
     nightTime = false;
     let fullGrid = document.getElementById(`gridContainer`);
-    let cells = document.querySelectorAll(`.cell`).forEach(async (el) => { // general idea is working
-      // if (closeCells.includes(el.id) || el.classList.contains(`originCell`)) {
-      //   return;
-      // }
+    let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
       for (let i = 0; i < 10; i++) {
-        // need a way to cap brightness at 100%
-        // use the function bellow and incorporate an if statement
         if ((parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)) >= brightnessLimit){
           el.style.filter = `brightness(${brightnessLimit}%)`;
         } else {
