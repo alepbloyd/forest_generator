@@ -214,7 +214,7 @@ gridContainer.addEventListener('click', (e) => {
         }
         // dayNightCycle();
     });
-
+    dayNightCycle();
 });
 
 async function startingFire() {
@@ -461,7 +461,7 @@ function transitionToDayTime() {
         } else {
           el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)}%)`;
         };
-        await sleep(200); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
+        await sleep(5000); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
       };
     });
 };
@@ -469,7 +469,6 @@ function transitionToDayTime() {
 function transitionToNightTime() {
     dayTime = false;
     nightTime = true;
-
 };
 
 
