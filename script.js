@@ -405,11 +405,34 @@ function setSparkleBrightness() {
 
 const pondColorArray = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
 
+function getAdjacentCells(cell) {
+  let cellID = cell.id;
+  let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
+  let cellColumn = parseInt(cellID.split(`-`)[1]);
+  let topLeftCellAddress = `${cellRow-1}-${cellColumn-1}`;
+  let topCenterCellAddress = `${cellRow-1}-${cellColumn}`;
+  let topRightCellAddress = `${cellRow-1}-${cellColumn+1}`;
+  let middleLeftCellAddress = `${cellRow}-${cellColumn-1}`;
+  let middleRightCellAddress = `${cellRow}-${cellColumn+1}`;
+  let bottomLeftCellAddress = `${cellRow+1}-${cellColumn-1}`;
+  let bottomCenterCellAddress = `${cellRow+1}-${cellColumn}`;
+  let bottomRightCellAddress = `${cellRow+1}-${cellColumn+1}`;
+}
+
 function makePond() {
     let randomCell = document.getElementById(`${getRandomCellID()}`);
     randomCell.classList.add('pondOrigin');
-    randomCell.append("Pond Start");
-    randomCell.style.backgroundColor = "red";
+    randomCell.append("Pond Origin");
+    setBlue = getRandomBlue();
+    let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
+    let pondSize = randomNumber(20,40); // sets random pond size between two parameters
+    randomCell.style.backgroundColor = `${setBlue}`;
+    getAdjacentCells(randomCell);
+    for (let i = 1; i <= pondSize; i++) {
+
+    }
+
+    // need to get distance from pondOrigin cell
     // set starting point, like setting random version of origin point
 
     // set a random width for the pond based on distance
@@ -453,7 +476,7 @@ function dayNightCycle() {
 
 let brightnessLimit = 75;
 
-let dayNightCycleSpeed = 3000;
+let dayNightCycleSpeed = 500; //set to 500 for testing, 3000 for normal
 
 function transitionToDayTime() {
     dayTime = true;
