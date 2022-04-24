@@ -399,9 +399,13 @@ function setSparkleBrightness() {
 
 }
 
+const pondColorArray = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
 function makePond() {
     let randomCell = document.getElementById(`${getRandomCellID()}`);
     randomCell.classList.add('pondOrigin');
+    randomCell.append("Pond Start");
+    randomCell.style.backgroundColor = "red";
     // set starting point, like setting random version of origin point
 
     // set a random width for the pond based on distance
