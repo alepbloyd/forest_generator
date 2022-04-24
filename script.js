@@ -419,44 +419,76 @@ function getAdjacentCells(cell) {
   let bottomRightCellAddress = `${cellRow+1}-${cellColumn+1}`;
 }
 
+
+
 function getRandomAdjacentCellAddress(cell) {
+
   let cellID = cell.id;
   let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
   let cellColumn = parseInt(cellID.split(`-`)[1]);
+
+  let initialOptions = [];
+
   let topLeftCellAddress = `${cellRow-1}-${cellColumn-1}`;
+  initialOptions.push(topLeftCellAddress);
   let topCenterCellAddress = `${cellRow-1}-${cellColumn}`;
+  initialOptions.push(topCenterCellAddress);
   let topRightCellAddress = `${cellRow-1}-${cellColumn+1}`;
+  initialOptions.push(topRightCellAddress);
   let middleLeftCellAddress = `${cellRow}-${cellColumn-1}`;
+  initialOptions.push(middleLeftCellAddress);
   let middleRightCellAddress = `${cellRow}-${cellColumn+1}`;
+  initialOptions.push(middleRightCellAddress);
   let bottomLeftCellAddress = `${cellRow+1}-${cellColumn-1}`;
+  initialOptions.push(bottomLeftCellAddress);
   let bottomCenterCellAddress = `${cellRow+1}-${cellColumn}`;
+  initialOptions.push(bottomCenterCellAddress);
   let bottomRightCellAddress = `${cellRow+1}-${cellColumn+1}`;
+  initialOptions.push(bottomRightCellAddress);
   let address = ``;
-  switch (randomNumber(1,8)) {
-    case 1:
-      address = topLeftCellAddress;
-      break;
-    case 2:
-      address = topCenterCellAddress;
-      break;
-    case 3:
-      address = topRightCellAddress;
-      break;
-    case 4:
-      address = middleLeftCellAddress;
-      break;
-    case 5:
-      address = middleRightCellAddress;
-      break;
-    case 6:
-      address = bottomLeftCellAddress;
-      break;
-    case 7:
-      address = bottomCenterCellAddress;
-      break;
-    case 8:
-      address = bottomRightCellAddress;
-  }
+
+  let viableOptions = [];
+
+  for (let i = 0; i <= initialOptions.length-1; i++) {
+    if (
+      (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) >= 1) &&
+      (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) <= numberOfRows) &&
+      (parseInt(initialOptions[i].split(`-`)[1]) >= 1) &&
+      (parseInt(initialOptions[i].split(`-`)[1]) <= numberOfColumns)
+    ) {
+      viableOptions.push(initialOptions[i]);
+    };
+  };
+
+  // need to check if cell or row is out of frame (< or > 1 on either)
+
+  address = viableOptions[randomNumber(0,viableOptions.length-1)];
+
+  // switch (randomNumber(1,viableOptions.length)) {
+    // case 1:
+    //   address = topLeftCellAddress;
+    //   break;
+    // case 2:
+    //   address = topCenterCellAddress;
+    //   break;
+    // case 3:
+    //   address = topRightCellAddress;
+    //   break;
+    // case 4:
+    //   address = middleLeftCellAddress;
+    //   break;
+    // case 5:
+    //   address = middleRightCellAddress;
+    //   break;
+    // case 6:
+    //   address = bottomLeftCellAddress;
+    //   break;
+    // case 7:
+    //   address = bottomCenterCellAddress;
+    //   break;
+    // case 8:
+    //   address = bottomRightCellAddress;
+  // }
 
   let firstNumber = parseInt(address.substr(0,address.indexOf('-')));
   let secondNumber = parseInt(address.split(`-`)[1]);
