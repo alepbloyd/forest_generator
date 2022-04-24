@@ -445,6 +445,8 @@ function dayNightCycle() {
 
 let brightnessLimit = 75;
 
+let dayNightCycleSpeed = 3000;
+
 function transitionToDayTime() {
     dayTime = true;
     nightTime = false;
@@ -461,7 +463,7 @@ function transitionToDayTime() {
         } else {
           el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+(i*1)}%)`;
         };
-        await sleep(5000); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
+        await sleep(dayNightCycleSpeed); //increase this to slow down day/night cycle - could be cool to set this as a variable that can change depending on something user does
       };
     });
 };
