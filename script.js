@@ -160,6 +160,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             })
         }
     }
+    makePond();
 }
 
 function sleep(ms) {
@@ -185,7 +186,7 @@ gridContainer.addEventListener('click', (e) => {
         return;
     }
     hasBeenClicked = true;
-    makePond(); // need to adjust code below so pond doesn't get overwritten
+ // need to adjust code below so pond doesn't get overwritten
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
         setDistanceFromOrigin(el);
         createCloseCellsArray(el);
@@ -196,14 +197,18 @@ gridContainer.addEventListener('click', (e) => {
                 el.style.textAlign = 'center';
             }
             if (el.classList.contains(`.distance${i}`)) {
-                setGreen = getRandomGreen();
-                el.style.backgroundColor = `${setGreen}`;
-                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
-                    el.style.filter = `brightness(0%)`
-                    // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
-                } else {
-                    el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                if (el.classList.contains(`pondCell`) == false) {
+                  setGreen = getRandomGreen();
+                  el.style.backgroundColor = `${setGreen}`;
+                  if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                      el.style.filter = `brightness(0%)`
+                      // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+                  } else {
+                      el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                  }
                 }
+
+
                 //need to set brightness so it gets to 0 at max of row or columns
                 // the multiplier of i adjusts size of circle - higher number == smalelr circle
                 // how to make the fading more circular than square?
