@@ -101,3 +101,58 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.treeCell {
+    display: flex;
+    background-color: purple;
+    flex-direction: row;
+    color: white;
+    /* filter: brightness(75%); */
+}
+
+.treeCellRow1 {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    width: 30px;
+    height: 10px;
+    background-color: #ff0000;
+    /* border: 1px solid black; */
+    margin: 0;
+    padding: 0;
+}
+
+.treeCellRow2 {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    width: 30px;
+    height: 10px;
+    background-color: #ff0000;
+    /* border: 1px solid black; */
+    margin: 0;
+    padding: 0;
+}
+
+.treeCellRow3 {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    width: 30px;
+    height: 10px;
+}
+
+.treeCellSubCell {
+    flex: 1;
+    flex-direction: column;
+    width: 10px;
+    height: 10px;
+    /* background-color: #ff0000; */
+    /* border: 1px solid black; */
+    /* color: #ff0000; */
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
