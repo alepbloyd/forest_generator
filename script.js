@@ -579,13 +579,20 @@ function getRandomTreeTrunkColor() {
 }
 
 function generateTrees() {
-    let randomCell = document.getElementById(`${getRandomCellID()}`);
-    randomCell.classList.add(`treeOrigin`);
-    randomCell.classList.add(`treeCell`);
-    let treeOrigin = randomCell.id;
-    let treeHeight = 0; // to implement later
-
-
+    let numberOfTrees = randomNumber(30,50);
+    for (let i = 1; i <= numberOfTrees; i++) {
+      let randomCell = document.getElementById(`${getRandomCellID()}`);
+      if (randomCell.classList.contains("originCell") || randomCell.classList.contains("pondCell")){
+        return;
+      };
+      randomCell.classList.add(`treeOrigin`);
+      randomCell.classList.add(`treeCell`);
+      let treeOrigin = randomCell.id;
+      let treeHeight = 0; // to implement later
+      randomCell.style.backgroundColor = `${getRandomTreeTrunkColor()}`;
+      randomCell.style.filter = `brightness(0%)`;
+      randomCell.append("tree origin");
+    }
     // should check if it is within set distance radius of origin, and if yes, skip placing start of tree there
     // maybe if distance < 7?
 }
