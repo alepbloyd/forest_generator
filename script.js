@@ -477,8 +477,8 @@ function getRandomAdjacentCellAddress(cell) {
 function getRandomAdjacentAndDiagonalCellAddress(cell) {
 
   let cellID = cell.id;
-  let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
-  let cellColumn = parseInt(cellID.split(`-`)[1]);
+  let cellRow = getRowIntegerFromID(cell);
+  let cellColumn = getColumnIntegerFromID(cell);
 
   let initialOptions = [];
 
@@ -520,8 +520,8 @@ function getRandomAdjacentAndDiagonalCellAddress(cell) {
 
   address = viableOptions[randomNumber(0,viableOptions.length-1)];
 
-  let firstNumber = parseInt(address.substr(0,address.indexOf('-')));
-  let secondNumber = parseInt(address.split(`-`)[1]);
+  let firstNumber = getRowIntegerFromID(cell);
+  let secondNumber = getColumnIntegerFromID(cell);
 
   if (firstNumber < 10 && secondNumber < 10) {
       return `0${firstNumber}-0${secondNumber}`;
