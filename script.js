@@ -572,8 +572,15 @@ function makePond() {
 
 }
 
+let treeTrunkColorArray = [`#B08968`,`#7F5539`,`#9C6644`];
+
 function generateTrees() {
     let randomCell = document.getElementById(`${getRandomCellID()}`);
+    randomCell.classList.add(`treeOrigin`);
+    randomCell.classList.add(`treeCell`);
+    let treeOrigin = randomCell.id;
+    let treeHeight = 0; // to implement later
+
     // should check if it is within set distance radius of origin, and if yes, skip placing start of tree there
     // maybe if distance < 7?
 }
