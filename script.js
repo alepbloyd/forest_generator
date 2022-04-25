@@ -581,7 +581,7 @@ function getRandomTreeTrunkColor() {
 let treeCounter = 0;
 
 function generateTrees() {
-    let numberOfTrees = randomNumber(30,50);
+    let numberOfTrees = randomNumber(200,300);
     for (let i = 1; i <= numberOfTrees; i++) {
       let randomCell = document.getElementById(`${getRandomCellID()}`);
       if (randomCell.classList.contains("originCell") || randomCell.classList.contains("pondCell")){
@@ -591,8 +591,6 @@ function generateTrees() {
       randomCell.classList.add(`treeCell`);
       let treeOrigin = randomCell.id;
       let treeHeight = 0; // to implement later
-      randomCell.style.backgroundColor = `${getRandomTreeTrunkColor()}`;
-      randomCell.style.filter = `brightness(80%)`;
       // randomCell.append("tree origin");
       treeCounter += 1;
       for (let i = 0; i < 3; i++) {
@@ -609,7 +607,22 @@ function generateTrees() {
       }
       let treeCellSubCells = document.querySelectorAll(`.treeCounter${treeCounter}`).forEach((el) => {
           // the waiting portion isn't working
-          el.textContent = "T";
+          let trunkColor = `${getRandomTreeTrunkColor()}`;
+          if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${treeCounter}`)) {
+            el.style.backgroundColor = trunkColor;
+            el.style.filter = `brightness(80%)`;
+            // el.textContent = "T";
+          }
+          if (el.classList.contains(`treeCellSubCell22`) && el.classList.contains(`treeCounter${treeCounter}`)) {
+            el.style.backgroundColor = trunkColor;
+            el.style.filter = `brightness(80%)`;
+            // el.textContent = "M";
+          }
+          if (el.classList.contains(`treeCellSubCell21`) && el.classList.contains(`treeCounter${treeCounter}`)) {
+            el.style.backgroundColor = trunkColor;
+            el.style.filter = `brightness(80%)`;
+            // el.textContent = "O";
+          }
           // await sleep(500)
       });
     }
