@@ -443,11 +443,12 @@ function getRandomAdjacentCellAddress(cell) {
 
   for (let i = 0; i <= initialOptions.length-1; i++) {
     if (
-      (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) >= 1) &&
-      (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) <= numberOfRows) &&
-      (parseInt(initialOptions[i].split(`-`)[1]) >= 1) &&
-      (parseInt(initialOptions[i].split(`-`)[1]) <= numberOfColumns)
-    ) {
+      (getRowIntegerFromID(initialOptions[i]) >= 1) &&
+      (getRowIntegerFromID(initialOptions[i]) <= numberOfRows) &&
+      (getColumnIntegerFromID(initialOptions[i]) >= 1) &&
+      (getColumnIntegerFromID(initialOptions[i]) <= numberOfColumns)
+    )
+     {
       viableOptions.push(initialOptions[i]);
     };
   };
@@ -504,10 +505,6 @@ function getRandomAdjacentAndDiagonalCellAddress(cell) {
 
   for (let i = 0; i <= initialOptions.length-1; i++) {
     if (
-      // (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) >= 1) &&
-      // (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) <= numberOfRows) &&
-      // (parseInt(initialOptions[i].split(`-`)[1]) >= 1) &&
-      // (parseInt(initialOptions[i].split(`-`)[1]) <= numberOfColumns)
       (getRowIntegerFromID(cell) >= 1) &&
       (getRowIntegerFromID(cell) <= numberOfRows) &&
       (getColumnIntegerFromID(cell) >= 1) &&
