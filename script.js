@@ -274,11 +274,6 @@ function getRandomCellID() {
 
 // could set a radius around the fire, and anything outside that radius (got by > distance), has the day/night dimming/brightening cycle so it doesn't show up close to the fire
 
-function generateTrees() {
-    let randomCell = document.getElementById(`${getRandomCellID()}`);
-    // should check if it is within set distance radius of origin, and if yes, skip placing start of tree there
-    // maybe if distance < 7?
-}
 
 let sparkleSubCells = [];
 
@@ -575,6 +570,12 @@ function makePond() {
     // have a bit of randomness to the edge pieces (like if over a certain distance, there is a 30% chance a piece is still green)
     // sparkle should change that brightness of background slightly if above water
 
+}
+
+function generateTrees() {
+    let randomCell = document.getElementById(`${getRandomCellID()}`);
+    // should check if it is within set distance radius of origin, and if yes, skip placing start of tree there
+    // maybe if distance < 7?
 }
 
 function setRiverStart() {
