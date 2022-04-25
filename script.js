@@ -326,6 +326,10 @@ async function sparkle() {
       return;
     };
 
+    if (randomCell.classList.contains(`treeCell`)){
+      return;
+    };
+
     randomCell.classList.add('sparkleCell');
     // randomCell.style.filter = "brightness(100%)"
     let randomCellStoredColor = randomCell.style.backgroundColor;
