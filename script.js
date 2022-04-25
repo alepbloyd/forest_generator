@@ -578,6 +578,8 @@ function getRandomTreeTrunkColor() {
   return treeTrunkColorArray[Math.floor(Math.random() * treeTrunkColorArray.length)];
 }
 
+let treeCounter = 0;
+
 function generateTrees() {
     let numberOfTrees = randomNumber(30,50);
     for (let i = 1; i <= numberOfTrees; i++) {
@@ -590,8 +592,26 @@ function generateTrees() {
       let treeOrigin = randomCell.id;
       let treeHeight = 0; // to implement later
       randomCell.style.backgroundColor = `${getRandomTreeTrunkColor()}`;
-      randomCell.style.filter = `brightness(0%)`;
-      randomCell.append("tree origin");
+      randomCell.style.filter = `brightness(80%)`;
+      // randomCell.append("tree origin");
+      treeCounter += 1;
+      for (let i = 0; i < 3; i++) {
+          let treeCellRow = document.createElement('div');
+          randomCell.appendChild(treeCellRow);
+          treeCellRow.classList.add(`treeCellRow`);
+          for (let j = 0; j < 3; j++) {
+              let treeCellSubCell = document.createElement('div');
+              treeCellRow.appendChild(treeCellSubCell);
+              treeCellSubCell.classList.add(`treeCellSubCell`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
+              // console.log(`sparkleCellSubCell${i+1}${j+1}`);
+              // sparkleCellSubCell.append("*");
+          }
+      }
+      let treeCellSubCells = document.querySelectorAll(`.treeCounter${treeCounter}`).forEach((el) => {
+          // the waiting portion isn't working
+          el.textContent = "T";
+          // await sleep(500)
+      });
     }
     // should check if it is within set distance radius of origin, and if yes, skip placing start of tree there
     // maybe if distance < 7?
