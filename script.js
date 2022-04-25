@@ -6,6 +6,8 @@
 // or is the sparkle good while screen is still black? like maybe just less frequent? Since less light before fire starts
 // change the sparkle function to append asterisks instead of generating random colors
 
+//running makePond repeatedly, and with speed increasing each time, gives a cool flooding effect
+
 const gridContainer = document.querySelector(`#gridContainer`);
 
 
@@ -210,12 +212,12 @@ gridContainer.addEventListener('click', (e) => {
                   setGreen = getRandomGreen();
                   el.style.backgroundColor = `${setGreen}`;
                 };
-                  if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
-                      el.style.filter = `brightness(0%)`
+                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                  el.style.filter = `brightness(0%)`
                       // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
-                  } else {
-                      el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
-                  }
+                } else {
+                    el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                }
 
 
 
@@ -502,10 +504,14 @@ function getRandomAdjacentAndDiagonalCellAddress(cell) {
 
   for (let i = 0; i <= initialOptions.length-1; i++) {
     if (
-      (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) >= 1) &&
-      (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) <= numberOfRows) &&
-      (parseInt(initialOptions[i].split(`-`)[1]) >= 1) &&
-      (parseInt(initialOptions[i].split(`-`)[1]) <= numberOfColumns)
+      // (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) >= 1) &&
+      // (parseInt(initialOptions[i].substr(0,initialOptions[i].indexOf('-'))) <= numberOfRows) &&
+      // (parseInt(initialOptions[i].split(`-`)[1]) >= 1) &&
+      // (parseInt(initialOptions[i].split(`-`)[1]) <= numberOfColumns)
+      (getRowIntegerFromID(cell) >= 1) &&
+      (getRowIntegerFromID(cell) <= numberOfRows) &&
+      (getColumnIntegerFromID(cell) >= 1) &&
+      (getColumnIntegerFromID(cell) <= numberOfColumns)
     ) {
       viableOptions.push(initialOptions[i]);
     };
