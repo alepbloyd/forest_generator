@@ -549,7 +549,7 @@ function makePond() {
     randomCell.classList.add(`pondCell`);
     // randomCell.append("Pond Origin");
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
-    let pondSize = randomNumber(300,500); // sets random pond size between two parameters
+    let pondSize = randomNumber(500,750); // sets random pond size between two parameters
     // pondSize needs to be relative to totalCells (as like a percentage)
     randomCell.style.backgroundColor = `${getRandomBlue()}`;
     randomCell.style.filter = `brightness(0%)`
