@@ -181,6 +181,15 @@ function createCloseCellsArray(el) {
   }
 };
 
+function getRowIntegerFromID(cell){
+  return parseInt(cell.substr(0,cell.indexOf('-')));
+};
+
+function getColumnIntegerFromID(cell) {
+  return parseInt(cell.split(`-`)[1]);
+}
+
+
 gridContainer.addEventListener('click', (e) => {
     if (hasBeenClicked == true) {
         return;
@@ -200,13 +209,14 @@ gridContainer.addEventListener('click', (e) => {
                 if (el.classList.contains(`pondCell`) == false) {
                   setGreen = getRandomGreen();
                   el.style.backgroundColor = `${setGreen}`;
+                };
                   if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
                       el.style.filter = `brightness(0%)`
                       // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
                   } else {
                       el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
                   }
-                }
+
 
 
                 //need to set brightness so it gets to 0 at max of row or columns
