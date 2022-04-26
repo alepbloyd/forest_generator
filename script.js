@@ -605,10 +605,6 @@ function generateTrees() {
         cellOptionsIDArray.push(initialCellOptions[o].id);
       }; //currently working
 
-      // console.log(initialCellOptionsIDArray);
-
-      console.log(cellOptionsIDArray);
-
       let randomSelectionOfCellOptions = [];
       let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.25);
 
@@ -616,7 +612,6 @@ function generateTrees() {
 
       randomSelectionOfCellOptions = shuffledCellOptionsIDArray.slice(0,numberOfCellsToSelect);
 
-      console.log(randomSelectionOfCellOptions);
 
       for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
         let treeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
