@@ -9,6 +9,9 @@ body {
     /* height: 1000px; */
     flex-direction: column;
     background-color: black;
+    /* border-width: 3px;
+    border-color: grey;
+    border-style: solid; */
 }
 
 .clearGridButton {
