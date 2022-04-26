@@ -8,6 +8,8 @@
 
 //running makePond repeatedly, and with speed increasing each time, gives a cool flooding effect
 
+// I think fewer trees but bigger
+
 const gridContainer = document.querySelector(`#gridContainer`);
 
 
@@ -52,8 +54,8 @@ let minOfRowsOrColumns = Math.min((Math.floor(documentHeight / 30)),(Math.floor(
 
 let maxOfRowsOrColumns = Math.max((Math.floor(documentHeight / 30)),(Math.floor(documentWidth / 30)));
 
-// let numberOfRows = minOfRowsOrColumns;
-// let numberOfColumns = minOfRowsOrColumns;
+let numberOfRows = minOfRowsOrColumns;
+let numberOfColumns = minOfRowsOrColumns;
 
 //sets the rows and columns to be a square, smaller than view window
 
@@ -62,8 +64,8 @@ let maxOfRowsOrColumns = Math.max((Math.floor(documentHeight / 30)),(Math.floor(
 
 //sets the rows and columns to be a square, larger than view window.
 
-let numberOfRows = (Math.floor(documentHeight / 30));
-let numberOfColumns = (Math.floor(documentWidth / 30));
+// let numberOfRows = (Math.floor(documentHeight / 30));
+// let numberOfColumns = (Math.floor(documentWidth / 30));
 
 // sets at browser width
 // this one looks best
