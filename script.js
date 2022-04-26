@@ -111,7 +111,7 @@ let distanceArray = [];
 function setDistanceFromOrigin(cell) {
     cellRow = getRow(cell);
     cellColumn = getColumn(cell);
-    cell.classList.add('distanceAssigned');
+    cell.classList.add('dAssigned');
     columnDistance = (Math.abs(cellColumn - originArray[1]));
     // should this calc be different, some way of averaging the row/column distance and rounding - so you get more circle going out instead of square
     rowDistance = (Math.abs(cellRow - originArray[0]));
@@ -201,9 +201,34 @@ gridContainer.addEventListener('click', (e) => {
     }
     hasBeenClicked = true;
  // need to adjust code below so pond doesn't get overwritten
+    let treeSubCells = document.querySelectorAll(`.treeCellSubCell`);
+    for (let t = 0; t <= treeSubCells.length-1; t++){
+      //this is where i need parent cell distance
+      treeSubCells[t].style.filter = `brightness(0%)`;
+    };
+
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
         setDistanceFromOrigin(el);
         createCloseCellsArray(el);
+
+        // if (el.classList.contains(`treeCell`)) {
+        //   // console.log(el.id);
+        //   let treeCellClassArray = el.classList;
+        //   let treeCellDistance = findDistanceFromClassList(treeCellClassArray);
+        //   console.log(treeCellDistance);
+        //   let treeCellChildren = el.children;
+        //   console.log(treeCellChildren);
+        //   let treeCellGrandChildren = [];
+        //   for (let m = 0; m <= treeCellChildren.length-1; m++){
+        //     treeCellGrandChildren.push(treeCellChildren[m].children)
+        //     // treeCellChildren[m].children.classList.add(treeCellDistance);
+        //   }
+        //   console.log(treeCellGrandChildren);
+        //   // for (let o = 0; 0 <= treeCellGrandChildren.length-1; o++){
+        //   //   treeCellGrandChildren[o].classList.add(treeCellDistance);
+        //   // }
+        // };
+
         for (let i = 0; i <= getFurthestDistance(); i++) {
             if (el.classList.contains(`.distance0`)) {
                 el.innerHTML = (String.fromCodePoint(0x1F525));
@@ -215,15 +240,16 @@ gridContainer.addEventListener('click', (e) => {
                   setGreen = getRandomGreen();
                   el.style.backgroundColor = `${setGreen}`;
                 };
-                if (el.classList.contains(`treeCell`)){
-                  // el.children.style.filter = `brightness(${100-(i*7)}%)`;
-                  // let treeSubCellSelection =
-                }
+
                 if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
                   el.style.filter = `brightness(0%)`
                       // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
                 } else {
                     el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                }
+                if (el.hasChildNodes()){
+                  el.children.style.filter = el.style.filter;
+                  console.log(el.style.filter);
                 }
 
 
@@ -236,6 +262,7 @@ gridContainer.addEventListener('click', (e) => {
                 //     // el.style.backgroundColor = "red"; could make spooky around the edge?
                 // }
             }
+
             if (el.classList.contains(`.distance0`) || el.classList.contains(`.distance1`) || el.classList.contains(`.distance2`)) {
                 // el.style.backgroundColor = "darkred";
             }
@@ -602,6 +629,14 @@ function setTreePattern() {
 
 let treeCounter = 0;
 
+function findDistanceFromClassList(array) {
+  for (let i = 0; i <= array.length-1; i++){
+    if (array[i].includes("distance")) {
+      return array[i];
+    };
+  };
+};
+
 function generateTrees() {
   for (let k = 1; k <= numberOfRows; k++){ //update to numberOfRows once working on one line
       let chanceOfTree = 30;
@@ -629,6 +664,11 @@ function generateTrees() {
 
       for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
         let treeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
+
+        treeCellClassArray = treeCell.classList;
+        treeCellDistance = findDistanceFromClassList(treeCellClassArray);
+        // console.log(treeCellDistance);
+
         treeCounter += 1;
         treeCell.classList.add(`treeCell`,`treeCounter${treeCounter}`);
 
@@ -639,7 +679,9 @@ function generateTrees() {
 
             for (let j = 0; j < 3; j++) {
                 let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${treeCell.id}-s${i+1}${j+1}`);
                 treeCellSubCell.classList.add( `treeCellSubCell`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
                 // need to add distance for lighting to work
                 // console.log(`sparkleCellSubCell${i+1}${j+1}`);
@@ -651,6 +693,7 @@ function generateTrees() {
       for (let g = 0; g <= treeCounter; g++) {
         let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
             // the waiting portion isn't working
+            // need to assign distance on these from the parent cell
             let startingCell = randomNumber(1,3);
             let trunkColor = `${getRandomTreeTrunkColor()}`;
             if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${g}`)) {
@@ -662,7 +705,7 @@ function generateTrees() {
             if (el.classList.contains(`treeCellSubCell22`) && el.classList.contains(`treeCounter${g}`)) {
               el.style.backgroundColor = trunkColor;
               el.style.filter = `brightness(0%)`;
-              el.classList.add(`treeTrunkCell`);
+              el.classList.add(`treeTrunkCell`,);
               // el.textContent = "M";
             }
             if (el.classList.contains(`treeCellSubCell21`) && el.classList.contains(`treeCounter${g}`)) {
