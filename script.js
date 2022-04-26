@@ -165,6 +165,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
         }
     }
     makePond();
+    generateTrees();
 }
 
 function sleep(ms) {
@@ -642,17 +643,17 @@ function generateTrees() {
             let trunkColor = `${getRandomTreeTrunkColor()}`;
             if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${g}`)) {
               el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(80%)`;
+              el.style.filter = `brightness(0%)`;
               // el.textContent = "T";
             }
             if (el.classList.contains(`treeCellSubCell22`) && el.classList.contains(`treeCounter${g}`)) {
               el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(80%)`;
+              el.style.filter = `brightness(0%)`;
               // el.textContent = "M";
             }
             if (el.classList.contains(`treeCellSubCell21`) && el.classList.contains(`treeCounter${g}`)) {
               el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(80%)`;
+              el.style.filter = `brightness(0%)`;
               // el.textContent = "O";
             }
           });
