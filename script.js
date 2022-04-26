@@ -215,6 +215,10 @@ gridContainer.addEventListener('click', (e) => {
                   setGreen = getRandomGreen();
                   el.style.backgroundColor = `${setGreen}`;
                 };
+                if (el.classList.contains(`treeCell`)){
+                  // el.children.style.filter = `brightness(${100-(i*7)}%)`;
+                  // let treeSubCellSelection =
+                }
                 if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
                   el.style.filter = `brightness(0%)`
                       // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
@@ -235,6 +239,13 @@ gridContainer.addEventListener('click', (e) => {
             if (el.classList.contains(`.distance0`) || el.classList.contains(`.distance1`) || el.classList.contains(`.distance2`)) {
                 // el.style.backgroundColor = "darkred";
             }
+
+            // let treeSubCells = document.querySelectorAll(`.treeTrunkCell`).forEach(async (subcell) => {
+            //   for (let j = 0; j <= getFurthestDistance(); j++){
+            //     if (treeSubCells.classList.contains)
+            //   }
+            // });
+
         await sleep(15); // make sleep start slow and speed up as it goes?
         }
         // dayNightCycle();
@@ -629,7 +640,8 @@ function generateTrees() {
             for (let j = 0; j < 3; j++) {
                 let treeCellSubCell = document.createElement('div');
                 treeCellRow.appendChild(treeCellSubCell);
-                treeCellSubCell.classList.add(`treeCellSubCell`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
+                // need to add distance for lighting to work
                 // console.log(`sparkleCellSubCell${i+1}${j+1}`);
                 // sparkleCellSubCell.append("*");
             }
@@ -644,16 +656,19 @@ function generateTrees() {
             if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${g}`)) {
               el.style.backgroundColor = trunkColor;
               el.style.filter = `brightness(0%)`;
+              el.classList.add(`treeTrunkCell`);
               // el.textContent = "T";
             }
             if (el.classList.contains(`treeCellSubCell22`) && el.classList.contains(`treeCounter${g}`)) {
               el.style.backgroundColor = trunkColor;
               el.style.filter = `brightness(0%)`;
+              el.classList.add(`treeTrunkCell`);
               // el.textContent = "M";
             }
             if (el.classList.contains(`treeCellSubCell21`) && el.classList.contains(`treeCounter${g}`)) {
               el.style.backgroundColor = trunkColor;
               el.style.filter = `brightness(0%)`;
+              el.classList.add(`treeTrunkCell`);
               // el.textContent = "O";
             }
           });
