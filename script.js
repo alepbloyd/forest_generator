@@ -184,11 +184,11 @@ function createCloseCellsArray(el) {
 };
 
 function getRowIntegerFromID(cell){
-  return parseInt(cell.substr(0,cell.indexOf('-')));
+  return parseInt(cell.substr(0,cell.indexOf('-')),10);
 };
 
 function getColumnIntegerFromID(cell) {
-  return parseInt(cell.split(`-`)[1]);
+  return parseInt(cell.toString().split(`-`)[1], 10);
 }
 
 
@@ -582,57 +582,86 @@ function getRandomTreeTrunkColor() {
   return treeTrunkColorArray[Math.floor(Math.random() * treeTrunkColorArray.length)];
 }
 
+function setTreePattern() {
+  return randomNumber(1,3);
+}
+
 let treeCounter = 0;
 
 function generateTrees() {
-    let numberOfTrees = randomNumber(200,300);
-    for (let i = 1; i <= numberOfTrees; i++) {
-      let randomCell = document.getElementById(`${getRandomCellID()}`);
-      if (randomCell.classList.contains("originCell") || randomCell.classList.contains("pondCell")){
-        return;
-      };
-      randomCell.classList.add(`treeOrigin`);
-      randomCell.classList.add(`treeCell`);
-      let treeOrigin = randomCell.id;
-      let treeHeight = 0; // to implement later
-      // randomCell.append("tree origin");
-      treeCounter += 1;
-      for (let i = 0; i < 3; i++) {
-          let treeCellRow = document.createElement('div');
-          randomCell.appendChild(treeCellRow);
-          treeCellRow.classList.add(`treeCellRow`);
-          for (let j = 0; j < 3; j++) {
-              let treeCellSubCell = document.createElement('div');
-              treeCellRow.appendChild(treeCellSubCell);
-              treeCellSubCell.classList.add(`treeCellSubCell`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
-              // console.log(`sparkleCellSubCell${i+1}${j+1}`);
-              // sparkleCellSubCell.append("*");
-          }
+  for (let k = 1; k <= numberOfRows; k++){ //update to numberOfRows once working on one line
+      let chanceOfTree = 30;
+      let initialCellOptions = document.getElementsByClassName(`row${k}`);
+
+      initialCellOptions = Array.from(initialCellOptions);
+
+      let cellOptionsIDArray = [];
+
+      for (let o = 0; o <= initialCellOptions.length-1; o++){
+        if (
+          (initialCellOptions[o].classList.contains("pondCell") == false) &&
+          (initialCellOptions[o].classList.contains("originCell") == false)
+        )
+        cellOptionsIDArray.push(initialCellOptions[o].id);
+      }; //currently working
+
+      // console.log(initialCellOptionsIDArray);
+
+      console.log(cellOptionsIDArray);
+
+      let randomSelectionOfCellOptions = [];
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.25);
+
+      let shuffledCellOptionsIDArray = cellOptionsIDArray.sort(() => .5 - Math.random());
+
+      randomSelectionOfCellOptions = shuffledCellOptionsIDArray.slice(0,numberOfCellsToSelect);
+
+      console.log(randomSelectionOfCellOptions);
+
+      for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
+        let treeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
+        treeCounter += 1;
+        treeCell.classList.add(`treeCell`,`treeCounter${treeCounter}`);
+
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            treeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.classList.add(`treeCellSubCell`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
+                // console.log(`sparkleCellSubCell${i+1}${j+1}`);
+                // sparkleCellSubCell.append("*");
+            }
+        }
       }
-      let treeCellSubCells = document.querySelectorAll(`.treeCounter${treeCounter}`).forEach((el) => {
-          // the waiting portion isn't working
-          let trunkColor = `${getRandomTreeTrunkColor()}`;
-          if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${treeCounter}`)) {
-            el.style.backgroundColor = trunkColor;
-            el.style.filter = `brightness(80%)`;
-            // el.textContent = "T";
-          }
-          if (el.classList.contains(`treeCellSubCell22`) && el.classList.contains(`treeCounter${treeCounter}`)) {
-            el.style.backgroundColor = trunkColor;
-            el.style.filter = `brightness(80%)`;
-            // el.textContent = "M";
-          }
-          if (el.classList.contains(`treeCellSubCell21`) && el.classList.contains(`treeCounter${treeCounter}`)) {
-            el.style.backgroundColor = trunkColor;
-            el.style.filter = `brightness(80%)`;
-            // el.textContent = "O";
-          }
-          // await sleep(500)
-      });
+
+      for (let g = 0; g <= treeCounter; g++) {
+        let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
+            // the waiting portion isn't working
+            let startingCell = randomNumber(1,3);
+            let trunkColor = `${getRandomTreeTrunkColor()}`;
+            if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${g}`)) {
+              el.style.backgroundColor = trunkColor;
+              el.style.filter = `brightness(80%)`;
+              // el.textContent = "T";
+            }
+            if (el.classList.contains(`treeCellSubCell22`) && el.classList.contains(`treeCounter${g}`)) {
+              el.style.backgroundColor = trunkColor;
+              el.style.filter = `brightness(80%)`;
+              // el.textContent = "M";
+            }
+            if (el.classList.contains(`treeCellSubCell21`) && el.classList.contains(`treeCounter${g}`)) {
+              el.style.backgroundColor = trunkColor;
+              el.style.filter = `brightness(80%)`;
+              // el.textContent = "O";
+            }
+          });
+      }
     }
-    // should check if it is within set distance radius of origin, and if yes, skip placing start of tree there
-    // maybe if distance < 7?
-}
+};
 
 function setRiverStart() {
     // set starting pixels by
