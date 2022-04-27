@@ -491,6 +491,38 @@ function getRandomAdjacentCellAddress(cell) {
 };
 
 
+function getCellAboveID(cell){
+  let cellID = cell.id;
+  let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
+  let cellColumn = parseInt(cellID.split(`-`)[1]);
+
+  let topCenterCellAddress = `${cellRow-1}-${cellColumn}`;
+
+  if (
+    (getRowIntegerFromID(topCenterCellAddress) >= 1) &&
+    (getRowIntegerFromID(topCenterCellAddress) <= numberOfRows) &&
+    (getColumnIntegerFromID(topCenterCellAddress) >= 1) &&
+    (getColumnIntegerFromID(topCenterCellAddress) <= numberOfColumns)
+  ) {
+    let address = topCenterCellAddress;
+
+    let firstNumber = parseInt(address.substr(0,address.indexOf('-')));
+    let secondNumber = parseInt(address.split(`-`)[1]);
+
+    if (firstNumber < 10 && secondNumber < 10) {
+        return `0${firstNumber}-0${secondNumber}`;
+    }
+    if (firstNumber < 10 && secondNumber >= 10) {
+        return `0${firstNumber}-${secondNumber}`;
+    }
+    if (firstNumber >= 10 && secondNumber < 10) {
+        return `${firstNumber}-0${secondNumber}`;
+    }
+    if (firstNumber >= 10 && secondNumber >= 10) {
+        return `${firstNumber}-${secondNumber}`;
+    }
+  }
+};
 
 function getRandomAdjacentAndDiagonalCellAddress(cell) {
 
@@ -632,7 +664,7 @@ function generateTrees() {
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.25);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.1);
 
       let shuffledCellOptionsIDArray = cellOptionsIDArray.sort(() => .5 - Math.random());
 
@@ -669,11 +701,11 @@ function generateTrees() {
 
       for (let g = 0; g <= treeCounter; g++) {
         let trunkColor = `${getRandomTreeTrunkColor()}`;
-
         let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
           el.style.backgroundColor = trunkColor;
           el.style.filter = `brightness(0%)`;
           el.classList.add(`treeTrunkCell`,);
+          // console.log(getCellAboveID(el));
         });
 
       }
