@@ -696,11 +696,12 @@ function generateTrees() {
       }
 
       for (let g = 0; g <= treeCounter; g++) {
+        let trunkColor = `${getRandomTreeTrunkColor()}`;
         let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
             // the waiting portion isn't working
             // need to assign distance on these from the parent cell
             let startingCell = randomNumber(1,3);
-            let trunkColor = `${getRandomTreeTrunkColor()}`;
+
             if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${g}`)) {
               el.style.backgroundColor = trunkColor;
               el.style.filter = `brightness(0%)`;
