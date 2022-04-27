@@ -217,7 +217,6 @@ gridContainer.addEventListener('click', (e) => {
             // console.log(el.children);
           let treeCellClassArray = el.classList;
           let treeCellDistance = findDistanceFromClassList(treeCellClassArray);
-          let treeSubCellArray = [];
 
           for (let i = 1; i <= 3; i++){
             for (let j = 1; j <= 3; j++){
@@ -226,23 +225,6 @@ gridContainer.addEventListener('click', (e) => {
 
             }
           }
-          //
-          // let subCellS11 = document.getElementById(`${el.id}-s11`)
-          // subCellS11.classList.add(treeCellDistance);
-
-
-          // for (let i = 0; i <= el.children.length-1; i++){
-          //   // console.log(el.children[i].children);
-          //   // for (let j = 0; j <= el.children[i].children.length-1; j++){
-          //   //
-          //   // }
-          //   for (let j = 0; j <= el.children[i].children[j].length-1; j++){
-          //     treeSubCellArray.push(el.children[i].children[j]);
-          //   }
-          // }
-          // console.log(treeSubCellArray);
-          // console.log(treeCellDistance);
-
         }
     });
 
@@ -267,25 +249,29 @@ gridContainer.addEventListener('click', (e) => {
               }
           }
 
-
-          if (el.classList.contains(`.distance0`) || el.classList.contains(`.distance1`) || el.classList.contains(`.distance2`)) {
-              // el.style.backgroundColor = "darkred";
-          }
-
-          // if (el.classList.contains(`.treeCell`))
-
-          // let treeSubCells = document.querySelectorAll(`.treeTrunkCell`).forEach(async (subcell) => {
-          //   for (let j = 0; j <= getFurthestDistance(); j++){
-          //     if (treeSubCells.classList.contains)
-          //   }
-          // });
           let cellBrightness = el.style.filter;
 
+          if (el.classList.contains(`treeCell`)){
+            // console.log(el.id);
+              // console.log(el.children);
+            // let treeCellClassArray = el.classList;
+            // let treeCellDistance = findDistanceFromClassList(treeCellClassArray);
 
+            for (let i = 1; i <= 3; i++){
+              for (let j = 1; j <= 3; j++){
+                let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
 
-          // let treeSubCells = document.querySelectorAll(`.treeCellSubCell`).forEach(async(subcell) => {
-          //   treeCellSubCell.style.filter = cellBrightness;
-          // });
+                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                  subCellID.style.filter = `brightness(0%)`
+                      // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+                } else {
+                    subCellID.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                }
+                // subCellID.style.filter = cellBrightness;
+
+              }
+            }
+          }
 
       await sleep(15); // make sleep start slow and speed up as it goes?
       }
