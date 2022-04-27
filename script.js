@@ -492,36 +492,34 @@ function getRandomAdjacentCellAddress(cell) {
 
 
 function getCellAboveID(cell){
-  let cellID = cell.id;
-  let cellRow = parseInt(cellID.substr(0,cellID.indexOf('-')));
-  let cellColumn = parseInt(cellID.split(`-`)[1]);
+  let initialCellID = cell.id;
+  let initialCellRow = getRowIntegerFromID(initialCellID);
+  let initialCellColumn = getColumnIntegerFromID(initialCellID);
 
-  let topCenterCellAddress = `${cellRow-1}-${cellColumn}`;
+  if (initialCellRow < 2) {
+    return;
+  };
 
-  if (
-    (getRowIntegerFromID(topCenterCellAddress) >= 1) &&
-    (getRowIntegerFromID(topCenterCellAddress) <= numberOfRows) &&
-    (getColumnIntegerFromID(topCenterCellAddress) >= 1) &&
-    (getColumnIntegerFromID(topCenterCellAddress) <= numberOfColumns)
-  ) {
-    let address = topCenterCellAddress;
+  let topCenterCellAddress = `${initialCellRow-1}-${initialCellColumn}`;
 
-    let firstNumber = parseInt(address.substr(0,address.indexOf('-')));
-    let secondNumber = parseInt(address.split(`-`)[1]);
+  let address = topCenterCellAddress;
 
-    if (firstNumber < 10 && secondNumber < 10) {
-        return `0${firstNumber}-0${secondNumber}`;
-    }
-    if (firstNumber < 10 && secondNumber >= 10) {
-        return `0${firstNumber}-${secondNumber}`;
-    }
-    if (firstNumber >= 10 && secondNumber < 10) {
-        return `${firstNumber}-0${secondNumber}`;
-    }
-    if (firstNumber >= 10 && secondNumber >= 10) {
-        return `${firstNumber}-${secondNumber}`;
-    }
+  let firstNumber = getRowIntegerFromID(address);
+  let secondNumber = getColumnIntegerFromID(address);
+
+  if (firstNumber < 10 && secondNumber < 10) {
+    return `0${firstNumber}-0${secondNumber}`;
   }
+  if (firstNumber < 10 && secondNumber >= 10) {
+    return `0${firstNumber}-${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber < 10) {
+    return `${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber >= 10) {
+    return `${firstNumber}-${secondNumber}`;
+  }
+
 };
 
 function getRandomAdjacentAndDiagonalCellAddress(cell) {
@@ -672,26 +670,31 @@ function generateTrees() {
 
 
       for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
-        let treeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
+        let bottomTreeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
 
-        treeCellClassArray = treeCell.classList;
-        treeCellDistance = findDistanceFromClassList(treeCellClassArray);
+        let middleTreeCell = getCellAboveID(bottomTreeCell);
+        console.log(middleTreeCell);
+
+        bottomTreeCellClassArray = bottomTreeCell.classList;
+        treeCellDistance = findDistanceFromClassList(bottomTreeCellClassArray);
         // console.log(treeCellDistance);
 
         treeCounter += 1;
-        treeCell.classList.add(`treeCell`,`treeCounter${treeCounter}`);
+
+        bottomTreeCell.classList.add(`treeCell`,`treeCellBottom`,`treeCounter${treeCounter}`);
+        // middleTreeCell.classList.add(`treeCell`,`treeCellMiddle`,`treeCounter${treeCounter}`);
 
         for (let i = 0; i < 3; i++) {
             let treeCellRow = document.createElement('div');
-            treeCell.appendChild(treeCellRow);
+            bottomTreeCell.appendChild(treeCellRow);
             treeCellRow.classList.add(`treeCellRow`);
 
             for (let j = 0; j < 3; j++) {
                 let treeCellSubCell = document.createElement('div');
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
-                treeCellSubCell.setAttribute(`id`,`${treeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
+                treeCellSubCell.setAttribute(`id`,`${bottomTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellBottom`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
                 // need to add distance for lighting to work
                 // console.log(`sparkleCellSubCell${i+1}${j+1}`);
                 // sparkleCellSubCell.append("*");
@@ -702,12 +705,25 @@ function generateTrees() {
       for (let g = 0; g <= treeCounter; g++) {
         let trunkColor = `${getRandomTreeTrunkColor()}`;
         let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
-          el.style.backgroundColor = trunkColor;
-          el.style.filter = `brightness(0%)`;
-          el.classList.add(`treeTrunkCell`,);
+          if (el.classList.contains(`treeCellBottom`)){
+            el.style.backgroundColor = trunkColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeTrunkCell`,);
+          };
+
+          if (el.classList.contains(`treeCellMiddle`)){
+            el.style.backgroundColor = trunkColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeTrunkCell`,);
+          };
+
+          if (el.classList.contains(`treeCellTop`)){
+            el.style.backgroundColor = trunkColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeTrunkCell`,);
+          };
           // console.log(getCellAboveID(el));
         });
-
       }
     }
 };
