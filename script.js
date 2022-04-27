@@ -211,7 +211,39 @@ gridContainer.addEventListener('click', (e) => {
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
         setDistanceFromOrigin(el);
         createCloseCellsArray(el);
-    // dayNightCycle();
+
+        if (el.classList.contains(`treeCell`)){
+          // console.log(el.id);
+            // console.log(el.children);
+          let treeCellClassArray = el.classList;
+          let treeCellDistance = findDistanceFromClassList(treeCellClassArray);
+          let treeSubCellArray = [];
+
+          for (let i = 1; i <= 3; i++){
+            for (let j = 1; j <= 3; j++){
+              let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+              subCellID.classList.add(treeCellDistance);
+
+            }
+          }
+          //
+          // let subCellS11 = document.getElementById(`${el.id}-s11`)
+          // subCellS11.classList.add(treeCellDistance);
+
+
+          // for (let i = 0; i <= el.children.length-1; i++){
+          //   // console.log(el.children[i].children);
+          //   // for (let j = 0; j <= el.children[i].children.length-1; j++){
+          //   //
+          //   // }
+          //   for (let j = 0; j <= el.children[i].children[j].length-1; j++){
+          //     treeSubCellArray.push(el.children[i].children[j]);
+          //   }
+          // }
+          // console.log(treeSubCellArray);
+          // console.log(treeCellDistance);
+
+        }
     });
 
     let cells2 = document.querySelectorAll(`.cell`).forEach(async (el) => {
@@ -263,32 +295,7 @@ gridContainer.addEventListener('click', (e) => {
 
 
 
-        console.log(treeSubCellArray);
-
-        // if (el.classList.contains(`treeCell`)) {
-        //   // console.log(el.id);
-        //   let treeCellClassArray = el.classList;
-        //   let treeCellDistance = findDistanceFromClassList(treeCellClassArray);
-        //   console.log(treeCellDistance);
-        //   let treeCellChildren = el.children;
-        //   console.log(treeCellChildren);
-        //   let treeCellGrandChildren = [];
-        //   for (let m = 0; m <= treeCellChildren.length-1; m++){
-        //     treeCellGrandChildren.push(treeCellChildren[m].children)
-        //     // treeCellChildren[m].children.classList.add(treeCellDistance);
-        //   }
-        //   console.log(treeCellGrandChildren);
-        //   // for (let o = 0; 0 <= treeCellGrandChildren.length-1; o++){
-        //   //   treeCellGrandChildren[o].classList.add(treeCellDistance);
-        //   // }
-        // };
-
-
-
-
-
-
-
+        // console.log(treeSubCellArray);
     dayNightCycle();
 });
 
