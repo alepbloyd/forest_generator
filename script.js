@@ -202,14 +202,68 @@ gridContainer.addEventListener('click', (e) => {
     hasBeenClicked = true;
  // need to adjust code below so pond doesn't get overwritten
     let treeSubCells = document.querySelectorAll(`.treeCellSubCell`);
+    let treeSubCellArray = [];
     for (let t = 0; t <= treeSubCells.length-1; t++){
-      //this is where i need parent cell distance
-      treeSubCells[t].style.filter = `brightness(0%)`;
+       //this is where i need parent cell distance
+     treeSubCellArray.push(treeSubCells[t]);
     };
 
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
         setDistanceFromOrigin(el);
         createCloseCellsArray(el);
+    // dayNightCycle();
+    });
+
+    let cells2 = document.querySelectorAll(`.cell`).forEach(async (el) => {
+      for (let i = 0; i <= getFurthestDistance(); i++) {
+          if (el.classList.contains(`.distance0`)) {
+              el.innerHTML = (String.fromCodePoint(0x1F525));
+              el.style.fontSize = 'x-large';
+              el.style.textAlign = 'center';
+          }
+          if (el.classList.contains(`.distance${i}`)) {
+              if (el.classList.contains(`pondCell`) == false) {
+                setGreen = getRandomGreen();
+                el.style.backgroundColor = `${setGreen}`;
+              };
+
+              if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                el.style.filter = `brightness(0%)`
+                    // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+              } else {
+                  el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+              }
+          }
+
+
+          if (el.classList.contains(`.distance0`) || el.classList.contains(`.distance1`) || el.classList.contains(`.distance2`)) {
+              // el.style.backgroundColor = "darkred";
+          }
+
+          // if (el.classList.contains(`.treeCell`))
+
+          // let treeSubCells = document.querySelectorAll(`.treeTrunkCell`).forEach(async (subcell) => {
+          //   for (let j = 0; j <= getFurthestDistance(); j++){
+          //     if (treeSubCells.classList.contains)
+          //   }
+          // });
+          let cellBrightness = el.style.filter;
+
+
+
+          // let treeSubCells = document.querySelectorAll(`.treeCellSubCell`).forEach(async(subcell) => {
+          //   treeCellSubCell.style.filter = cellBrightness;
+          // });
+
+      await sleep(15); // make sleep start slow and speed up as it goes?
+      }
+    });
+
+// what about breaking up the foreach function below into two functions? One sets the distance and creates the closeCellArray and adds the distance to the tree cells, and then the next foreach loop does everything else?
+
+
+
+        console.log(treeSubCellArray);
 
         // if (el.classList.contains(`treeCell`)) {
         //   // console.log(el.id);
@@ -229,54 +283,12 @@ gridContainer.addEventListener('click', (e) => {
         //   // }
         // };
 
-        for (let i = 0; i <= getFurthestDistance(); i++) {
-            if (el.classList.contains(`.distance0`)) {
-                el.innerHTML = (String.fromCodePoint(0x1F525));
-                el.style.fontSize = 'x-large';
-                el.style.textAlign = 'center';
-            }
-            if (el.classList.contains(`.distance${i}`)) {
-                if (el.classList.contains(`pondCell`) == false) {
-                  setGreen = getRandomGreen();
-                  el.style.backgroundColor = `${setGreen}`;
-                };
-
-                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
-                  el.style.filter = `brightness(0%)`
-                      // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
-                } else {
-                    el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
-                }
-                if (el.hasChildNodes()){
-                  el.children.style.filter = el.style.filter;
-                  console.log(el.style.filter);
-                }
 
 
 
-                //need to set brightness so it gets to 0 at max of row or columns
-                // the multiplier of i adjusts size of circle - higher number == smalelr circle
-                // how to make the fading more circular than square?
-                // if (rowDistance >= 12 && columnDistance >= 12) {
-                //     el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+90}%)`;
-                //     // el.style.backgroundColor = "red"; could make spooky around the edge?
-                // }
-            }
 
-            if (el.classList.contains(`.distance0`) || el.classList.contains(`.distance1`) || el.classList.contains(`.distance2`)) {
-                // el.style.backgroundColor = "darkred";
-            }
 
-            // let treeSubCells = document.querySelectorAll(`.treeTrunkCell`).forEach(async (subcell) => {
-            //   for (let j = 0; j <= getFurthestDistance(); j++){
-            //     if (treeSubCells.classList.contains)
-            //   }
-            // });
 
-        await sleep(15); // make sleep start slow and speed up as it goes?
-        }
-        // dayNightCycle();
-    });
     dayNightCycle();
 });
 
