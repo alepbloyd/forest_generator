@@ -249,9 +249,8 @@ gridContainer.addEventListener('click', (e) => {
               }
           }
 
-          let cellBrightness = el.style.filter;
 
-          if (el.classList.contains(`treeCell`)){
+          if (el.classList.contains(`treeCell`) && (el.classList.contains(`.distance${i}`))){
             // console.log(el.id);
               // console.log(el.children);
             // let treeCellClassArray = el.classList;
@@ -260,7 +259,7 @@ gridContainer.addEventListener('click', (e) => {
             for (let i = 1; i <= 3; i++){
               for (let j = 1; j <= 3; j++){
                 let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
-
+                subCellID.style.filter = `brightness(0%)`
                 if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
                   subCellID.style.filter = `brightness(0%)`
                       // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
@@ -332,27 +331,6 @@ let totalCells = numberOfRows * numberOfColumns;
 
 
 async function sparkle() {
-    // the speed of this is impacted by ratio of width/height, since there are fewer random cell possibilities in a smaller grid
-    // I like the speed that it goes when screen is like half width - how to calculate what it should be set to for about this speed?
-    //
-    // we need like a "target number" - something that has the speed right
-    // and we get it by multiplying the chance number by the total cells
-    // x = 1500
-    // c*t = x
-    // c*t = 1500
-    // c = 500
-    // t = 3
-
-    // 3000
-    // 500
-    // 6
-
-    // 9000
-    // 500
-    // 18
-
-    // could also just do this with setting the chance number with a case statement based on total number of cells
-    // e.g. if cells > 500 && cells < 1000, chance == x. if cells > 1000 && cells < 1500, chance == y
 
     if (randomNumber(0,1000) <= 500) { //this is chance of it running every 100 ms
         return;
