@@ -3,8 +3,6 @@
 
 
 // things to fix:
-// or is the sparkle good while screen is still black? like maybe just less frequent? Since less light before fire starts
-// change the sparkle function to append asterisks instead of generating random colors
 
 //running makePond repeatedly, and with speed increasing each time, gives a cool flooding effect
 
@@ -251,10 +249,6 @@ gridContainer.addEventListener('click', (e) => {
 
 
           if (el.classList.contains(`treeCell`) && (el.classList.contains(`.distance${i}`))){
-            // console.log(el.id);
-              // console.log(el.children);
-            // let treeCellClassArray = el.classList;
-            // let treeCellDistance = findDistanceFromClassList(treeCellClassArray);
 
             for (let i = 1; i <= 3; i++){
               for (let j = 1; j <= 3; j++){
@@ -675,30 +669,13 @@ function generateTrees() {
 
       for (let g = 0; g <= treeCounter; g++) {
         let trunkColor = `${getRandomTreeTrunkColor()}`;
-        let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
-            // the waiting portion isn't working
-            // need to assign distance on these from the parent cell
-            let startingCell = randomNumber(1,3);
 
-            if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${g}`)) {
-              el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(0%)`;
-              el.classList.add(`treeTrunkCell`);
-              // el.textContent = "T";
-            }
-            if (el.classList.contains(`treeCellSubCell22`) && el.classList.contains(`treeCounter${g}`)) {
-              el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(0%)`;
-              el.classList.add(`treeTrunkCell`,);
-              // el.textContent = "M";
-            }
-            if (el.classList.contains(`treeCellSubCell21`) && el.classList.contains(`treeCounter${g}`)) {
-              el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(0%)`;
-              el.classList.add(`treeTrunkCell`);
-              // el.textContent = "O";
-            }
-          });
+        let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
+          el.style.backgroundColor = trunkColor;
+          el.style.filter = `brightness(0%)`;
+          el.classList.add(`treeTrunkCell`,);
+        });
+
       }
     }
 };
