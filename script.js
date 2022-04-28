@@ -553,6 +553,33 @@ function getCellLeftID(cell){
 
 };
 
+function getCellRightID(cell){
+  let initialCellID = cell.id;
+  let initialCellRow = getRowIntegerFromID(initialCellID);
+  let initialCellColumn = getColumnIntegerFromID(initialCellID);
+
+  let topCenterCellAddress = `${initialCellRow+1}-${initialCellColumn}`;
+
+  let address = topCenterCellAddress;
+
+  let firstNumber = getRowIntegerFromID(address);
+  let secondNumber = getColumnIntegerFromID(address);
+
+  if (firstNumber < 10 && secondNumber < 10) {
+    return `0${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber < 10 && secondNumber >= 10) {
+    return `0${firstNumber}-${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber < 10) {
+    return `${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber >= 10) {
+    return `${firstNumber}-${secondNumber}`;
+  }
+
+};
+
 function getRandomAdjacentAndDiagonalCellAddress(cell) {
 
   let cellID = cell.id;
