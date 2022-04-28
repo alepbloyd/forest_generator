@@ -715,9 +715,10 @@ function generateTrees() {
                 // sparkleCellSubCell.append("*");
             }
         }
+        let middleTreeCell;
 
         if (k >= 2) {
-          let middleTreeCell = document.getElementById(getCellAboveID(bottomTreeCell));
+          middleTreeCell = document.getElementById(getCellAboveID(bottomTreeCell));
           middleTreeCell.classList.add(`treeCell`,`treeCellMiddle`,`treeCounter${treeCounter}`);
           for (let i = 0; i < 3; i++) {
               let treeCellRow = document.createElement('div');
@@ -733,6 +734,25 @@ function generateTrees() {
                   // need to add distance for lighting to work
                   // console.log(`sparkleCellSubCell${i+1}${j+1}`);
                   // sparkleCellSubCell.append("*");
+              }
+          }
+        }
+
+        if (k >= 3) {
+          let topTreeCell = document.getElementById(getCellAboveID(middleTreeCell));
+          topTreeCell.classList.add(`treeCell`,`treeCellTop`,`treeCounter${treeCounter}`);
+          for (let i = 0; i < 3; i++) {
+              let treeCellRow = document.createElement('div');
+              topTreeCell.appendChild(treeCellRow);
+              treeCellRow.classList.add(`treeCellRow`);
+
+              for (let j = 0; j < 3; j++) {
+                  let treeCellSubCell = document.createElement('div');
+                  let parentCellDistance = "";
+                  treeCellRow.appendChild(treeCellSubCell);
+                  treeCellSubCell.setAttribute(`id`,`${topTreeCell.id}-s${i+1}${j+1}`);
+                  treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-t`);
+
               }
           }
         }
