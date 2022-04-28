@@ -1022,79 +1022,24 @@ function generateTrees() {
               el.style.backgroundColor = leafColor;
               el.style.filter = `brightness(0%)`;
               el.classList.add(`colorAssigned`);
-              // el.classList.add(`treeLeafCell`,);
             }
-
-          if (el.classList.contains(`treeCellBottom`) && (el.classList.contains(`colorAssigned`) == false)){
-            el.style.backgroundColor = trunkColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeTrunkCell`,);
-            // el.classList.add(`colorAssigned`);
-          };
-
-          if (el.classList.contains(`treeCellMiddle`) && (el.classList.contains(`colorAssigned`) == false)){
-            el.style.backgroundColor = trunkColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeTrunkCell`,);
-            // el.classList.add(`colorAssigned`);
-          };
-
-          if (el.classList.contains(`treeCellTop`) && (el.classList.contains(`colorAssigned`) == false)){
-            el.style.backgroundColor = trunkColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeTrunkCell`,);
-            // el.classList.add(`colorAssigned`);
           }
-          //
-          // if (el.classList.contains(`treeCellMiddleLeft`)){
-          //   // el.style.backgroundColor = trunkColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeLeafCell`,);
-          // };
-          //
-          // if (el.classList.contains(`treeCellMiddleRight`)){
-          //   // el.style.backgroundColor = trunkColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeLeafCell`,);
-          // };
-          //
-          // if (el.classList.contains(`treeCellTopLeft`)){
-          //   // el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeLeafCell`,);
-          // }
-          // if (el.classList.contains(`treeCellTopRight`)){
-          //   // el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeLeafCell`,);
-          // }
-          //
-          // if (el.classList.contains(`treeCellTipTop`)){
-          //   // el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeLeafCell`,);
-          // }
-          // if (el.classList.contains(`treeCellTipTopLeft`)){
-          //   // el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeLeafCell`,);
-          // }
-          // if (el.classList.contains(`treeCellTipTopRight`)){
-          //   // el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeLeafCell`,);
-          // }
 
-          // let leafPattern = arrayOfLeafPatterns[randomNumber(0,arrayOfLeafPatterns.length-1)];
-
-
-            // console.log(leafPattern1[p]);
+          for (let t = 0; t <= trunkPattern1.length-1; t++){
+            if ((el.classList.contains(`treeCellSubCell${trunkPattern1[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+              el.style.backgroundColor = trunkColor;
+              el.style.filter = `brightness(0%)`;
+              el.classList.add(`colorAssigned`);
+            }
           }
+
 
         });
       }
     }
 };
+
+let trunkPattern1 = [`11-m`,`12-m`,`13-m`,`22-m`,`23-m`,`11-b`,`12-b`,`13-b`,`21-b`,`22-b`,`23-b`];
 
 let leafPattern1 = [`33-ttl`,`12-tt`,`22-tt`,`32-tt`,`13-tt`,`23-tt`,`33-tt`,`13-ttr`,`22-tl`,`31-tl`,`32-tl`,`33-tl`,`11-t`,`21-t`,`31-t`,`12-t`,`22-t`,`32-t`,`23-t`,`11-tr`,`21-tr`,`12-tr`,`22-tr`,`23-tr`,`33-tr`,`21-m`,`31-mr`,`32-mr`,`13-t`,`33-t`,`13-tr`,`21-mr`,`22-mr`,`33-mr`,`31-ml`];
 
