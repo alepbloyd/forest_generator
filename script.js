@@ -356,6 +356,10 @@ async function sparkle() {
       return;
     };
 
+    if (randomCell.classList.contains(`treeCellTipTop`)){
+      return;
+    };
+
     randomCell.classList.add('sparkleCell');
     // randomCell.style.filter = "brightness(100%)"
     let randomCellStoredColor = randomCell.style.backgroundColor;
@@ -792,6 +796,7 @@ function generateTrees() {
                 // sparkleCellSubCell.append("*");
             }
         }
+
         let middleTreeCell;
 
         if (k >= 2) {
@@ -815,8 +820,10 @@ function generateTrees() {
           }
         }
 
+        let topTreeCell;
+
         if (k >= 3) {
-          let topTreeCell = document.getElementById(getCellAboveID(middleTreeCell));
+          topTreeCell = document.getElementById(getCellAboveID(middleTreeCell));
           topTreeCell.classList.add(`treeCell`,`treeCellTop`,`treeCounter${treeCounter}`);
           for (let i = 0; i < 3; i++) {
               let treeCellRow = document.createElement('div');
@@ -833,27 +840,32 @@ function generateTrees() {
               }
           }
         }
-        // for (let i = 0; i < 3; i++) {
-        //     let treeCellRow = document.createElement('div');
-        //     middleTreeCell.appendChild(treeCellRow);
-        //     treeCellRow.classList.add(`treeCellRow`);
-        //
-        //     for (let j = 0; j < 3; j++) {
-        //         let treeCellSubCell = document.createElement('div');
-        //         let parentCellDistance = "";
-        //         treeCellRow.appendChild(treeCellSubCell);
-        //         treeCellSubCell.setAttribute(`id`,`${middleTreeCell.id}-s${i+1}${j+1}`);
-        //         treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddle`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
-        //         // need to add distance for lighting to work
-        //         // console.log(`sparkleCellSubCell${i+1}${j+1}`);
-        //         // sparkleCellSubCell.append("*");
-        //     }
-        // }
 
+        let tipTopTreeCell;
+
+        if (k >= 4) {
+          tipTopTreeCell = document.getElementById(getCellAboveID(topTreeCell));
+          tipTopTreeCell.classList.add(`treeCell`,`treeCellTipTop`,`treeCounter${treeCounter}`);
+          for (let i = 0; i < 3; i++) {
+              let treeCellRow = document.createElement('div');
+              tipTopTreeCell.appendChild(treeCellRow);
+              treeCellRow.classList.add(`treeCellRow`);
+
+              for (let j = 0; j < 3; j++) {
+                  let treeCellSubCell = document.createElement('div');
+                  let parentCellDistance = "";
+                  treeCellRow.appendChild(treeCellSubCell);
+                  treeCellSubCell.setAttribute(`id`,`${tipTopTreeCell.id}-s${i+1}${j+1}`);
+                  treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-u`);
+
+              }
+          }
+        }
       }
 
       for (let g = 0; g <= treeCounter; g++) {
         let trunkColor = `${getRandomTreeTrunkColor()}`;
+        let leafColor = `${getRandomLeafColor()}`;
         let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
           if (el.classList.contains(`treeCellBottom`)){
             el.style.backgroundColor = trunkColor;
@@ -867,16 +879,88 @@ function generateTrees() {
             el.classList.add(`treeTrunkCell`,);
           };
 
-          if (el.classList.contains(`treeCellTop`)){
-            el.style.backgroundColor = trunkColor;
+          // if (el.classList.contains(`treeCellTop`)){
+          //   el.style.backgroundColor = trunkColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,);
+          // };
+
+          if (el.classList.contains(`treeCellTipTop`)){
+            el.style.backgroundColor = leafColor;
             el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeTrunkCell`,);
-          };
+            el.classList.add(`treeLeafCell`,);
+          }
+
+          if (el.classList.contains(`treeCellTopRight`)){
+            el.style.backgroundColor = leafColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeLeafCell`,);
+          }
+
+          if (el.classList.contains(`treeCellTop`)){
+            el.style.backgroundColor = leafColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeLeafCell`,);
+          }
+
+          // if (el.classList.contains(`treeCellSubCell23-u`)){
+          //   el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
+          // };
+          //
+          // if (el.classList.contains(`treeCellSubCell31-t`)){
+          //   el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
+          // };
+          //
+          // if (el.classList.contains(`treeCellSubCell11-t`)){
+          //   el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
+          // };
+          //
+          // if (el.classList.contains(`treeCellSubCell21-t`)){
+          //   el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
+          // };
+          //
+          // if (el.classList.contains(`treeCellSubCell11-t`)){
+          //   el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
+          // };
+          //
+          // if (el.classList.contains(`treeCellSubCell12-t`)){
+          //   el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
+          // };
+          //
+          // if (el.classList.contains(`treeCellSubCell22-t`)){
+          //   el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
+          // };
+          //
+          // if (el.classList.contains(`treeCellSubCell32-t`)){
+          //   el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
+          // };
           // console.log(getCellAboveID(el));
         });
       }
     }
 };
+
+const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`,`#B392AC`,`#735D78`];
+
+function getRandomLeafColor() {
+  return leafColorArray[Math.floor(Math.random() * leafColorArray.length)];
+}
 
 function setRiverStart() {
     // set starting pixels by
