@@ -808,6 +808,43 @@ function generateTrees() {
               }
         }
 
+        let middleLeftCell;
+
+
+        middleLeftTreeCell = document.getElementById(getCellLeftID(middleTreeCell));
+        middleLeftTreeCell.classList.add(`treeCell`,`treeCellMiddleLeft`,`treeCounter${treeCounter}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            middleLeftTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${middleLeftTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddleLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ml`);
+              }
+        }
+
+        let middleRightCell;
+
+
+        middleRightTreeCell = document.getElementById(getCellRightID(middleTreeCell));
+        middleRightTreeCell.classList.add(`treeCell`,`treeCellMiddleRight`,`treeCounter${treeCounter}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            middleRightTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${middleRightTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddleRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-mr`);
+              }
+        }
 
         let topTreeCell;
 
@@ -986,64 +1023,12 @@ function generateTrees() {
             el.style.filter = `brightness(0%)`;
             el.classList.add(`treeLeafCell`,);
           }
-
-
-
-
-
-
-          // if (el.classList.contains(`treeCellSubCell23-u`)){
-          //   el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
-          // };
-          //
-          // if (el.classList.contains(`treeCellSubCell31-t`)){
-          //   el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
-          // };
-          //
-          // if (el.classList.contains(`treeCellSubCell11-t`)){
-          //   el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
-          // };
-          //
-          // if (el.classList.contains(`treeCellSubCell21-t`)){
-          //   el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
-          // };
-          //
-          // if (el.classList.contains(`treeCellSubCell11-t`)){
-          //   el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
-          // };
-          //
-          // if (el.classList.contains(`treeCellSubCell12-t`)){
-          //   el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
-          // };
-          //
-          // if (el.classList.contains(`treeCellSubCell22-t`)){
-          //   el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
-          // };
-          //
-          // if (el.classList.contains(`treeCellSubCell32-t`)){
-          //   el.style.backgroundColor = leafColor;
-          //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,`treeLeafCell`);
-          // };
-          // console.log(getCellAboveID(el));
         });
       }
     }
 };
+
+let leafPattern1 = [``]
 
 const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`];
 
