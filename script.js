@@ -888,12 +888,50 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${tipTopTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-u`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tt`);
 
               }
           }
 
-      }
+        let tipTopLeftTreeCell;
+
+        tipTopLeftTreeCell = document.getElementById(getCellLeftID(tipTopTreeCell));
+        tipTopLeftTreeCell.classList.add(`treeCell`,`treeCellTipTopLeft`,`treeCounter${treeCounter}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            tipTopLeftTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${tipTopLeftTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTopLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ttl`);
+
+              }
+          }
+
+          let tipTopRightTreeCell;
+
+          tipTopRightTreeCell = document.getElementById(getCellRightID(tipTopTreeCell));
+          tipTopRightTreeCell.classList.add(`treeCell`,`treeCellTipTopRight`,`treeCounter${treeCounter}`);
+          for (let i = 0; i < 3; i++) {
+              let treeCellRow = document.createElement('div');
+              tipTopRightTreeCell.appendChild(treeCellRow);
+              treeCellRow.classList.add(`treeCellRow`);
+
+              for (let j = 0; j < 3; j++) {
+                  let treeCellSubCell = document.createElement('div');
+                  let parentCellDistance = "";
+                  treeCellRow.appendChild(treeCellSubCell);
+                  treeCellSubCell.setAttribute(`id`,`${tipTopRightTreeCell.id}-s${i+1}${j+1}`);
+                  treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTopRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ttr`);
+
+                }
+            }
+
+        }
 
       for (let g = 0; g <= treeCounter; g++) {
         let trunkColor = `${getRandomTreeTrunkColor()}`;
@@ -916,19 +954,6 @@ function generateTrees() {
           //   el.style.filter = `brightness(0%)`;
           //   el.classList.add(`treeTrunkCell`,);
           // };
-
-          if (el.classList.contains(`treeCellTipTop`)){
-            el.style.backgroundColor = leafColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeLeafCell`,);
-          }
-
-          if (el.classList.contains(`treeCellTopRight`)){
-            el.style.backgroundColor = leafColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeLeafCell`,);
-          }
-
           if (el.classList.contains(`treeCellTop`)){
             el.style.backgroundColor = leafColor;
             el.style.filter = `brightness(0%)`;
@@ -940,6 +965,31 @@ function generateTrees() {
             el.style.filter = `brightness(0%)`;
             el.classList.add(`treeLeafCell`,);
           }
+          if (el.classList.contains(`treeCellTopRight`)){
+            el.style.backgroundColor = leafColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeLeafCell`,);
+          }
+
+          if (el.classList.contains(`treeCellTipTop`)){
+            el.style.backgroundColor = leafColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeLeafCell`,);
+          }
+          if (el.classList.contains(`treeCellTipTopLeft`)){
+            el.style.backgroundColor = leafColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeLeafCell`,);
+          }
+          if (el.classList.contains(`treeCellTipTopRight`)){
+            el.style.backgroundColor = leafColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeLeafCell`,);
+          }
+
+
+
+
 
 
           // if (el.classList.contains(`treeCellSubCell23-u`)){
