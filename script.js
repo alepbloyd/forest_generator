@@ -1015,23 +1015,44 @@ function generateTrees() {
       for (let g = 0; g <= treeCounter; g++) {
         let trunkColor = `${getRandomTreeTrunkColor()}`;
         let leafColor = `${getRandomLeafColor()}`;
+        // let treePattern = randomNumber(1,2);
+        // console.log(treePattern);
+        // let treePattern = arrayOfTreePatterns[randomNumber(0,arrayOfTreePatterns.length-1)];
+
         let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
 
-          for (let p = 0; p <= leafPattern1.length-1; p++){
-            if ((el.classList.contains(`treeCellSubCell${leafPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
-              el.style.backgroundColor = leafColor;
-              el.style.filter = `brightness(0%)`;
-              el.classList.add(`colorAssigned`);
-            }
-          }
+            // for (let p = 0; p <= leafPattern1.length-1; p++){
+            //   if ((el.classList.contains(`treeCellSubCell${leafPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+            //     el.style.backgroundColor = leafColor;
+            //     el.style.filter = `brightness(0%)`;
+            //     el.classList.add(`colorAssigned`);
+            //   }
+            // }
+            //
+            // for (let t = 0; t <= trunkPattern1.length-1; t++){
+            //   if ((el.classList.contains(`treeCellSubCell${trunkPattern1[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+            //     el.style.backgroundColor = trunkColor;
+            //     el.style.filter = `brightness(0%)`;
+            //     el.classList.add(`colorAssigned`);
+            //   }
+            // }
 
-          for (let t = 0; t <= trunkPattern1.length-1; t++){
-            if ((el.classList.contains(`treeCellSubCell${trunkPattern1[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
-              el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(0%)`;
-              el.classList.add(`colorAssigned`);
+
+            for (let p = 0; p <= leafPattern2.length-1; p++){
+              if ((el.classList.contains(`treeCellSubCell${leafPattern2[p]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+                el.style.backgroundColor = leafColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+              }
             }
-          }
+
+            for (let t = 0; t <= trunkPattern2.length-1; t++){
+              if ((el.classList.contains(`treeCellSubCell${trunkPattern2[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+                el.style.backgroundColor = trunkColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+              }
+            }
 
 
         });
@@ -1043,7 +1064,11 @@ let trunkPattern1 = [`11-m`,`12-m`,`13-m`,`22-m`,`23-m`,`11-b`,`12-b`,`13-b`,`21
 
 let leafPattern1 = [`33-ttl`,`12-tt`,`22-tt`,`32-tt`,`13-tt`,`23-tt`,`33-tt`,`13-ttr`,`22-tl`,`31-tl`,`32-tl`,`33-tl`,`11-t`,`21-t`,`31-t`,`12-t`,`22-t`,`32-t`,`23-t`,`11-tr`,`21-tr`,`12-tr`,`22-tr`,`23-tr`,`33-tr`,`21-m`,`31-mr`,`32-mr`,`13-t`,`33-t`,`13-tr`,`21-mr`,`22-mr`,`33-mr`,`31-ml`];
 
-let arrayOfLeafPatterns = [leafPattern1];
+let trunkPattern2 = [`31-b`,`32-b`,`33-b`,`32-m`,`33-m`,`22-m`,`13-mr`];
+
+let leafPattern2 = [`32-ttl`,`33-ttl`,`23-ttl`,`12-tt`,`21-tl`,`31-tl`,`32-tl`,`33-tl`,`11-t`,`21-t`,`12-t`,`22-t`,`13-t`,`23-t`,`33-t`,`31-ml`,`32-ml`,`11-m`,`21-m`,`31-m`,`11-mr`,`12-mr`,`23-ml`,`21-ml`,`22-ml`,`12-ml`,`31-t`];
+
+let arrayOfTreePatterns = [leafPattern1, leafPattern2];
 
 let leafMainCellArray = [`ttl`,`tt`,`ttr`,`tl`,`t`,`tr`,`ml`,`m`,`mr`];
 
