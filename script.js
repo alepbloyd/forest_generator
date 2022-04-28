@@ -745,7 +745,9 @@ function generateTrees() {
       for (let o = 0; o <= initialCellOptions.length-1; o++){
         if (
           (initialCellOptions[o].classList.contains("pondCell") == false) &&
-          (initialCellOptions[o].classList.contains("originCell") == false)
+          (initialCellOptions[o].classList.contains("originCell") == false) &&
+          (getColumnIntegerFromID(initialCellOptions[o].id) > 1) &&
+          (getColumnIntegerFromID(initialCellOptions[o].id) < numberOfColumns)
         )
         cellOptionsIDArray.push(initialCellOptions[o].id);
       }; //currently working
