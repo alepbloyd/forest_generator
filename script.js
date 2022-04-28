@@ -738,7 +738,7 @@ function findDistanceFromClassList(array) {
 };
 
 function generateTrees() {
-  for (let k = 4; k <= numberOfRows; k++){ //update to numberOfRows once working on one line
+  for (let k = numberOfRows; k >= 4; k--){ //update to numberOfRows once working on one line
       let chanceOfTree = 30;
       let initialCellOptions = document.getElementsByClassName(`row${k}`);
 
@@ -757,7 +757,7 @@ function generateTrees() {
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.08);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.1);
 
       let shuffledCellOptionsIDArray = cellOptionsIDArray.sort(() => .5 - Math.random());
 
