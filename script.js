@@ -360,6 +360,22 @@ async function sparkle() {
       return;
     };
 
+    if (randomCell.classList.contains(`treeCellTipTopLeft`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellTipTopRight`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellMiddleLeft`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellMiddleRight`)){
+      return;
+    };
+
     if (randomCell.classList.contains(`treeCell`)){
       return;
     };
@@ -737,8 +753,31 @@ function findDistanceFromClassList(array) {
   };
 };
 
+// function getRandomElementsFromArray(array,n) {
+//   let usedNumbers = [];
+//   let returnArray = [];
+//   for (let i = 0; i <= n ; i++){
+//     let random = randomNumber(0,array.length-1);
+//     if usedNumbers.includes(random){
+//
+//     }
+//     returnArray.push(array[random]);
+//     usedNumbers.push(random);
+//   }
+//   return returnArray;
+// }
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 function generateTrees() {
   for (let k = numberOfRows; k >= 4; k--){ //update to numberOfRows once working on one line
+  // for (let k = 4; k <= numberOfRows; k++){
       let chanceOfTree = 30;
       let initialCellOptions = document.getElementsByClassName(`row${k}`);
 
@@ -752,6 +791,7 @@ function generateTrees() {
           (initialCellOptions[o].classList.contains("originCell") == false) &&
           (getColumnIntegerFromID(initialCellOptions[o].id) > 1) &&
           (getColumnIntegerFromID(initialCellOptions[o].id) < numberOfColumns)
+           // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
         )
         cellOptionsIDArray.push(initialCellOptions[o].id);
       }; //currently working
@@ -759,7 +799,9 @@ function generateTrees() {
       let randomSelectionOfCellOptions = [];
       let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.1);
 
-      let shuffledCellOptionsIDArray = cellOptionsIDArray.sort(() => .5 - Math.random());
+      let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
+
+      // cellOptionsIDArray.sort(() => .5 - Math.random());
 
       randomSelectionOfCellOptions = shuffledCellOptionsIDArray.slice(0,numberOfCellsToSelect);
 
@@ -974,61 +1016,92 @@ function generateTrees() {
         let trunkColor = `${getRandomTreeTrunkColor()}`;
         let leafColor = `${getRandomLeafColor()}`;
         let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
-          if (el.classList.contains(`treeCellBottom`)){
+
+          for (let p = 0; p <= leafPattern1.length-1; p++){
+            if ((el.classList.contains(`treeCellSubCell${leafPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+              el.style.backgroundColor = leafColor;
+              el.style.filter = `brightness(0%)`;
+              el.classList.add(`colorAssigned`);
+              // el.classList.add(`treeLeafCell`,);
+            }
+
+          if (el.classList.contains(`treeCellBottom`) && (el.classList.contains(`colorAssigned`) == false)){
             el.style.backgroundColor = trunkColor;
             el.style.filter = `brightness(0%)`;
             el.classList.add(`treeTrunkCell`,);
+            // el.classList.add(`colorAssigned`);
           };
 
-          if (el.classList.contains(`treeCellMiddle`)){
+          if (el.classList.contains(`treeCellMiddle`) && (el.classList.contains(`colorAssigned`) == false)){
             el.style.backgroundColor = trunkColor;
             el.style.filter = `brightness(0%)`;
             el.classList.add(`treeTrunkCell`,);
+            // el.classList.add(`colorAssigned`);
           };
 
-          // if (el.classList.contains(`treeCellTop`)){
-          //   el.style.backgroundColor = trunkColor;
+          if (el.classList.contains(`treeCellTop`) && (el.classList.contains(`colorAssigned`) == false)){
+            el.style.backgroundColor = trunkColor;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`treeTrunkCell`,);
+            // el.classList.add(`colorAssigned`);
+          }
+          //
+          // if (el.classList.contains(`treeCellMiddleLeft`)){
+          //   // el.style.backgroundColor = trunkColor;
           //   el.style.filter = `brightness(0%)`;
-          //   el.classList.add(`treeTrunkCell`,);
+          //   el.classList.add(`treeLeafCell`,);
           // };
-          if (el.classList.contains(`treeCellTop`)){
-            el.style.backgroundColor = leafColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeLeafCell`,);
+          //
+          // if (el.classList.contains(`treeCellMiddleRight`)){
+          //   // el.style.backgroundColor = trunkColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeLeafCell`,);
+          // };
+          //
+          // if (el.classList.contains(`treeCellTopLeft`)){
+          //   // el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeLeafCell`,);
+          // }
+          // if (el.classList.contains(`treeCellTopRight`)){
+          //   // el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeLeafCell`,);
+          // }
+          //
+          // if (el.classList.contains(`treeCellTipTop`)){
+          //   // el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeLeafCell`,);
+          // }
+          // if (el.classList.contains(`treeCellTipTopLeft`)){
+          //   // el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeLeafCell`,);
+          // }
+          // if (el.classList.contains(`treeCellTipTopRight`)){
+          //   // el.style.backgroundColor = leafColor;
+          //   el.style.filter = `brightness(0%)`;
+          //   el.classList.add(`treeLeafCell`,);
+          // }
+
+          // let leafPattern = arrayOfLeafPatterns[randomNumber(0,arrayOfLeafPatterns.length-1)];
+
+
+            // console.log(leafPattern1[p]);
           }
 
-          if (el.classList.contains(`treeCellTopLeft`)){
-            el.style.backgroundColor = leafColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeLeafCell`,);
-          }
-          if (el.classList.contains(`treeCellTopRight`)){
-            el.style.backgroundColor = leafColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeLeafCell`,);
-          }
-
-          if (el.classList.contains(`treeCellTipTop`)){
-            el.style.backgroundColor = leafColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeLeafCell`,);
-          }
-          if (el.classList.contains(`treeCellTipTopLeft`)){
-            el.style.backgroundColor = leafColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeLeafCell`,);
-          }
-          if (el.classList.contains(`treeCellTipTopRight`)){
-            el.style.backgroundColor = leafColor;
-            el.style.filter = `brightness(0%)`;
-            el.classList.add(`treeLeafCell`,);
-          }
         });
       }
     }
 };
 
-let leafPattern1 = [``]
+let leafPattern1 = [`33-ttl`,`12-tt`,`22-tt`,`32-tt`,`13-tt`,`23-tt`,`33-tt`,`13-ttr`,`22-tl`,`31-tl`,`32-tl`,`33-tl`,`11-t`,`21-t`,`31-t`,`12-t`,`22-t`,`32-t`,`23-t`,`11-tr`,`21-tr`,`12-tr`,`22-tr`,`23-tr`,`33-tr`,`21-m`,`31-mr`,`32-mr`,`13-t`,`33-t`,`13-tr`,`21-mr`,`22-mr`,`33-mr`,`31-ml`];
+
+let arrayOfLeafPatterns = [leafPattern1];
+
+let leafMainCellArray = [`ttl`,`tt`,`ttr`,`tl`,`t`,`tr`,`ml`,`m`,`mr`];
+
 
 const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`];
 
