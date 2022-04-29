@@ -1116,20 +1116,22 @@ function generateTrees() {
             }
 
             for (let x = 0; x <= leafPattern1Opposite.length-1; x++){
-              if (el.classList.contains(leafPattern1Opposite[x])) {
-                el.style.backgroundColor = leafColor;
+              //might need to also check that treeCounter is contained?
+              if (el.classList.contains(`treeCellSubCell${leafPattern1Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
                 el.style.filter = `brightness(0%)`;
                 el.classList.add(`colorAssigned`);
               }
             }
 
             for (let y = 0; y <= trunkPattern1Opposite.length-1; y++){
-              if (el.classList.contains(trunkPattern1Opposite[y])) {
-                el.style.backgroundColor = leafColor;
+              if (el.classList.contains(`treeCellSubCell${trunkPattern1Opposite[y]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
                 el.style.filter = `brightness(0%)`;
                 el.classList.add(`colorAssigned`);
               }
             }
+
 
 
 
@@ -1160,12 +1162,19 @@ function generateTrees() {
 };
 
 function getNonSparkleSubCells(){
-  let nonSparkleSubCells = document.querySelectorAll(`.treeCellSubCell`).forEach(async (el) => {
-    console.log(el);
+  let nonSparkleSubCells = document.querySelectorAll(`.treeCellSubCell`).forEach((el) => {
+    if (el.classList.contains(`colorAssigned`)){
+            el.style.backgroundColor = `${getRandomLeafColor()}`;
+    } else {
+      // console.log(el)
+
+    }
   });
 }
 
-
+function checkForChildNodes(cell) {
+  return cell.hasChildNodes();
+}
 
 function setRiverStart() {
     // set starting pixels by
