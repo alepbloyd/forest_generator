@@ -855,7 +855,7 @@ function generateTrees() {
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.1);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.15);
 
       let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
 
@@ -1177,21 +1177,7 @@ function generateTrees() {
 };
 
 function reassignSubCellColors(){
-  // for (let i = 0; i <= 5; i ++){
-  //   let cellToReassign = document.getElementById.(Object.keys(subCellColorMap[i]));
-  //   console.log(cellToReassign);
-  //
-  // }
-
-  // Object.entries(subCellColorMap).map(([k,v]) => {
-  //   console.log("Key =",k)
-  //   console.log("Value =",v)
-  // });
-
-  // console.log(subCellColorMap.keys());
-
   subCellColorMap.forEach(function(value,key) {
-    // console.log(key + `=` + value);
     let cellToReassign = document.getElementById(`${key}`);
     cellToReassign.style.backgroundColor = `${value}`;
   })
