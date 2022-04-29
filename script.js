@@ -1173,6 +1173,7 @@ function generateTrees() {
         });
       }
     }
+    reassignSubCellColors();
 };
 
 function reassignSubCellColors(){
