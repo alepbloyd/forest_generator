@@ -166,6 +166,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
     }
     makePond();
     generateTrees();
+    placeRocks();
 }
 
 function sleep(ms) {
@@ -226,6 +227,23 @@ gridContainer.addEventListener('click', (e) => {
             }
           }
         }
+
+        if (el.classList.contains(`rockCell`)){
+          // console.log(el.id);
+            // console.log(el.children);
+          let rockCellClassArray = el.classList;
+          let rockCellDistance = findDistanceFromClassList(rockCellClassArray);
+
+          for (let i = 1; i <= 3; i++){
+            for (let j = 1; j <= 3; j++){
+              let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+              subCellID.classList.add(rockCellDistance);
+
+            }
+          }
+        }
+
+
     });
 
     let cells2 = document.querySelectorAll(`.cell`).forEach(async (el) => {
@@ -251,6 +269,24 @@ gridContainer.addEventListener('click', (e) => {
 
 
           if (el.classList.contains(`treeCell`) && (el.classList.contains(`.distance${i}`))){
+
+            for (let i = 1; i <= 3; i++){
+              for (let j = 1; j <= 3; j++){
+                let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+                subCellID.style.filter = `brightness(0%)`
+                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                  subCellID.style.filter = `brightness(0%)`
+                      // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+                } else {
+                    subCellID.style.filter = `brightness(${100-(i*2)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                }
+                // subCellID.style.filter = cellBrightness;
+
+              }
+            }
+          }
+
+          if (el.classList.contains(`rockCell`) && (el.classList.contains(`.distance${i}`))){
 
             for (let i = 1; i <= 3; i++){
               for (let j = 1; j <= 3; j++){
@@ -381,6 +417,10 @@ async function sparkle() {
     if (randomCell.classList.contains(`treeCell`)){
       return;
     };
+
+    if (randomCell.classList.contains(`rockCe`)){
+      return;
+    }
 
     randomCell.classList.add('sparkleCell');
     // randomCell.style.filter = "brightness(100%)"
@@ -889,7 +929,7 @@ function generateTrees() {
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.3);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.2);
 
       let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
 
@@ -1352,7 +1392,7 @@ let rockColorArray = [`#d6ccc2`,`#f5ebe0`];
 
 let rockPattern1 = [`22`,`13`,`23`,`33`];
 
-let rockPattern1Opposite = getOppositeCells(rockPattern1);
+let rockPattern1Opposite = [`11`,`21`,`31`,`12`,`32`];
 
 let rockCounter = 1;
 
@@ -1365,7 +1405,7 @@ function getRandomRockColor() {
 function placeRocks() {
   // this should essentially function the same as the generateTrees function, but need to also check that cell has no child cells to be a viable option
   // rocks of a few different shapes and colors
-  for (let k = numberOfRows; k >= 1; k--){ //update to numberOfRows once working on one line
+  for (let k = numberOfRows-1; k >= 2; k--){ //update to numberOfRows once working on one line
   // for (let k = 4; k <= numberOfRows; k++){
       // let chanceOfTree = 30;
       let initialCellOptions = document.getElementsByClassName(`row${k}`);
