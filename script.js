@@ -822,17 +822,32 @@ let trunkPattern2 = [`31-b`,`32-b`,`33-b`,`32-m`,`33-m`,`22-m`,`13-mr`];
 
 let trunkPattern2Opposite = getOppositeCells(trunkPattern2);
 
+let trunkPattern3 = [`23-b`,`22-b`,`21-b`,`23-m`,`13-m`,`33-ml`,`32-ml`,`22-m`,`32-m`,`12-mr`,`21-m`,`31-mr`,`22-ml`,`22-mr`,`21-mr`];
+
+let trunkPattern4 = [`23-b`,`22-b`,`21-b`,`23-m`];
+
+let trunkPattern4Opposite = getOppositeCells(trunkPattern4);
+
+let leafPattern4 = [`23-tt`,`33-tl`,`11-t`,`12-t`,`13-t`,`21-t`,`22-t`,`23-t`,`31-t`,`32-t`,`33-t`,`13-tr`,`22-ml`,`23-ml`,`31-ml`,`32-ml`,`33-ml`,`11-m`,`12-m`,`13-m`,`21-m`,`22-m`,`31-m`,`32-m`,`33-m`,`11-mr`,`12-mr`,`13-mr`,`22-mr`,`23-mr`];
+
+let leafPattern4Opposite = getOppositeCells(leafPattern4);
+
+let trunkPattern3Opposite = getOppositeCells(trunkPattern3);
+
 let leafPattern2 = [`32-ttl`,`33-ttl`,`23-ttl`,`12-tt`,`21-tl`,`31-tl`,`32-tl`,`33-tl`,`11-t`,`21-t`,`12-t`,`22-t`,`13-t`,`23-t`,`33-t`,`31-ml`,`32-ml`,`11-m`,`21-m`,`31-m`,`11-mr`,`12-mr`,`23-ml`,`21-ml`,`22-ml`,`12-ml`,`31-t`];
 
 let leafPattern2Opposite = getOppositeCells(leafPattern2);
 
+let leafPattern3 = [`12-ml`,`11-ml`,`21-ml`,`31-ml`,`23-tl`,`33-tl`,`13-t`,`23-t`,`33-t`,`22-t`,`32-t`,`12-tr`,`13-tr`,`21-tr`,`22-tr`,`23-tr`,`32-tr`,`33-tr`];
 
-let arrayOfTreePatterns = [leafPattern1, leafPattern2];
+let leafPattern3Opposite = getOppositeCells(leafPattern3);
+
+let arrayOfTreePatterns = [leafPattern1, leafPattern2, leafPattern3];
 
 let leafMainCellArray = [`ttl`,`tt`,`ttr`,`tl`,`t`,`tr`,`ml`,`m`,`mr`];
 
 
-const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`];
+const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`,`#f6bd60`,`#e26d5c`];
 
 function getRandomLeafColor() {
   return leafColorArray[Math.floor(Math.random() * leafColorArray.length)];
@@ -860,7 +875,7 @@ function generateTrees() {
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.15);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.125);
 
       let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
 
@@ -873,7 +888,7 @@ function generateTrees() {
       let treePattern = 1;
 
       for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
-        treePattern = randomNumber(1,2);
+        treePattern = randomNumber(1,4);
 
         let bottomTreeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
 
@@ -1191,6 +1206,102 @@ function generateTrees() {
 
             for (let y = 0; y <= trunkPattern2Opposite.length-1; y++){
               if (el.classList.contains(`treeCellSubCell${trunkPattern2Opposite[y]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+      });
+
+      let treeCellSubCells3= document.querySelectorAll(`.treePattern3`).forEach((el) => {
+            for (let p = 0; p <= leafPattern3.length-1; p++){
+              if (
+                (el.classList.contains(`treeCellSubCell${leafPattern3[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+              ) {
+                el.style.backgroundColor = leafColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${leafColor}`);
+                }
+
+              }
+            }
+
+            for (let t = 0; t <= trunkPattern3.length-1; t++){
+              if ((el.classList.contains(`treeCellSubCell${trunkPattern3[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+                el.style.backgroundColor = trunkColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${trunkColor}`);
+                }
+
+              }
+            }
+
+            for (let x = 0; x <= leafPattern3Opposite.length-1; x++){
+              if (el.classList.contains(`treeCellSubCell${leafPattern3Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+
+            for (let y = 0; y <= trunkPattern3Opposite.length-1; y++){
+              if (el.classList.contains(`treeCellSubCell${trunkPattern3Opposite[y]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+      });
+
+      let treeCellSubCells4= document.querySelectorAll(`.treePattern4`).forEach((el) => {
+            for (let p = 0; p <= leafPattern4.length-1; p++){
+              if (
+                (el.classList.contains(`treeCellSubCell${leafPattern4[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+              ) {
+                el.style.backgroundColor = leafColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${leafColor}`);
+                }
+
+              }
+            }
+
+            for (let t = 0; t <= trunkPattern4.length-1; t++){
+              if ((el.classList.contains(`treeCellSubCell${trunkPattern4[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+                el.style.backgroundColor = trunkColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${trunkColor}`);
+                }
+
+              }
+            }
+
+            for (let x = 0; x <= leafPattern4Opposite.length-1; x++){
+              if (el.classList.contains(`treeCellSubCell${leafPattern4Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+
+            for (let y = 0; y <= trunkPattern4Opposite.length-1; y++){
+              if (el.classList.contains(`treeCellSubCell${trunkPattern4Opposite[y]}`)) {
                 // el.style.backgroundColor = getRandomGreen();
                 el.style.filter = `brightness(0%)`;
                 // el.classList.add(`colorAssigned`);
