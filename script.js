@@ -847,10 +847,23 @@ let arrayOfTreePatterns = [leafPattern1, leafPattern2, leafPattern3];
 let leafMainCellArray = [`ttl`,`tt`,`ttr`,`tl`,`t`,`tr`,`ml`,`m`,`mr`];
 
 
-const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`,`#f6bd60`,`#e26d5c`];
+const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`,`#f6bd60`,`#e26d5c`,`#ffaa00`];
 
 function getRandomLeafColor() {
   return leafColorArray[Math.floor(Math.random() * leafColorArray.length)];
+}
+
+function getChanceOfEachTreePattern() {
+  let randomChance = randomNumber(1,100);
+  if (randomChance < 25){
+    return 1;
+  } else if (randomChance < 60) {
+    return 2;
+  } else if (randomChance < 75) {
+    return 3;
+  } else {
+    return 4;
+  }
 }
 
 function generateTrees() {
@@ -875,7 +888,7 @@ function generateTrees() {
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.125);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.2);
 
       let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
 
@@ -888,7 +901,7 @@ function generateTrees() {
       let treePattern = 1;
 
       for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
-        treePattern = randomNumber(1,4);
+        treePattern = getChanceOfEachTreePattern();
 
         let bottomTreeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
 
