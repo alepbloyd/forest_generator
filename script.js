@@ -260,7 +260,7 @@ gridContainer.addEventListener('click', (e) => {
                   subCellID.style.filter = `brightness(0%)`
                       // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
                 } else {
-                    subCellID.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                    subCellID.style.filter = `brightness(${100-(i*2)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
                 }
                 // subCellID.style.filter = cellBrightness;
 
