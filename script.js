@@ -707,7 +707,7 @@ function makePond() {
     randomCell.classList.add(`pondCell`);
     // randomCell.append("Pond Origin");
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
-    let pondSize = randomNumber(500,750); // sets random pond size between two parameters
+    let pondSize = randomNumber(750,1250); // sets random pond size between two parameters
     // pondSize needs to be relative to totalCells (as like a percentage)
     randomCell.style.backgroundColor = `${getRandomBlue()}`;
     randomCell.style.filter = `brightness(0%)`
@@ -883,12 +883,13 @@ function generateTrees() {
           (getColumnIntegerFromID(initialCellOptions[o].id) > 1) &&
           (getColumnIntegerFromID(initialCellOptions[o].id) < numberOfColumns)
            // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
-        )
-        cellOptionsIDArray.push(initialCellOptions[o].id);
+        ) {
+        cellOptionsIDArray.push(initialCellOptions[o].id)
+      };
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.2);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.3);
 
       let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
 
@@ -1342,6 +1343,125 @@ function reassignSubCellColors(){
 
 function checkForChildNodes(cell) {
   return cell.hasChildNodes();
+}
+
+function placeFlowers() {
+}
+
+let rockColorArray = [`#d6ccc2`,`#f5ebe0`];
+
+let rockPattern1 = [`22`,`13`,`23`,`33`];
+
+let rockPattern1Opposite = getOppositeCells(rockPattern1);
+
+let rockCounter = 1;
+
+let rockCellsArray = [];
+
+function getRandomRockColor() {
+  return rockColorArray[Math.floor(Math.random() * rockColorArray.length)];
+}
+
+function placeRocks() {
+  // this should essentially function the same as the generateTrees function, but need to also check that cell has no child cells to be a viable option
+  // rocks of a few different shapes and colors
+  for (let k = numberOfRows; k >= 1; k--){ //update to numberOfRows once working on one line
+  // for (let k = 4; k <= numberOfRows; k++){
+      // let chanceOfTree = 30;
+      let initialCellOptions = document.getElementsByClassName(`row${k}`);
+
+      initialCellOptions = Array.from(initialCellOptions);
+
+      let cellOptionsIDArray = [];
+
+      for (let o = 0; o <= initialCellOptions.length-1; o++){
+        if (
+          (initialCellOptions[o].classList.contains("pondCell") == false) &&
+          (initialCellOptions[o].classList.contains("originCell") == false) &&
+          (getColumnIntegerFromID(initialCellOptions[o].id) > 1) &&
+          (getColumnIntegerFromID(initialCellOptions[o].id) < numberOfColumns) && (initialCellOptions[o].hasChildNodes() == false)
+           // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+        ) {
+        cellOptionsIDArray.push(initialCellOptions[o].id)
+      };
+      }; //currently working
+
+      let randomSelectionOfCellOptions = [];
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.3);
+
+      let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
+
+      // cellOptionsIDArray.sort(() => .5 - Math.random());
+
+      randomSelectionOfCellOptions = shuffledCellOptionsIDArray.slice(0,numberOfCellsToSelect);
+
+      randomSelectionOfCellOptions.sort(function(a, b){return a-b});
+
+      let rockPattern = 1;
+
+      for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
+        rockPattern = randomNumber(1,1);
+
+        let rockCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
+
+        rockCellClassArray = rockCell.classList;
+        rockCellDistance = findDistanceFromClassList(rockCellClassArray);
+
+
+        rockCounter += 1;
+
+        rockCell.classList.add(`rockCell`,`rockCounter${rockCounter}`,`rockPattern${rockPattern}`);
+
+        for (let i = 0; i < 3; i++) {
+            let rockCellRow = document.createElement('div');
+            rockCell.appendChild(rockCellRow);
+            rockCellRow.classList.add(`rockCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let rockCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                rockCellRow.appendChild(rockCellSubCell);
+                rockCellSubCell.setAttribute(`id`,`${rockCell.id}-s${i+1}${j+1}`);
+                rockCellSubCell.classList.add( `rockCellSubCell`,`rockCell`,`rockCounter${rockCounter}`,`rockCellSubCell${i+1}${j+1}`,`rockPattern${rockPattern}`);
+            }
+        }
+
+        rockCellsArray.push(rockCell.id);
+
+      }
+
+      // console.log(`tree pattern for tree ${treeCounter} is ${treePattern}`);
+
+      let rockColor = `${getRandomRockColor()}`;
+
+      let rockCellSubCells1= document.querySelectorAll(`.rockPattern1`).forEach((el) => {
+            for (let p = 0; p <= rockPattern1.length-1; p++){
+              if (
+                (el.classList.contains(`rockCellSubCell${rockPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+              ) {
+                el.style.backgroundColor = rockColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${rockColor}`);
+                }
+
+              }
+            }
+
+            for (let x = 0; x <= rockPattern1Opposite.length-1; x++){
+              if (el.classList.contains(`rockCellSubCell${rockPattern1Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+      });
+
+    }
+    reassignSubCellColors();
 }
 
 function setRiverStart() {
