@@ -181,7 +181,7 @@ body {
 
 .rockCell {
     display: flex;
-    background-color: purple;
+    /* background-color: purple; */
     flex-direction: row;
     color: white;
     /* filter: brightness(75%); */
