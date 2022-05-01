@@ -1388,7 +1388,7 @@ function checkForChildNodes(cell) {
 function placeFlowers() {
 }
 
-let rockColorArray = [`#d6ccc2`,`#f5ebe0`];
+let rockColorArray = [`#414833`,`#283618`];
 
 let rockPattern1 = [`22`,`13`,`23`,`33`];
 
@@ -1427,7 +1427,7 @@ function placeRocks() {
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.3);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.1);
 
       let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
 
@@ -1504,13 +1504,75 @@ function placeRocks() {
     reassignSubCellColors();
 }
 
-function setRiverStart() {
+function setTrailStart() {
+  let statingSide;
+  let initialCellOptions = [];
+  let cellOptionsIDArray = [];
+
+
+  let startingSideNumber = randomNumber(1,4);
+
+  if (startingSideNumber == 1){
+
+    startingSide = 'top';
+    initialCellOptions = document.getElementsByClassName(`row1`);
+
+    } else if (startingSideNumber == 2) {
+
+    startingSide = `right`;
+    initialCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+
+    } else if (startingSideNumber == 3) {
+
+    startingSide = `bottom`;
+    initialCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+
+    } else if (startingSideNumber == 4) {
+
+    startingSide = `left`;
+    initialCellOptions = document.getElementsByClassName(`column1`);
+    }
+
+    initialCellOptions = Array.from(initialCellOptions)
+
+    for (let o = 0; o <= initialCellOptions.length-1; o++){
+      if (
+        (initialCellOptions[o].classList.contains("pondCell") == false) &&
+        (initialCellOptions[o].classList.contains("originCell") == false) &&
+        (getRowIntegerFromID(initialCellOptions[o].id) >= 1) &&
+        (getRowIntegerFromID(initialCellOptions[o].id) <= numberOfRows) &&
+        (getColumnIntegerFromID(initialCellOptions[o].id) >= 1) &&
+        (getColumnIntegerFromID(initialCellOptions[o].id) <= numberOfColumns)
+         // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+      ) {
+      cellOptionsIDArray.push(initialCellOptions[o].id)
+      };
+    };
+
+    let randomSelectionOfCellOptions = [];
+    let numberOfCellsToSelect = 1;
+
+    let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
+
+    let startingCellID = shuffledCellOptionsIDArray[0];
+
+    let startingCell = document.getElementById(`${startingCellID}`);
+
+    console.log(startingCell);
+
+
+};
+
+
+
+
+
     // set starting pixels by
     // 1. picking the starting side
     // 2. randomly picking the left (or top, depending on if start is side or top/bottom) square and selecting other square based on that
     // 3. setting the path - this wouid be based on picking one of the adjacent squares (that isn't to the right because that's for width), and
     // then expanding until it hits another wall (check by the address of each cell, and it's hit a wall when either the x or y is over the max)
-}
+
 
 // const dayNightButton = document.getElementById("DayNightCycleButton");
 // dayNightButton.addEventListener("click", dayNightCycle)
