@@ -164,6 +164,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             })
         }
     }
+    setTrailStartAndEnd();
     makePond();
     generateTrees();
     placeRocks();
@@ -243,6 +244,21 @@ gridContainer.addEventListener('click', (e) => {
           }
         }
 
+        if (el.classList.contains(`trailCell`)){
+          // console.log(el.id);
+            // console.log(el.children);
+          let trailCellClassArray = el.classList;
+          let trailCellDistance = findDistanceFromClassList(trailCellClassArray);
+
+          for (let i = 1; i <= 3; i++){
+            for (let j = 1; j <= 3; j++){
+              let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+              subCellID.classList.add(trailCellDistance);
+
+            }
+          }
+        }
+
 
     });
 
@@ -254,7 +270,7 @@ gridContainer.addEventListener('click', (e) => {
               el.style.textAlign = 'center';
           }
           if (el.classList.contains(`.distance${i}`)) {
-              if (el.classList.contains(`pondCell`) == false) {
+              if ((el.classList.contains(`pondCell`) == false) && (el.classList.contains(`trailCell`) == false)) {
                 setGreen = getRandomGreen();
                 el.style.backgroundColor = `${setGreen}`;
               };
@@ -287,6 +303,24 @@ gridContainer.addEventListener('click', (e) => {
           }
 
           if (el.classList.contains(`rockCell`) && (el.classList.contains(`.distance${i}`))){
+
+            for (let i = 1; i <= 3; i++){
+              for (let j = 1; j <= 3; j++){
+                let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+                subCellID.style.filter = `brightness(0%)`
+                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                  subCellID.style.filter = `brightness(0%)`
+                      // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+                } else {
+                    subCellID.style.filter = `brightness(${100-(i*2)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                }
+                // subCellID.style.filter = cellBrightness;
+
+              }
+            }
+          }
+
+          if (el.classList.contains(`trailCell`) && (el.classList.contains(`.distance${i}`))){
 
             for (let i = 1; i <= 3; i++){
               for (let j = 1; j <= 3; j++){
@@ -418,7 +452,11 @@ async function sparkle() {
       return;
     };
 
-    if (randomCell.classList.contains(`rockCe`)){
+    if (randomCell.classList.contains(`rockCell`)){
+      return;
+    }
+
+    if (randomCell.classList.contains(`trailCell`)){
       return;
     }
 
@@ -921,7 +959,8 @@ function generateTrees() {
           (initialCellOptions[o].classList.contains("pondCell") == false) &&
           (initialCellOptions[o].classList.contains("originCell") == false) &&
           (getColumnIntegerFromID(initialCellOptions[o].id) > 1) &&
-          (getColumnIntegerFromID(initialCellOptions[o].id) < numberOfColumns)
+          (getColumnIntegerFromID(initialCellOptions[o].id) < numberOfColumns) &&
+          (initialCellOptions[o].classList.contains("trailCell") == false)
            // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
         ) {
         cellOptionsIDArray.push(initialCellOptions[o].id)
@@ -1566,73 +1605,94 @@ function setTrailStart() {
 
     let startingCellID = shuffledCellOptionsIDArray[0];
 
-    let startingCell = document.getElementById(`${startingCellID}`);
-
-    console.log(startingCell);
+    return startingCell = document.getElementById(`${startingCellID}`);
 };
 
-function setTrailEnd() {
-  let initialCellOptions = [];
-  let cellOptionsIDArray = [];
+let trailCounter = 1;
 
-  let endingSideNumber = trailStartEndArray[1];
-
-  if (endingSideNumber == 1){
-
-    endingSide = 'top';
-    initialCellOptions = document.getElementsByClassName(`row1`);
-
-  } else if (endingSideNumber == 2) {
-
-    endingSide = `right`;
-    initialCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
-
-  } else if (endingSideNumber == 3) {
-
-    endingSide = `bottom`;
-    initialCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
-
-  } else if (endingSideNumber == 4) {
-
-    endingSide = `left`;
-    initialCellOptions = document.getElementsByClassName(`column1`);
-    }
-
-    initialCellOptions = Array.from(initialCellOptions)
-
-    for (let o = 0; o <= initialCellOptions.length-1; o++){
-      if (
-        (initialCellOptions[o].classList.contains("pondCell") == false) &&
-        (initialCellOptions[o].classList.contains("originCell") == false) &&
-        (getRowIntegerFromID(initialCellOptions[o].id) >= 1) &&
-        (getRowIntegerFromID(initialCellOptions[o].id) <= numberOfRows) &&
-        (getColumnIntegerFromID(initialCellOptions[o].id) >= 1) &&
-        (getColumnIntegerFromID(initialCellOptions[o].id) <= numberOfColumns)
-         // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
-      ) {
-      cellOptionsIDArray.push(initialCellOptions[o].id)
-      };
-    };
-
-    let randomSelectionOfCellOptions = [];
-
-    let numberOfCellsToSelect = 1;
-
-    let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
-
-    let endingCellID = shuffledCellOptionsIDArray[0];
-
-    let endingCell = document.getElementById(`${endingCellID}`);
-
-    console.log(endingCell);
-};
-
+let trailCellsArray = [];
 
 function setTrailStartAndEnd() {
-  setTrailStart();
-  setTrailEnd();
+  let usedCellIDArray = [];
+  let startingCellID = setTrailStart().id;
+  let startCell = document.getElementById(`${startingCellID}`);
+  startCell.classList.add(`trailStart`);
+  startCell.classList.add(`trailCell`);
+
+  usedCellIDArray.push(startingCellID);
+  startCell.style.backgroundColor = `#8338ec`;
+
+  // let trailLength = randomNumber(10,15);
+
+  let trailLength = 100;
+
+  let currentCellID = startingCellID;
+
+  let cell1 = document.getElementById(`${currentCellID}`);
+  let cell2;
+
+  for (let i = 0; i <= trailLength; i++){
+
+    cell1.style.backgroundColor = `#8338ec`;
+
+    cell2 = document.getElementById(`${getRandomAdjacentCellAddress(cell1)}`)
+
+    if (usedCellIDArray.includes(cell2.id)){
+
+    } else {
+      usedCellIDArray.push(cell2.id);
+      cell2.style.backgroundColor = `#8338ec`;
+      // console.log(cell2)
+      cell1 = cell2;
+
+      trailPattern = randomNumber(1,1);
+
+      let trailCell = document.getElementById(`${cell2.id}`);
+
+      trailCellClassArray = trailCell.classList;
+      trailCellDistance = findDistanceFromClassList(trailCellClassArray);
+
+
+      trailCounter += 1;
+
+      trailCell.classList.add(`trailCell`,`trailCounter${trailCounter}`,`trailPattern${trailPattern}`);
+
+      for (let i = 0; i < 3; i++) {
+          let trailCellRow = document.createElement('div');
+          trailCell.appendChild(trailCellRow);
+          trailCellRow.classList.add(`trailCellRow`);
+
+          for (let j = 0; j < 3; j++) {
+              let trailCellSubCell = document.createElement('div');
+              let parentCellDistance = "";
+              trailCellRow.appendChild(trailCellSubCell);
+              trailCellSubCell.setAttribute(`id`,`${trailCell.id}-s${i+1}${j+1}`);
+              trailCellSubCell.classList.add( `trailCellSubCell`,`trailCell`,`trailCounter${trailCounter}`,`trailCellSubCell${i+1}${j+1}`,`trailPattern${trailPattern}`);
+          }
+      }
+
+      trailCellsArray.push(trailCell.id);
+
+    }
+  }
+  console.log(usedCellIDArray);
+    // console.log(cell1);
+    // console.log(cell2)
+
+    // let cell2 = document.getElementById(`${getRandomAdjacentCellAddress()}`);
+    //
+    // if (usedCellIDArray.contains(cell2.id)){
+    //
+    // } else {
+    //
+    //   cell1 = cell2;
+    // }
+
+  // startCell.style.filter = `brightness(0%)`;
+
 }
 
+// currentCell.style.backgroundColor = `#8338ec`;
 
 
 
