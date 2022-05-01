@@ -164,7 +164,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             })
         }
     }
-    setTrailStartAndEnd();
+    // setTrailStartAndEnd();
     makePond();
     generateTrees();
     placeRocks();
@@ -1543,76 +1543,204 @@ function placeRocks() {
     reassignSubCellColors();
 }
 
-function setTrailStartAndEndSides() {
-  let choicesArray = [1,2,3,4];
+function setTrailStartAndEndQuadrants() {
+  let choicesArray = [1,2,3,4,5,6,7,8]; //change back to 1 - 8 when not testing
   shuffleArray(choicesArray);
   return choicesArray.slice(0,2);
 }
 
-let trailStartEndArray = setTrailStartAndEndSides();
+let trailStartEndArray = setTrailStartAndEndQuadrants();
 
 let startingCell;
 let endingCell;
 
-function setTrailStart() {
-  let initialCellOptions = [];
-  let cellOptionsIDArray = [];
+function setTrailStartAndEndCells() {
+  // let initialStartingCellOptions = [];
+  let initialStartingCellOptionsIDArray = [];
+  let initialEndingCellOptions = [];
 
+  let startingCellOptionsIDArray = [];
+  let endingCellOptionsIDArray = [];
 
-  let startingSideNumber = trailStartEndArray[0];
+  let startingQuadrantNumber = trailStartEndArray[0];
+  let endingQuadrantNumber = trailStartEndArray[1];
 
-  if (startingSideNumber == 1){
-
-    startingSide = 'top';
-    initialCellOptions = document.getElementsByClassName(`row1`);
-
-    } else if (startingSideNumber == 2) {
-
-    startingSide = `right`;
-    initialCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
-
-    } else if (startingSideNumber == 3) {
-
-    startingSide = `bottom`;
-    initialCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
-
-    } else if (startingSideNumber == 4) {
-
-    startingSide = `left`;
-    initialCellOptions = document.getElementsByClassName(`column1`);
+  if (startingQuadrantNumber == 1){ //working
+    startingQuadrant = 'top-left';
+    let initialStartingCellOptions = document.getElementsByClassName(`row1`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialStartingCellOptions[i].id) < (numberOfColumns/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
     }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 2) { //working
+    startingQuadrant = 'top-right';
+    let initialStartingCellOptions = document.getElementsByClassName(`row1`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialStartingCellOptions[i].id) > (numberOfColumns/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 3) { //working
+    startingQuadrant = 'right-top';
+    let initialStartingCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialStartingCellOptions[i].id) < (numberOfRows/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 4) { //working
+    startingQuadrant = 'right-bottom';
+    let initialStartingCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialStartingCellOptions[i].id) > (numberOfRows/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 5) { //working
+    startingQuadrant = 'bottom-right';
+    let initialStartingCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialStartingCellOptions[i].id) > (numberOfColumns/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 6) { //working
+    startingQuadrant = 'bottom-left';
+    let initialStartingCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialStartingCellOptions[i].id) < (numberOfColumns/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 7) { //working
+    startingQuadrant = 'left-bottom';
+    let initialStartingCellOptions = document.getElementsByClassName(`column1`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialStartingCellOptions[i].id) > (numberOfRows/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 8) { //working
+    startingQuadrant = 'left-top';
+    let initialStartingCellOptions = document.getElementsByClassName(`column1`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialStartingCellOptions[i].id) < (numberOfRows/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  }
 
-    initialCellOptions = Array.from(initialCellOptions)
 
-    for (let o = 0; o <= initialCellOptions.length-1; o++){
-      if (
-        (initialCellOptions[o].classList.contains("pondCell") == false) &&
-        (initialCellOptions[o].classList.contains("originCell") == false) &&
-        (getRowIntegerFromID(initialCellOptions[o].id) >= 1) &&
-        (getRowIntegerFromID(initialCellOptions[o].id) <= numberOfRows) &&
-        (getColumnIntegerFromID(initialCellOptions[o].id) >= 1) &&
-        (getColumnIntegerFromID(initialCellOptions[o].id) <= numberOfColumns)
-         // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
-      ) {
-      cellOptionsIDArray.push(initialCellOptions[o].id)
-      };
-    };
 
-    let randomSelectionOfCellOptions = [];
-    let numberOfCellsToSelect = 1;
+  console.log(startingQuadrant);
 
-    let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
 
-    let startingCellID = shuffledCellOptionsIDArray[0];
 
-    return startingCell = document.getElementById(`${startingCellID}`);
+
+  if (endingQuadrantNumber == 1){ //working
+    endingQuadrant = 'top-left';
+    let initialEndingCellOptions = document.getElementsByClassName(`row1`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialEndingCellOptions[i].id) < (numberOfColumns/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 2) { //working
+    endingQuadrant = 'top-right';
+    let initialEndingCellOptions = document.getElementsByClassName(`row1`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialEndingCellOptions[i].id) > (numberOfColumns/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 3) { //working
+    endingQuadrant = 'right-top';
+    let initialEndingCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialEndingCellOptions[i].id) < (numberOfRows/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 4) { //working
+    endingQuadrant = 'right-bottom';
+    let initialEndingCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialEndingCellOptions[i].id) > (numberOfRows/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 5) { //working
+    endingQuadrant = 'bottom-right';
+    let initialEndingCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialEndingCellOptions[i].id) > (numberOfColumns/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 6) { //working
+    endingQuadrant = 'bottom-left';
+    let initialEndingCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialEndingCellOptions[i].id) < (numberOfColumns/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 7) { //working
+    endingQuadrant = 'left-bottom';
+    let initialEndingCellOptions = document.getElementsByClassName(`column1`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialEndingCellOptions[i].id) > (numberOfRows/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 8) { //working
+    endingQuadrant = 'left-top';
+    let initialEndingCellOptions = document.getElementsByClassName(`column1`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialEndingCellOptions[i].id) < (numberOfRows/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  }
+
+
+  console.log(endingQuadrant);
+
 };
+
+setTrailStartAndEndCells();
 
 let trailCounter = 1;
 
 let trailCellsArray = [];
 
-function setTrailStartAndEnd() {
+function getArrayOfAdjacentCells(cell) {
+  let returnArray = [];
+  returnArray.push(getCellAboveID(cell));
+  returnArray.push(getCellLeftID(cell));
+  returnArray.push(getCellRightID(cell));
+  returnArray.push(getCellBelowID(cell));
+  return returnArray
+}
+
+function setTrailPath() {
   let usedCellIDArray = [];
   let startingCellID = setTrailStart().id;
   let startCell = document.getElementById(`${startingCellID}`);
@@ -1676,20 +1804,6 @@ function setTrailStartAndEnd() {
     }
   }
   console.log(usedCellIDArray);
-    // console.log(cell1);
-    // console.log(cell2)
-
-    // let cell2 = document.getElementById(`${getRandomAdjacentCellAddress()}`);
-    //
-    // if (usedCellIDArray.contains(cell2.id)){
-    //
-    // } else {
-    //
-    //   cell1 = cell2;
-    // }
-
-  // startCell.style.filter = `brightness(0%)`;
-
 }
 
 // currentCell.style.backgroundColor = `#8338ec`;
