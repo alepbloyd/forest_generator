@@ -1504,13 +1504,23 @@ function placeRocks() {
     reassignSubCellColors();
 }
 
+function setTrailStartAndEndSides() {
+  let choicesArray = [1,2,3,4];
+  shuffleArray(choicesArray);
+  return choicesArray.slice(0,2);
+}
+
+let trailStartEndArray = setTrailStartAndEndSides();
+
+let startingCell;
+let endingCell;
+
 function setTrailStart() {
-  let statingSide;
   let initialCellOptions = [];
   let cellOptionsIDArray = [];
 
 
-  let startingSideNumber = randomNumber(1,4);
+  let startingSideNumber = trailStartEndArray[0];
 
   if (startingSideNumber == 1){
 
@@ -1525,7 +1535,7 @@ function setTrailStart() {
     } else if (startingSideNumber == 3) {
 
     startingSide = `bottom`;
-    initialCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    initialCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
 
     } else if (startingSideNumber == 4) {
 
@@ -1559,10 +1569,69 @@ function setTrailStart() {
     let startingCell = document.getElementById(`${startingCellID}`);
 
     console.log(startingCell);
-
-
 };
 
+function setTrailEnd() {
+  let initialCellOptions = [];
+  let cellOptionsIDArray = [];
+
+  let endingSideNumber = trailStartEndArray[1];
+
+  if (endingSideNumber == 1){
+
+    endingSide = 'top';
+    initialCellOptions = document.getElementsByClassName(`row1`);
+
+  } else if (endingSideNumber == 2) {
+
+    endingSide = `right`;
+    initialCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+
+  } else if (endingSideNumber == 3) {
+
+    endingSide = `bottom`;
+    initialCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+
+  } else if (endingSideNumber == 4) {
+
+    endingSide = `left`;
+    initialCellOptions = document.getElementsByClassName(`column1`);
+    }
+
+    initialCellOptions = Array.from(initialCellOptions)
+
+    for (let o = 0; o <= initialCellOptions.length-1; o++){
+      if (
+        (initialCellOptions[o].classList.contains("pondCell") == false) &&
+        (initialCellOptions[o].classList.contains("originCell") == false) &&
+        (getRowIntegerFromID(initialCellOptions[o].id) >= 1) &&
+        (getRowIntegerFromID(initialCellOptions[o].id) <= numberOfRows) &&
+        (getColumnIntegerFromID(initialCellOptions[o].id) >= 1) &&
+        (getColumnIntegerFromID(initialCellOptions[o].id) <= numberOfColumns)
+         // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+      ) {
+      cellOptionsIDArray.push(initialCellOptions[o].id)
+      };
+    };
+
+    let randomSelectionOfCellOptions = [];
+
+    let numberOfCellsToSelect = 1;
+
+    let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
+
+    let endingCellID = shuffledCellOptionsIDArray[0];
+
+    let endingCell = document.getElementById(`${endingCellID}`);
+
+    console.log(endingCell);
+};
+
+
+function setTrailStartAndEnd() {
+  setTrailStart();
+  setTrailEnd();
+}
 
 
 
