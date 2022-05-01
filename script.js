@@ -164,7 +164,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             })
         }
     }
-    // setTrailStartAndEnd();
+    setTrailStartAndEndCells();
     makePond();
     generateTrees();
     placeRocks();
@@ -1557,10 +1557,13 @@ let endingCell;
 function setTrailStartAndEndCells() {
   // let initialStartingCellOptions = [];
   let initialStartingCellOptionsIDArray = [];
-  let initialEndingCellOptions = [];
+  let initialEndingCellOptionsIDArray = [];
 
   let startingCellOptionsIDArray = [];
   let endingCellOptionsIDArray = [];
+
+  let viableStartingCellArray = [];
+  let viableEndingCellArray = [];
 
   let startingQuadrantNumber = trailStartEndArray[0];
   let endingQuadrantNumber = trailStartEndArray[1];
@@ -1636,14 +1639,46 @@ function setTrailStartAndEndCells() {
       initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
       }
     }
-    // console.log(initialStartingCellOptionsIDArray);
   }
 
 
+  // for (let o = 0; o <= initialStartingCellOptionsIDArray.length-1; o++){
+  //   // console.log(initialStartingCellOptionsIDArray[o]);
+  //   if (
+  //     (initialStartingCellOptionsIDArray[o].classList.contains("pondCell") == false) &&
+  //     (initialStartingCellOptionsIDArray[o].classList.contains("originCell") == false) &&
+  //     (initialStartingCellOptionsIDArray[o].hasChildNodes() == false)
+  //      // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+  //   ) {
+  //   viableStartingCellArray.push(initialStartingCellOptionsIDArray[o].id)
+  //   };
+  // }; //currently working
 
-  console.log(startingQuadrant);
+  // console.log(viableStartingCellArray);
+
+  // let shuffledStartingCellArray = shuffleArray(viableStartingCellArray);
+  //
+  // startingCell = shuffledStartingCellArray[0];
 
 
+
+  // console.log(startingQuadrant);
+  //
+  // console.log(initialStartingCellOptionsIDArray);
+
+  for (let i = 0; i <= initialStartingCellOptionsIDArray.length-1; i++){
+    let cell = document.getElementById(initialStartingCellOptionsIDArray[i]);
+    if (
+      (cell.classList.contains("pondCell") == false) &&
+      (cell.classList.contains("originCell") == false) &&
+      (cell.hasChildNodes() == false)
+       // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+    ) {
+    viableStartingCellArray.push(cell)
+    };
+  };
+
+  startingCell = viableStartingCellArray[randomNumber(0,viableStartingCellArray.length)];
 
 
   if (endingQuadrantNumber == 1){ //working
@@ -1720,12 +1755,23 @@ function setTrailStartAndEndCells() {
     // console.log(initialStartingCellOptionsIDArray);
   }
 
+  for (let i = 0; i <= initialEndingCellOptionsIDArray.length-1; i++){
+    let cell = document.getElementById(initialEndingCellOptionsIDArray[i]);
+    if (
+      (cell.classList.contains("pondCell") == false) &&
+      (cell.classList.contains("originCell") == false) &&
+      (cell.hasChildNodes() == false)
+       // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+    ) {
+    viableEndingCellArray.push(cell)
+    };
+  };
 
-  console.log(endingQuadrant);
+  endingCell = viableEndingCellArray[randomNumber(0,viableEndingCellArray.length)];
 
+  console.log(startingCell);
+  console.log(endingCell);
 };
-
-setTrailStartAndEndCells();
 
 let trailCounter = 1;
 
