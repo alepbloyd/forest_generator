@@ -1546,6 +1546,25 @@ function placeRocks() {
 function setTrailStartAndEndQuadrants() {
   let choicesArray = [1,2,3,4,5,6,7,8]; //change back to 1 - 8 when not testing
   shuffleArray(choicesArray);
+
+  if (choicesArray[0] == 1){
+    choicesArray.splice(choicesArray.indexOf(2),1)
+  } else if (choicesArray[0] == 2) {
+    choicesArray.splice(choicesArray.indexOf(1),1)
+  } else if (choicesArray[0] == 3) {
+    choicesArray.splice(choicesArray.indexOf(4),1)
+  } else if (choicesArray[0] == 4) {
+    choicesArray.splice(choicesArray.indexOf(3),1)
+  } else if (choicesArray[0] == 5) {
+    choicesArray.splice(choicesArray.indexOf(6),1)
+  } else if (choicesArray[0] == 6) {
+    choicesArray.splice(choicesArray.indexOf(5),1)
+  } else if (choicesArray[0] == 7) {
+    choicesArray.splice(choicesArray.indexOf(8),1)
+  } else if (choicesArray[0] == 8) {
+    choicesArray.splice(choicesArray.indexOf(7),1)
+  }
+  console.log(choicesArray);
   return choicesArray.slice(0,2);
 }
 
@@ -1640,31 +1659,6 @@ function setTrailStartAndEndCells() {
       }
     }
   }
-
-
-  // for (let o = 0; o <= initialStartingCellOptionsIDArray.length-1; o++){
-  //   // console.log(initialStartingCellOptionsIDArray[o]);
-  //   if (
-  //     (initialStartingCellOptionsIDArray[o].classList.contains("pondCell") == false) &&
-  //     (initialStartingCellOptionsIDArray[o].classList.contains("originCell") == false) &&
-  //     (initialStartingCellOptionsIDArray[o].hasChildNodes() == false)
-  //      // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
-  //   ) {
-  //   viableStartingCellArray.push(initialStartingCellOptionsIDArray[o].id)
-  //   };
-  // }; //currently working
-
-  // console.log(viableStartingCellArray);
-
-  // let shuffledStartingCellArray = shuffleArray(viableStartingCellArray);
-  //
-  // startingCell = shuffledStartingCellArray[0];
-
-
-
-  // console.log(startingQuadrant);
-  //
-  // console.log(initialStartingCellOptionsIDArray);
 
   for (let i = 0; i <= initialStartingCellOptionsIDArray.length-1; i++){
     let cell = document.getElementById(initialStartingCellOptionsIDArray[i]);
@@ -1769,7 +1763,9 @@ function setTrailStartAndEndCells() {
 
   endingCell = viableEndingCellArray[randomNumber(0,viableEndingCellArray.length)];
 
+  console.log(startingQuadrant);
   console.log(startingCell);
+  console.log(endingQuadrant);
   console.log(endingCell);
 };
 
