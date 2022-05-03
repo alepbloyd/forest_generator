@@ -165,6 +165,7 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
         }
     }
     setTrailStartAndEndCells();
+    setTrailPath();
     makePond();
     generateTrees();
     placeRocks();
@@ -924,6 +925,9 @@ let arrayOfTreePatterns = [leafPattern1, leafPattern2, leafPattern3];
 
 let leafMainCellArray = [`ttl`,`tt`,`ttr`,`tl`,`t`,`tr`,`ml`,`m`,`mr`];
 
+let trailPattern1 = [`11`,`12`,`13`,`21`,`22`,`23`,`31`,`32`,`33`];
+
+let trailPattern1Opposite = [];
 
 const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`,`#f6bd60`,`#e26d5c`,`#ffaa00`];
 
@@ -1543,8 +1547,10 @@ function placeRocks() {
     reassignSubCellColors();
 }
 
+let choicesArray = [];
+
 function setTrailStartAndEndQuadrants() {
-  let choicesArray = [1,2,3,4,5,6,7,8]; //change back to 1 - 8 when not testing
+  choicesArray = [1,2,3,4,5,6,7,8]; //change back to 1 - 8 when not testing
   shuffleArray(choicesArray);
 
   if (choicesArray[0] == 1){
@@ -1782,81 +1788,304 @@ function getArrayOfAdjacentCells(cell) {
   return returnArray
 }
 
+let trailOptionsGeneration1 = [1,2,3,4,5,6];
+
+let trailOptionsGeneration2 = [`U`,`R`,`D`,`L`];
+
+let trailOptionsGenerationCombined = [];
+
+for (let i = 0; i <= 10; i++){
+  trailOptionsGenerationCombined.push(`${trailOptionsGeneration2[randomNumber(0,trailOptionsGeneration2.length-1)]}${trailOptionsGeneration1[randomNumber(0,trailOptionsGeneration1.length-1)]}`);
+  //need to keep track of movement here, how many cells total does it need to go, and stop the loop when it reaches that number
+  // probably better as a while loop and then stop when it reaches a certain number
+  // could incorporate with getColumnIntegerFromID and getRowIntegerFromID of the starting cell to determine when it hits the edge of the grid
+}
+
 function setTrailPath() {
+  // let allowedMovementDirections = [];
+  //
+  // if (choicesArray[0] == 1 || choicesArray[0] == 2) {
+  //   if (choicesArray[1] == 3 || choicesArray[1] == 4) {
+  //     //down
+  //     allowedMovementDirections.push(`down`);
+  //     //right
+  //     allowedMovementDirections.push(`right`);
+  //   } else if (choicesArray[1] == 5 || choicesArray[1] == 6) {
+  //     //prioritize down
+  //     allowedMovementDirections.push(`down`);
+  //     // left
+  //     allowedMovementDirections.push(`left`);
+  //     // right
+  //     allowedMovementDirections.push(`right`);
+  //   } else if (choicesArray[1] == 7 || choicesArray[1] == 8) {
+  //     // down
+  //     allowedMovementDirections.push(`down`);
+  //     // left
+  //     allowedMovementDirections.push(`left`);
+  //   }
+  //
+  // } else if (choicesArray[0] == 3 || choicesArray[0] == 4) {
+  //   if (choicesArray[1] == 1 || choicesArray[1] == 2) {
+  //     // left
+  //     allowedMovementDirections.push(`left`);
+  //     // up
+  //     allowedMovementDirections.push(`up`);
+  //   } else if (choicesArray[1] == 5 || choicesArray[1] == 6) {
+  //     // left
+  //     allowedMovementDirections.push(`left`);
+  //     // down
+  //     allowedMovementDirections.push(`down`);
+  //   } else if (choicesArray[1] == 7 || choicesArray[1] == 8) {
+  //     // prioritize left
+  //     allowedMovementDirections.push(`left`);
+  //     //up
+  //     allowedMovementDirections.push(`up`);
+  //     //down
+  //     allowedMovementDirections.push(`down`);
+  //   }
+  //
+  // } else if (choicesArray[0] == 5 || choicesArray[0] == 6) {
+  //   if (choicesArray[1] == 1 || choicesArray[1] == 2){
+  //     //prioritize up
+  //     allowedMovementDirections.push(`up`);
+  //     // left
+  //     allowedMovementDirections.push(`left`);
+  //     //right
+  //     allowedMovementDirections.push(`right`);
+  //   } else if (choicesArray[1] == 3 || choicesArray[1] == 4) {
+  //     // up
+  //     allowedMovementDirections.push(`up`);
+  //     // right
+  //     allowedMovementDirections.push(`right`);
+  //   } else if (choicesArray[1] == 7 || choicesArray[1] == 8) {
+  //     //up
+  //     allowedMovementDirections.push(`up`);
+  //     //left
+  //     allowedMovementDirections.push(`left`);
+  //   }
+  //
+  // } else if (choicesArray[0] == 7 || choicesArray[0] == 8) {
+  //   if (choicesArray[1] == 1 || choicesArray[1] == 2){
+  //     //right
+  //     allowedMovementDirections.push(`right`);
+  //     //up
+  //     allowedMovementDirections.push(`up`);
+  //   } else if (choicesArray[1] == 3 || choicesArray[1] == 4){
+  //     // prioritize right
+  //     allowedMovementDirections.push(`right`);
+  //     // up
+  //     allowedMovementDirections.push(`up`);
+  //     // down
+  //     allowedMovementDirections.push(`down`);
+  //   } else if (choicesArray[1] == 5 || choicesArray[1] == 6){
+  //     //right
+  //     allowedMovementDirections.push(`right`);
+  //     //down
+  //     allowedMovementDirections.push(`down`);
+  //   }
+  // }
+
+  let verticalDistanceBetweenStartAndEnd;
+
   let usedCellIDArray = [];
-  let startingCellID = setTrailStart().id;
-  let startCell = document.getElementById(`${startingCellID}`);
+
+  let startCell = document.getElementById(`${startingCell.id}`);
   startCell.classList.add(`trailStart`);
   startCell.classList.add(`trailCell`);
 
-  usedCellIDArray.push(startingCellID);
-  startCell.style.backgroundColor = `#8338ec`;
+  startCell.style.backgroundColor = `#008080`;
 
-  // let trailLength = randomNumber(10,15);
+  usedCellIDArray.push(startCell.id);
 
-  let trailLength = 100;
+  // let endCell = document.getElementById(`${endingCell.id}`);
+  // endCell.classList.add(`trailEnd`);
+  // endCell.classList.add(`trailCell`);
+  //
+  // endCell.style.backgroundColor = `#FF0000`;
 
-  let currentCellID = startingCellID;
+  let startingSide = startingQuadrant.substr(0,startingQuadrant.indexOf(`-`));
 
-  let cell1 = document.getElementById(`${currentCellID}`);
-  let cell2;
+  let firstStretchLength = randomNumber(2,4);
+  let secondStretchLength = randomNumber(2,4);
 
-  for (let i = 0; i <= trailLength; i++){
+  if (startingSide == `top`){
+    let cell1 = startCell;
+    let cell2;
+    for (let j = 0; j <= firstStretchLength; j++){
+      cell2 = getCellBelowID(cell1);
+      console.log(cell2);
+      trailCellsArray.push(cell2);
+      cell1 = document.getElementById(`${cell2}`);
+    }
+    // from here, we can use `cell1` again because the loop above is done
+    let nextDirection = randomNumber(1,2);
 
-    cell1.style.backgroundColor = `#8338ec`;
+    if (nextDirection == 1){ // go left
+        for (let n = 0; n <= secondStretchLength; n++){
+          cell2 = getCellLeftID(cell1);
+          console.log(cell2);
+          trailCellsArray.push(cell2);
+          cell1 = document.getElementById(`${cell2}`)
+        }
+    } else if (nextDirection == 2) { // go right
+      for (let n = 0; n <= secondStretchLength; n++){
+        cell2 = getCellRightID(cell1);
+        console.log(cell2);
+        trailCellsArray.push(cell2);
+        cell1 = document.getElementById(`${cell2}`)
+      }
+    }
 
-    cell2 = document.getElementById(`${getRandomAdjacentCellAddress(cell1)}`)
+  } else if (startingSide == `right`){
+    let cell1 = startCell;
+    let cell2;
+    for (let j = 0; j <= firstStretchLength; j++){
+      cell2 = getCellLeftID(cell1);
+      console.log(cell2);
+      trailCellsArray.push(cell2);
+      cell1 = document.getElementById(`${cell2}`);
+    }
 
-    if (usedCellIDArray.includes(cell2.id)){
+    let nextDirection = randomNumber(1,2);
 
-    } else {
-      usedCellIDArray.push(cell2.id);
-      cell2.style.backgroundColor = `#8338ec`;
-      // console.log(cell2)
-      cell1 = cell2;
+    if (nextDirection == 1){ // go up
+        for (let n = 0; n <= secondStretchLength; n++){
+          cell2 = getCellAboveID(cell1);
+          console.log(cell2);
+          trailCellsArray.push(cell2);
+          cell1 = document.getElementById(`${cell2}`)
+        }
+    } else if (nextDirection == 2) { // go down
+      for (let n = 0; n <= secondStretchLength; n++){
+        cell2 = getCellBelowID(cell1);
+        console.log(cell2);
+        trailCellsArray.push(cell2);
+        cell1 = document.getElementById(`${cell2}`)
+      }
+    }
 
-      trailPattern = randomNumber(1,1);
+  } else if (startingSide == `bottom`){
+    let cell1 = startCell;
+    let cell2;
+    for (let j = 0; j <= firstStretchLength; j++){
+      cell2 = getCellAboveID(cell1);
+      console.log(cell2);
+      trailCellsArray.push(cell2);
+      cell1 = document.getElementById(`${cell2}`);
+    }
 
-      let trailCell = document.getElementById(`${cell2.id}`);
+    let nextDirection = randomNumber(1,2);
 
-      trailCellClassArray = trailCell.classList;
-      trailCellDistance = findDistanceFromClassList(trailCellClassArray);
+    if (nextDirection == 1){ // go left
+        for (let n = 0; n <= secondStretchLength; n++){
+          cell2 = getCellLeftID(cell1);
+          console.log(cell2);
+          trailCellsArray.push(cell2);
+          cell1 = document.getElementById(`${cell2}`)
+        }
 
 
-      trailCounter += 1;
-
-      trailCell.classList.add(`trailCell`,`trailCounter${trailCounter}`,`trailPattern${trailPattern}`);
-
-      for (let i = 0; i < 3; i++) {
-          let trailCellRow = document.createElement('div');
-          trailCell.appendChild(trailCellRow);
-          trailCellRow.classList.add(`trailCellRow`);
-
-          for (let j = 0; j < 3; j++) {
-              let trailCellSubCell = document.createElement('div');
-              let parentCellDistance = "";
-              trailCellRow.appendChild(trailCellSubCell);
-              trailCellSubCell.setAttribute(`id`,`${trailCell.id}-s${i+1}${j+1}`);
-              trailCellSubCell.classList.add( `trailCellSubCell`,`trailCell`,`trailCounter${trailCounter}`,`trailCellSubCell${i+1}${j+1}`,`trailPattern${trailPattern}`);
-          }
+    } else if (nextDirection == 2) { // go right
+      for (let n = 0; n <= secondStretchLength; n++){
+        cell2 = getCellRightID(cell1);
+        console.log(cell2);
+        trailCellsArray.push(cell2);
+        cell1 = document.getElementById(`${cell2}`)
       }
 
-      trailCellsArray.push(trailCell.id);
 
     }
+
+  } else if (startingSide == `left`){
+    let cell1 = startCell;
+    let cell2;
+    for (let j = 0; j <= firstStretchLength; j++){
+      cell2 = getCellRightID(cell1);
+      console.log(cell2);
+      trailCellsArray.push(cell2);
+      cell1 = document.getElementById(`${cell2}`);
+    }
+
+    let nextDirection = randomNumber(1,2);
+
+    if (nextDirection == 1){ // go up
+        for (let n = 0; n <= secondStretchLength; n++){
+          cell2 = getCellAboveID(cell1);
+          console.log(cell2);
+          trailCellsArray.push(cell2);
+          cell1 = document.getElementById(`${cell2}`)
+        }
+    } else if (nextDirection == 2) { // go down
+      for (let n = 0; n <= secondStretchLength; n++){
+        cell2 = getCellBelowID(cell1);
+        console.log(cell2);
+        trailCellsArray.push(cell2);
+        cell1 = document.getElementById(`${cell2}`)
+      }
+    }
+
   }
-  console.log(usedCellIDArray);
+
+  for (let x = 0; x <= trailCellsArray.length-1; x++){
+    trailPattern = randomNumber(1,1);
+
+    let trailCell = document.getElementById(`${trailCellsArray[x]}`);
+
+    trailCellClassArray = trailCell.classList;
+    trailCellDistance = findDistanceFromClassList(trailCellClassArray);
+
+
+    trailCounter += 1;
+
+    trailCell.classList.add(`trailCell`,`trailCounter${trailCounter}`,`trailPattern${trailPattern}`);
+
+    for (let i = 0; i < 3; i++) {
+        let trailCellRow = document.createElement('div');
+        trailCell.appendChild(trailCellRow);
+        trailCellRow.classList.add(`trailCellRow`);
+
+        for (let j = 0; j < 3; j++) {
+            let trailCellSubCell = document.createElement('div');
+            let parentCellDistance = "";
+            trailCellRow.appendChild(trailCellSubCell);
+            trailCellSubCell.setAttribute(`id`,`${trailCell.id}-s${i+1}${j+1}`);
+            trailCellSubCell.classList.add( `trailCellSubCell`,`trailCell`,`trailCounter${trailCounter}`,`trailCellSubCell${i+1}${j+1}`,`trailPattern${trailPattern}`);
+        }
+    }
+
+    // rockCellsArray.push(rockCell.id);
+
+  }
+
+  let trailCellSubCells1= document.querySelectorAll(`.trailPattern1`).forEach((el) => {
+        for (let p = 0; p <= trailPattern1.length-1; p++){
+          if (
+            (el.classList.contains(`trailCellSubCell${trailPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+          ) {
+            el.style.backgroundColor = `#a8329b`;
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`colorAssigned`);
+            if(subCellColorMap.has(`${el.id}`)) {
+              // console.log("already assigned")
+            } else {
+              // subCellColorMap.set(`${el.id}`,`#008080`);
+            }
+
+          }
+        }
+
+        for (let x = 0; x <= trailPattern1Opposite.length-1; x++){
+          if (el.classList.contains(`trailCellSubCell${trailPattern1Opposite[x]}`)) {
+            // el.style.backgroundColor = getRandomGreen();
+            el.style.filter = `brightness(0%)`;
+            // el.classList.add(`colorAssigned`);
+          }
+        }
+  });
+  reassignSubCellColors();
 }
 
 // currentCell.style.backgroundColor = `#8338ec`;
-
-
-
-    // set starting pixels by
-    // 1. picking the starting side
-    // 2. randomly picking the left (or top, depending on if start is side or top/bottom) square and selecting other square based on that
-    // 3. setting the path - this wouid be based on picking one of the adjacent squares (that isn't to the right because that's for width), and
-    // then expanding until it hits another wall (check by the address of each cell, and it's hit a wall when either the x or y is over the max)
 
 
 // const dayNightButton = document.getElementById("DayNightCycleButton");
