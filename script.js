@@ -786,7 +786,7 @@ function makePond() {
     randomCell.classList.add(`pondCell`);
     // randomCell.append("Pond Origin");
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
-    let pondSize = randomNumber(750,1250); // sets random pond size between two parameters
+    let pondSize = numberOfRows*randomNumber(25,40); // sets random pond size between two parameters
     // pondSize needs to be relative to totalCells (as like a percentage)
     randomCell.style.backgroundColor = `${getRandomBlue()}`;
     randomCell.style.filter = `brightness(0%)`
@@ -972,7 +972,7 @@ function generateTrees() {
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
-      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.2);
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.25);
 
       let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
 
@@ -1771,8 +1771,8 @@ function setTrailStartAndEndCells() {
 
   console.log(startingQuadrant);
   console.log(startingCell);
-  console.log(endingQuadrant);
-  console.log(endingCell);
+  // console.log(endingQuadrant);
+  // console.log(endingCell);
 };
 
 let trailCounter = 1;
@@ -1788,106 +1788,9 @@ function getArrayOfAdjacentCells(cell) {
   return returnArray
 }
 
-let trailOptionsGeneration1 = [1,2,3,4,5,6];
 
-let trailOptionsGeneration2 = [`U`,`R`,`D`,`L`];
-
-let trailOptionsGenerationCombined = [];
-
-for (let i = 0; i <= 10; i++){
-  trailOptionsGenerationCombined.push(`${trailOptionsGeneration2[randomNumber(0,trailOptionsGeneration2.length-1)]}${trailOptionsGeneration1[randomNumber(0,trailOptionsGeneration1.length-1)]}`);
-  //need to keep track of movement here, how many cells total does it need to go, and stop the loop when it reaches that number
-  // probably better as a while loop and then stop when it reaches a certain number
-  // could incorporate with getColumnIntegerFromID and getRowIntegerFromID of the starting cell to determine when it hits the edge of the grid
-}
 
 function setTrailPath() {
-  // let allowedMovementDirections = [];
-  //
-  // if (choicesArray[0] == 1 || choicesArray[0] == 2) {
-  //   if (choicesArray[1] == 3 || choicesArray[1] == 4) {
-  //     //down
-  //     allowedMovementDirections.push(`down`);
-  //     //right
-  //     allowedMovementDirections.push(`right`);
-  //   } else if (choicesArray[1] == 5 || choicesArray[1] == 6) {
-  //     //prioritize down
-  //     allowedMovementDirections.push(`down`);
-  //     // left
-  //     allowedMovementDirections.push(`left`);
-  //     // right
-  //     allowedMovementDirections.push(`right`);
-  //   } else if (choicesArray[1] == 7 || choicesArray[1] == 8) {
-  //     // down
-  //     allowedMovementDirections.push(`down`);
-  //     // left
-  //     allowedMovementDirections.push(`left`);
-  //   }
-  //
-  // } else if (choicesArray[0] == 3 || choicesArray[0] == 4) {
-  //   if (choicesArray[1] == 1 || choicesArray[1] == 2) {
-  //     // left
-  //     allowedMovementDirections.push(`left`);
-  //     // up
-  //     allowedMovementDirections.push(`up`);
-  //   } else if (choicesArray[1] == 5 || choicesArray[1] == 6) {
-  //     // left
-  //     allowedMovementDirections.push(`left`);
-  //     // down
-  //     allowedMovementDirections.push(`down`);
-  //   } else if (choicesArray[1] == 7 || choicesArray[1] == 8) {
-  //     // prioritize left
-  //     allowedMovementDirections.push(`left`);
-  //     //up
-  //     allowedMovementDirections.push(`up`);
-  //     //down
-  //     allowedMovementDirections.push(`down`);
-  //   }
-  //
-  // } else if (choicesArray[0] == 5 || choicesArray[0] == 6) {
-  //   if (choicesArray[1] == 1 || choicesArray[1] == 2){
-  //     //prioritize up
-  //     allowedMovementDirections.push(`up`);
-  //     // left
-  //     allowedMovementDirections.push(`left`);
-  //     //right
-  //     allowedMovementDirections.push(`right`);
-  //   } else if (choicesArray[1] == 3 || choicesArray[1] == 4) {
-  //     // up
-  //     allowedMovementDirections.push(`up`);
-  //     // right
-  //     allowedMovementDirections.push(`right`);
-  //   } else if (choicesArray[1] == 7 || choicesArray[1] == 8) {
-  //     //up
-  //     allowedMovementDirections.push(`up`);
-  //     //left
-  //     allowedMovementDirections.push(`left`);
-  //   }
-  //
-  // } else if (choicesArray[0] == 7 || choicesArray[0] == 8) {
-  //   if (choicesArray[1] == 1 || choicesArray[1] == 2){
-  //     //right
-  //     allowedMovementDirections.push(`right`);
-  //     //up
-  //     allowedMovementDirections.push(`up`);
-  //   } else if (choicesArray[1] == 3 || choicesArray[1] == 4){
-  //     // prioritize right
-  //     allowedMovementDirections.push(`right`);
-  //     // up
-  //     allowedMovementDirections.push(`up`);
-  //     // down
-  //     allowedMovementDirections.push(`down`);
-  //   } else if (choicesArray[1] == 5 || choicesArray[1] == 6){
-  //     //right
-  //     allowedMovementDirections.push(`right`);
-  //     //down
-  //     allowedMovementDirections.push(`down`);
-  //   }
-  // }
-
-  let verticalDistanceBetweenStartAndEnd;
-
-  let usedCellIDArray = [];
 
   let startCell = document.getElementById(`${startingCell.id}`);
   startCell.classList.add(`trailStart`);
@@ -1895,136 +1798,193 @@ function setTrailPath() {
 
   startCell.style.backgroundColor = `#008080`;
 
-  usedCellIDArray.push(startCell.id);
-
-  // let endCell = document.getElementById(`${endingCell.id}`);
-  // endCell.classList.add(`trailEnd`);
-  // endCell.classList.add(`trailCell`);
-  //
-  // endCell.style.backgroundColor = `#FF0000`;
 
   let startingSide = startingQuadrant.substr(0,startingQuadrant.indexOf(`-`));
 
-  let firstStretchLength = randomNumber(2,4);
-  let secondStretchLength = randomNumber(2,4);
+  let startingSideSecondary = startingQuadrant.substr(startingQuadrant.indexOf(`-`) + 1);
+
+  let startingCellColumn = getColumnIntegerFromID(startCell.id)
+
+  let startingCellRow = getRowIntegerFromID(startCell.id)
+
+  let startPathValue;
+  let trailLength;
+
+
+  let trailOptionsGenerationDirections = [`U`,`R`,`D`,`L`];
 
   if (startingSide == `top`){
-    let cell1 = startCell;
-    let cell2;
-    for (let j = 0; j <= firstStretchLength; j++){
-      cell2 = getCellBelowID(cell1);
-      console.log(cell2);
-      trailCellsArray.push(cell2);
-      cell1 = document.getElementById(`${cell2}`);
-    }
-    // from here, we can use `cell1` again because the loop above is done
-    let nextDirection = randomNumber(1,2);
-
-    if (nextDirection == 1){ // go left
-        for (let n = 0; n <= secondStretchLength; n++){
-          cell2 = getCellLeftID(cell1);
-          console.log(cell2);
-          trailCellsArray.push(cell2);
-          cell1 = document.getElementById(`${cell2}`)
-        }
-    } else if (nextDirection == 2) { // go right
-      for (let n = 0; n <= secondStretchLength; n++){
-        cell2 = getCellRightID(cell1);
-        console.log(cell2);
-        trailCellsArray.push(cell2);
-        cell1 = document.getElementById(`${cell2}`)
-      }
-    }
-
-  } else if (startingSide == `right`){
-    let cell1 = startCell;
-    let cell2;
-    for (let j = 0; j <= firstStretchLength; j++){
-      cell2 = getCellLeftID(cell1);
-      console.log(cell2);
-      trailCellsArray.push(cell2);
-      cell1 = document.getElementById(`${cell2}`);
-    }
-
-    let nextDirection = randomNumber(1,2);
-
-    if (nextDirection == 1){ // go up
-        for (let n = 0; n <= secondStretchLength; n++){
-          cell2 = getCellAboveID(cell1);
-          console.log(cell2);
-          trailCellsArray.push(cell2);
-          cell1 = document.getElementById(`${cell2}`)
-        }
-    } else if (nextDirection == 2) { // go down
-      for (let n = 0; n <= secondStretchLength; n++){
-        cell2 = getCellBelowID(cell1);
-        console.log(cell2);
-        trailCellsArray.push(cell2);
-        cell1 = document.getElementById(`${cell2}`)
-      }
-    }
-
-  } else if (startingSide == `bottom`){
-    let cell1 = startCell;
-    let cell2;
-    for (let j = 0; j <= firstStretchLength; j++){
-      cell2 = getCellAboveID(cell1);
-      console.log(cell2);
-      trailCellsArray.push(cell2);
-      cell1 = document.getElementById(`${cell2}`);
-    }
-
-    let nextDirection = randomNumber(1,2);
-
-    if (nextDirection == 1){ // go left
-        for (let n = 0; n <= secondStretchLength; n++){
-          cell2 = getCellLeftID(cell1);
-          console.log(cell2);
-          trailCellsArray.push(cell2);
-          cell1 = document.getElementById(`${cell2}`)
-        }
-
-
-    } else if (nextDirection == 2) { // go right
-      for (let n = 0; n <= secondStretchLength; n++){
-        cell2 = getCellRightID(cell1);
-        console.log(cell2);
-        trailCellsArray.push(cell2);
-        cell1 = document.getElementById(`${cell2}`)
-      }
-
-
-    }
-
-  } else if (startingSide == `left`){
-    let cell1 = startCell;
-    let cell2;
-    for (let j = 0; j <= firstStretchLength; j++){
-      cell2 = getCellRightID(cell1);
-      console.log(cell2);
-      trailCellsArray.push(cell2);
-      cell1 = document.getElementById(`${cell2}`);
-    }
-
-    let nextDirection = randomNumber(1,2);
-
-    if (nextDirection == 1){ // go up
-        for (let n = 0; n <= secondStretchLength; n++){
-          cell2 = getCellAboveID(cell1);
-          console.log(cell2);
-          trailCellsArray.push(cell2);
-          cell1 = document.getElementById(`${cell2}`)
-        }
-    } else if (nextDirection == 2) { // go down
-      for (let n = 0; n <= secondStretchLength; n++){
-        cell2 = getCellBelowID(cell1);
-        console.log(cell2);
-        trailCellsArray.push(cell2);
-        cell1 = document.getElementById(`${cell2}`)
-      }
-    }
-
+    trailOptionsGenerationDirections.splice(trailOptionsGenerationDirections.indexOf(`U`),1);
+    trailLength = numberOfRows;
+  } else if (startingSide == `right`) {
+    trailOptionsGenerationDirections.splice(trailOptionsGenerationDirections.indexOf(`R`),1);
+    trailLength = numberOfColumns;
+  } else if (startingSide == `bottom`) {
+    trailOptionsGenerationDirections.splice(trailOptionsGenerationDirections.indexOf(`D`),1);
+    trailLength = numberOfRows;
+  } else if (startingSide == `left`) {
+    trailOptionsGenerationDirections.splice(trailOptionsGenerationDirections.indexOf(`L`),1);
+    trailLength = numberOfColumns;
   }
+
+  console.log(`Trail length is ${trailLength} and starts at the ${startingSide} ${startingSideSecondary}`)
+
+  let trailOptionsGenerationNumbers = [];
+
+  let numberOfTrailSegments = randomNumber(5,8);
+
+  for (let i = 0; i <= numberOfTrailSegments; i++){
+    let randomValue = randomNumber(3,6);
+    trailLength -= randomValue;
+    trailOptionsGenerationNumbers.push(randomValue);
+    // console.log(trailLength)
+  }
+
+  trailOptionsGenerationNumbers = trailOptionsGenerationNumbers.filter( x => x > 0);
+
+  let trailOptionsGenerationCombined = [];
+
+  for (let i = 0; i <= trailOptionsGenerationNumbers.length-1; i++){
+    //add in the secondary movement here under each startement
+    //means I need to double the if statements with &&s for startingSideSecondary
+    if (startingSide == `top` && startingSideSecondary == `left`){
+      trailOptionsGenerationCombined.push(`D${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`R${randomNumber(2,4)}`);
+    } else if (startingSide == `top` && startingSideSecondary == `right`){
+      trailOptionsGenerationCombined.push(`D${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`L${randomNumber(2,4)}`);
+    } else if (startingSide == `right` && startingSideSecondary == `top`){
+      trailOptionsGenerationCombined.push(`L${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`D${randomNumber(2,4)}`);
+    } else if (startingSide == `right` && startingSideSecondary == `bottom`){
+      trailOptionsGenerationCombined.push(`L${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`U${randomNumber(2,4)}`);
+    } else if (startingSide == `bottom` && startingSideSecondary == `right`){
+      trailOptionsGenerationCombined.push(`U${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`L${randomNumber(2,4)}`);
+    } else if (startingSide == `bottom` && startingSideSecondary == `left`){
+      trailOptionsGenerationCombined.push(`U${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`R${randomNumber(2,4)}`);
+    } else if (startingSide == `left` && startingSideSecondary == `bottom`){
+      trailOptionsGenerationCombined.push(`R${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`U${randomNumber(2,4)}`);
+    } else if (startingSide == `left` && startingSideSecondary == `top`){
+      trailOptionsGenerationCombined.push(`R${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`D${randomNumber(2,4)}`);
+    }
+  }
+
+
+
+  // for (let i = 0; i <= 10; i++){
+  //   trailOptionsGenerationCombined.push(`${trailOptionsGeneration2[randomNumber(0,trailOptionsGeneration2.length-1)]}${trailOptionsGeneration1[randomNumber(0,trailOptionsGeneration1.length-1)]}`);
+  // }
+
+  console.log(trailOptionsGenerationCombined);
+
+
+
+  let trailArray = [];
+
+  startingCellColumn = getColumnIntegerFromID(startCell.id)
+
+  startingCellRow = getRowIntegerFromID(startCell.id)
+
+  let cell1 = startCell;
+
+
+  let startRow = getRowIntegerFromID(cell1.id);
+  let startColumn = getColumnIntegerFromID(cell1.id);
+
+  for (let i = 0; i <= trailOptionsGenerationCombined.length-1; i++){
+    let directionValue = trailOptionsGenerationCombined[i].charAt(0);
+    let lengthValue = trailOptionsGenerationCombined[i].charAt(1);
+
+
+    // trailArray.push(cell1.id);
+
+    // let cell2;
+
+
+
+
+    if (directionValue == `U`) {
+      for (let j = 1; j <= lengthValue; j++) {
+        trailArray.push(`${startRow-j}-${startColumn}`)
+      }
+      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
+      //
+      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
+      //
+      // console.log(trailArray[trailArray.length-1]);
+
+      startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
+
+      startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
+      //outside of the above loop, set new starting values? last value in trailArray
+      // reset cell1 to equal last value in trailArray
+    } else if (directionValue == `R`) {
+      for (let j = 1; j <= lengthValue; j++) {
+        // let startRow = getRowIntegerFromID(cell1.id);
+        // let startColumn = getColumnIntegerFromID(cell1.id);
+
+        trailArray.push(`${startRow}-${startColumn+j}`)
+
+      }
+
+      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
+      //
+      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
+      //
+      //
+      // console.log(trailArray[trailArray.length-1]);
+
+      startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
+
+      startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
+
+
+    } else if (directionValue == `D`) {
+      for (let j = 1; j <= lengthValue; j++) {
+
+        // let startRow = getRowIntegerFromID(cell1.id);
+        // let startColumn = getColumnIntegerFromID(cell1.id);
+
+        trailArray.push(`${startRow+j}-${startColumn}`)
+
+      }
+      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
+      //
+      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
+
+      startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
+
+      startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
+
+    } else if (directionValue == `L`) {
+      for (let j = 1; j <= lengthValue; j++) {
+
+        // let startRow = getRowIntegerFromID(cell1.id);
+        // let startColumn = getColumnIntegerFromID(cell1.id);
+
+        trailArray.push(`${startRow}-${startColumn-j}`)
+
+      }
+
+      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
+      //
+      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
+      //
+      // console.log(trailArray[trailArray.length-1]);
+
+      startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
+
+      startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
+
+    }
+  }
+
+  console.log(trailArray);
 
   for (let x = 0; x <= trailCellsArray.length-1; x++){
     trailPattern = randomNumber(1,1);

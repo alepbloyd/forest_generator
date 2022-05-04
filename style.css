@@ -241,7 +241,7 @@ body {
     display: flex;
     /* background-color: purple; */
     flex-direction: row;
-    color: white;
+    /* color: white; */
     /* filter: brightness(75%); */
 }
 
