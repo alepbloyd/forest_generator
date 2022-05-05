@@ -1,13 +1,3 @@
-// narrative - starts at night, brightens to day after some time, dims back down, regenerates the background as something different, which is revealed at day
-// as a mechanic, you could 'spend' to modify things for next generation (like greater chance of x appearing, new appearance possibilities)
-
-
-// things to fix:
-
-//running makePond repeatedly, and with speed increasing each time, gives a cool flooding effect
-
-// I think fewer trees but bigger
-
 const gridContainer = document.querySelector(`#gridContainer`);
 
 
@@ -29,6 +19,128 @@ function setSeason(){
 
 setSeason();
 
+let greenArray = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let pinkArray = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+
+
+
+let springPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let summerPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let fallPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let winterPondColors = [`#BBD8ED`,`#CAE9FF`];
+
+
+
+
+let springLeafColors = ["#ffe5ec","#ffc2d1","#ffb3c6","#ff8fab","#fb6f92"];
+
+let summerLeafColors = ["#e3e902","#ccd904","#b5c806","#9eb708","#87a70a","#70960c"];
+
+let fallLeafColors = ["#ff7b00","#ff8800","#ff9500","#ffa200","#ffaa00","#ffb700","#ffc300","#ffd000","#ffdd00","#ffea00"];
+
+let winterLeafColors = [`#f8f9fa`,`#eaf4f4`];
+
+
+
+
+let springTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let summerTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let fallTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let winterTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+
+let springGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let summerGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let fallGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let winterGroundColors = [`#abc4ff`,`#b6ccfe`];
+
+
+let springSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+let summerSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+let fallSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+let winterSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+
+
+let springTrailColors = [`#DDBEA9`];
+
+let summerTrailColors = [`#DDBEA9`];
+
+let fallTrailColors = [`#DDBEA9`];
+
+let winterTrailColors = [`#DDBEA9`];
+
+
+
+let pondColors = [];
+
+let leafColors = [];
+
+let trunkColors = [];
+
+let groundColors = [];
+
+let sparkleColors = [];
+
+let trailColors = [];
+
+
+
+function setColors(){
+
+  if (season == `spring`){
+
+    pondColors = springPondColors;
+    leafColors = springLeafColors;
+    trunkColors = springTrunkColors;
+    groundColors = springGroundColors;
+    sparkleColors = springSparkleColors;
+    trailColors = springTrailColors;
+
+  } else if (season == `summer`){
+
+    pondColors = summerPondColors;
+    leafColors = summerLeafColors;
+    trunkColors = summerTrunkColors;
+    groundColors = summerGroundColors;
+    sparkleColors = summerSparkleColors;
+    trailColors = summerTrailColors;
+
+  } else if (season == `fall`){
+
+    pondColors = fallPondColors;
+    leafColors = fallLeafColors;
+    trunkColors = fallTrunkColors;
+    groundColors = fallGroundColors;
+    sparkleColors = fallSparkleColors;
+    trailColors = fallTrailColors;
+
+  } else if (season == `winter`){
+
+    pondColors = winterPondColors;
+    leafColors = winterLeafColors;
+    trunkColors = winterTrunkColors;
+    groundColors = winterGroundColors;
+    sparkleColors = winterSparkleColors;
+    trailColors = winterTrailColors;
+  }
+}
+
+setColors();
 
 let originArray = [];
 
@@ -113,129 +225,32 @@ function getRandomBlue() {
     return pondColorArray[Math.floor(Math.random() * greenArray.length)];
 }
 
-
-
-
-let greenArray = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
-
-let pinkArray = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
-
-
-
-
-let springPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
-
-let summerPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
-
-let fallPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
-
-let winterPondColors = [`#BBD8ED`,`#CAE9FF`];
-
-
-
-
-let springLeafColors = ["#ffe5ec","#ffc2d1","#ffb3c6","#ff8fab","#fb6f92"];
-
-let summerLeafColors = ["#e3e902","#ccd904","#b5c806","#9eb708","#87a70a","#70960c"];
-
-let fallLeafColors = ["#ff7b00","#ff8800","#ff9500","#ffa200","#ffaa00","#ffb700","#ffc300","#ffd000","#ffdd00","#ffea00"];
-
-let winterLeafColors = [`#f8f9fa`,`#eaf4f4`];
-
-
-
-
-let springTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
-
-let summerTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
-
-let fallTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
-
-let winterTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
-
-
-let springGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
-
-let summerGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
-
-let fallGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
-
-let winterGroundColors = [`#abc4ff`,`#b6ccfe`];
-
-
-let springSparkleColors = [];
-
-let summerSparkleColors = [];
-
-let fallSparkleColors = [];
-
-let winterSparkleColors = [];
-
-
-
-let springTrailColors = [`#DDBEA9`];
-
-let summerTrailColors = [`#DDBEA9`];
-
-let fallTrailColors = [`#DDBEA9`];
-
-let winterTrailColors = [`#DDBEA9`];
-
-
-
-let pondColors = [];
-
-let leafColors = [];
-
-let trunkColors = [];
-
-let groundColors = [];
-
-let sparkleColors = [];
-
-let trailColors = [];
-
-
-
-function setColors(){
-
-  if (season == `spring`){
-
-    pondColors = springPondColors;
-    leafColors = springLeafColors;
-    trunkColors = springTrunkColors;
-    groundColors = springGroundColors;
-    sparkleColors = springSparkleColors;
-    trailColors = springTrailColors;
-
-  } else if (season == `summer`){
-
-    pondColors = summerPondColors;
-    leafColors = summerLeafColors;
-    trunkColors = summerTrunkColors;
-    groundColors = summerGroundColors;
-    sparkleColors = summerSparkleColors;
-    trailColors = summerTrailColors;
-
-  } else if (season == `fall`){
-
-    pondColors = fallPondColors;
-    leafColors = fallLeafColors;
-    trunkColors = fallTrunkColors;
-    groundColors = fallGroundColors;
-    sparkleColors = fallSparkleColors;
-    trailColors = fallTrailColors;
-
-  } else if (season == `winter`){
-
-    pondColors = winterPondColors;
-    leafColors = winterLeafColors;
-    trunkColors = winterTrunkColors;
-    groundColors = winterGroundColors;
-    sparkleColors = winterSparkleColors;
-    trailColors = winterTrailColors;
-  }
+function getRandomPondColor(){
+  return pondColors[Math.floor(Math.random() * pondColors.length)];
 }
+
+function getRandomLeafColor(){
+  return leafColors[Math.floor(Math.random() * leafColors.length)];
+}
+
+function getRandomTrunkColor(){
+  return trunkColors[Math.floor(Math.random() * trunkColors.length)];
+}
+
+function getRandomGroundColor(){
+  return groundColors[Math.floor(Math.random() * groundColors.length)];
+}
+
+function getRandomSparkleColor(){
+  return sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+}
+
+function getRandomTrailColor(){
+  return trailColors[Math.floor(Math.random() * trailColors.length)];
+}
+
+
+
 
 
 function getRow(cell) {
@@ -412,8 +427,8 @@ gridContainer.addEventListener('click', (e) => {
           }
           if (el.classList.contains(`.distance${i}`)) {
               if ((el.classList.contains(`pondCell`) == false) && (el.classList.contains(`trailCell`) == false)) {
-                setGreen = getRandomGreen();
-                el.style.backgroundColor = `${setGreen}`;
+                setGround = getRandomGroundColor();
+                el.style.backgroundColor = `${setGround}`;
               };
 
               if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
@@ -620,23 +635,23 @@ async function sparkle() {
         }
     }
     let sparklePatternArray = setSparklePatternOption1();
-    let startingPink = getRandomPink(); // try having it be a redder or deeper color closer to the fire, more washed out further away
+    let sparkleColor = getRandomLeafColor(); // try having it be a redder or deeper color closer to the fire, more washed out further away
     let sparkleSubCells = document.querySelectorAll(`.sparkleCounter${sparkleCounter}`).forEach(async (el) => {
         // the waiting portion isn't working
         if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[0]}3`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-            el.style.color = `${startingPink}`;
+            el.style.color = `${sparkleColor}`;
             el.textContent = "*";
         }
         await sleep(250)
         // removeAllChildNodes(el);
         if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[1]}2`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-            el.style.color = `${startingPink}`;
+            el.style.color = `${sparkleColor}`;
             el.textContent = "*";
         }
         await sleep(250)
         // removeAllChildNodes(el);
         if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[2]}1`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-            el.style.color = `${startingPink}`;
+            el.style.color = `${sparkleColor}`;
             el.textContent = "*";
         }
         // await sleep(500)
@@ -928,13 +943,13 @@ function makePond() {
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
     let pondSize = numberOfRows*randomNumber(25,40); // sets random pond size between two parameters
     // pondSize needs to be relative to totalCells (as like a percentage)
-    randomCell.style.backgroundColor = `${getRandomBlue()}`;
+    randomCell.style.backgroundColor = `${getRandomPondColor()}`;
     randomCell.style.filter = `brightness(0%)`
     for (let i = 1; i <= 4; i++) {
       let randomAdjacentCell = document.getElementById(`${getRandomAdjacentCellAddress(randomCell)}`);
       randomAdjacentCell.classList.add(`pondCell`);
       randomAdjacentCell.style.filter = `brightness(0%)`
-      randomAdjacentCell.style.backgroundColor = `${getRandomBlue()}`;
+      randomAdjacentCell.style.backgroundColor = `${getRandomPondColor()}`;
     };
 
     for (let i = 0; i <= pondSize; i++){
@@ -942,7 +957,7 @@ function makePond() {
       let randomAdjacentToPondCell = document.getElementById(`${getRandomAdjacentCellAddress(randomPondCell)}`);
       randomAdjacentToPondCell.classList.add(`pondCell`);
       randomAdjacentToPondCell.style.filter = `brightness(0%)`
-      randomAdjacentToPondCell.style.backgroundColor = `${getRandomBlue()}`;
+      randomAdjacentToPondCell.style.backgroundColor = `${getRandomPondColor()}`;
     };
 
     // need to get distance from pondOrigin cell
@@ -1071,9 +1086,9 @@ let trailPattern1Opposite = [];
 
 const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`,`#f6bd60`,`#e26d5c`,`#ffaa00`];
 
-function getRandomLeafColor() {
-  return leafColorArray[Math.floor(Math.random() * leafColorArray.length)];
-}
+// function getRandomLeafColor() {
+//   return leafColorArray[Math.floor(Math.random() * leafColorArray.length)];
+// }
 
 function getChanceOfEachTreePattern() {
   let randomChance = randomNumber(1,100);
@@ -1351,7 +1366,7 @@ function generateTrees() {
 
       // console.log(`tree pattern for tree ${treeCounter} is ${treePattern}`);
 
-      let trunkColor = `${getRandomTreeTrunkColor()}`;
+      let trunkColor = `${getRandomTrunkColor()}`;
       let leafColor = `${getRandomLeafColor()}`;
 
       let treeCellSubCells1= document.querySelectorAll(`.treePattern1`).forEach((el) => {
@@ -1936,7 +1951,7 @@ function setTrailPath() {
   startCell.classList.add(`trailStart`);
   startCell.classList.add(`trailCell`);
 
-  startCell.style.backgroundColor = `#008080`;
+  startCell.style.backgroundColor = getRandomTrailColor();
 
 
   let startingSide = startingQuadrant.substr(0,startingQuadrant.indexOf(`-`));
@@ -2013,12 +2028,6 @@ function setTrailPath() {
       trailOptionsGenerationCombined.push(`D${randomNumber(2,4)}`);
     }
   }
-
-
-
-  // for (let i = 0; i <= 10; i++){
-  //   trailOptionsGenerationCombined.push(`${trailOptionsGeneration2[randomNumber(0,trailOptionsGeneration2.length-1)]}${trailOptionsGeneration1[randomNumber(0,trailOptionsGeneration1.length-1)]}`);
-  // }
 
   console.log(trailOptionsGenerationCombined);
 
@@ -2207,7 +2216,7 @@ function setTrailPath() {
           if (
             (el.classList.contains(`trailCellSubCell${trailPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
           ) {
-            el.style.backgroundColor = `#a8329b`;
+            el.style.backgroundColor = getRandomTrailColor();
             el.style.filter = `brightness(0%)`;
             el.classList.add(`colorAssigned`);
             if(subCellColorMap.has(`${el.id}`)) {
