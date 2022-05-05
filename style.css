@@ -1,6 +1,7 @@
 body {
   background-color: black;
   display: flex;
+  border: 3px solid white;
 }
 
 #gridContainer {
@@ -11,6 +12,9 @@ body {
     /* height: 1000px; */
     flex-direction: column;
     background-color: black;
+    padding: 2px
+    border: 3px solid white;
+
     /* border-width: 3px;
     border-color: grey;
     border-style: solid; */
