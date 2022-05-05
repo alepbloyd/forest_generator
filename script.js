@@ -1,17 +1,146 @@
-// narrative - starts at night, brightens to day after some time, dims back down, regenerates the background as something different, which is revealed at day
-// as a mechanic, you could 'spend' to modify things for next generation (like greater chance of x appearing, new appearance possibilities)
-
-
-// things to fix:
-// or is the sparkle good while screen is still black? like maybe just less frequent? Since less light before fire starts
-// change the sparkle function to append asterisks instead of generating random colors
-
-//running makePond repeatedly, and with speed increasing each time, gives a cool flooding effect
-
-// I think fewer trees but bigger
-
 const gridContainer = document.querySelector(`#gridContainer`);
 
+
+let season;
+
+function setSeason(){
+  let randomValue = randomNumber(1,4);
+
+  if (randomValue == 1){
+    season = `spring`;
+  } else if (randomValue == 2){
+    season = `summer`;
+  } else if (randomValue == 3){
+    season = `fall`
+  } else if (randomValue == 4){
+    season = `winter`;
+  }
+}
+
+setSeason();
+
+let greenArray = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let pinkArray = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+
+
+
+let springPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let summerPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let fallPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let winterPondColors = [`#BBD8ED`,`#CAE9FF`];
+
+
+
+
+let springLeafColors = ["#ffe5ec","#ffc2d1","#ffb3c6","#ff8fab","#fb6f92"];
+
+let summerLeafColors = ["#e3e902","#ccd904","#b5c806","#9eb708","#87a70a","#70960c"];
+
+let fallLeafColors = ["#ff7b00","#ff8800","#ff9500","#ffa200","#ffaa00","#ffb700","#ffc300","#ffd000","#ffdd00","#ffea00"];
+
+let winterLeafColors = [`#f8f9fa`,`#eaf4f4`];
+
+
+
+
+let springTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let summerTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let fallTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let winterTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+
+let springGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let summerGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let fallGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let winterGroundColors = [`#abc4ff`,`#b6ccfe`];
+
+
+let springSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+let summerSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+let fallSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+let winterSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+
+
+let springTrailColors = [`#DDBEA9`];
+
+let summerTrailColors = [`#DDBEA9`];
+
+let fallTrailColors = [`#DDBEA9`];
+
+let winterTrailColors = [`#DDBEA9`];
+
+
+
+let pondColors = [];
+
+let leafColors = [];
+
+let trunkColors = [];
+
+let groundColors = [];
+
+let sparkleColors = [];
+
+let trailColors = [];
+
+
+
+function setColors(){
+
+  if (season == `spring`){
+
+    pondColors = springPondColors;
+    leafColors = springLeafColors;
+    trunkColors = springTrunkColors;
+    groundColors = springGroundColors;
+    sparkleColors = springSparkleColors;
+    trailColors = springTrailColors;
+
+  } else if (season == `summer`){
+
+    pondColors = summerPondColors;
+    leafColors = summerLeafColors;
+    trunkColors = summerTrunkColors;
+    groundColors = summerGroundColors;
+    sparkleColors = summerSparkleColors;
+    trailColors = summerTrailColors;
+
+  } else if (season == `fall`){
+
+    pondColors = fallPondColors;
+    leafColors = fallLeafColors;
+    trunkColors = fallTrunkColors;
+    groundColors = fallGroundColors;
+    sparkleColors = fallSparkleColors;
+    trailColors = fallTrailColors;
+
+  } else if (season == `winter`){
+
+    pondColors = winterPondColors;
+    leafColors = winterLeafColors;
+    trunkColors = winterTrunkColors;
+    groundColors = winterGroundColors;
+    sparkleColors = winterSparkleColors;
+    trailColors = winterTrailColors;
+  }
+}
+
+setColors();
 
 let originArray = [];
 
@@ -57,6 +186,8 @@ let maxOfRowsOrColumns = Math.max((Math.floor(documentHeight / 30)),(Math.floor(
 let numberOfRows = minOfRowsOrColumns;
 let numberOfColumns = minOfRowsOrColumns;
 
+let subCellColorMap = new Map();
+
 //sets the rows and columns to be a square, smaller than view window
 
 // let numberOfRows = maxOfRowsOrColumns;
@@ -94,9 +225,33 @@ function getRandomBlue() {
     return pondColorArray[Math.floor(Math.random() * greenArray.length)];
 }
 
-let greenArray = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+function getRandomPondColor(){
+  return pondColors[Math.floor(Math.random() * pondColors.length)];
+}
 
-let pinkArray = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+function getRandomLeafColor(){
+  return leafColors[Math.floor(Math.random() * leafColors.length)];
+}
+
+function getRandomTrunkColor(){
+  return trunkColors[Math.floor(Math.random() * trunkColors.length)];
+}
+
+function getRandomGroundColor(){
+  return groundColors[Math.floor(Math.random() * groundColors.length)];
+}
+
+function getRandomSparkleColor(){
+  return sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+}
+
+function getRandomTrailColor(){
+  return trailColors[Math.floor(Math.random() * trailColors.length)];
+}
+
+
+
+
 
 function getRow(cell) {
     return Number((cell.id).substring(0,2));
@@ -111,7 +266,7 @@ let distanceArray = [];
 function setDistanceFromOrigin(cell) {
     cellRow = getRow(cell);
     cellColumn = getColumn(cell);
-    cell.classList.add('distanceAssigned');
+    cell.classList.add('dAssigned');
     columnDistance = (Math.abs(cellColumn - originArray[1]));
     // should this calc be different, some way of averaging the row/column distance and rounding - so you get more circle going out instead of square
     rowDistance = (Math.abs(cellRow - originArray[0]));
@@ -164,8 +319,11 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             })
         }
     }
+    setTrailStartAndEndCells();
+    setTrailPath();
     makePond();
     generateTrees();
+    placeRocks();
 }
 
 function sleep(ms) {
@@ -201,55 +359,150 @@ gridContainer.addEventListener('click', (e) => {
     }
     hasBeenClicked = true;
  // need to adjust code below so pond doesn't get overwritten
+    let treeSubCells = document.querySelectorAll(`.treeCellSubCell`);
+    let treeSubCellArray = [];
+    for (let t = 0; t <= treeSubCells.length-1; t++){
+       //this is where i need parent cell distance
+     treeSubCellArray.push(treeSubCells[t]);
+    };
+
     let cells = document.querySelectorAll(`.cell`).forEach(async (el) => {
         setDistanceFromOrigin(el);
         createCloseCellsArray(el);
-        for (let i = 0; i <= getFurthestDistance(); i++) {
-            if (el.classList.contains(`.distance0`)) {
-                el.innerHTML = (String.fromCodePoint(0x1F525));
-                el.style.fontSize = 'x-large';
-                el.style.textAlign = 'center';
+
+        if (el.classList.contains(`treeCell`)){
+          // console.log(el.id);
+            // console.log(el.children);
+          let treeCellClassArray = el.classList;
+          let treeCellDistance = findDistanceFromClassList(treeCellClassArray);
+
+          for (let i = 1; i <= 3; i++){
+            for (let j = 1; j <= 3; j++){
+              let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+              subCellID.classList.add(treeCellDistance);
+
             }
-            if (el.classList.contains(`.distance${i}`)) {
-                if (el.classList.contains(`pondCell`) == false) {
-                  setGreen = getRandomGreen();
-                  el.style.backgroundColor = `${setGreen}`;
-                };
-                if (el.classList.contains(`treeCell`)){
-                  // el.children.style.filter = `brightness(${100-(i*7)}%)`;
-                  // let treeSubCellSelection =
-                }
+          }
+        }
+
+        if (el.classList.contains(`rockCell`)){
+          // console.log(el.id);
+            // console.log(el.children);
+          let rockCellClassArray = el.classList;
+          let rockCellDistance = findDistanceFromClassList(rockCellClassArray);
+
+          for (let i = 1; i <= 3; i++){
+            for (let j = 1; j <= 3; j++){
+              let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+              subCellID.classList.add(rockCellDistance);
+
+            }
+          }
+        }
+
+        if (el.classList.contains(`trailCell`)){
+          // console.log(el.id);
+            // console.log(el.children);
+          let trailCellClassArray = el.classList;
+          let trailCellDistance = findDistanceFromClassList(trailCellClassArray);
+
+          for (let i = 1; i <= 3; i++){
+            for (let j = 1; j <= 3; j++){
+              let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+              subCellID.classList.add(trailCellDistance);
+
+            }
+          }
+        }
+
+
+    });
+
+    let cells2 = document.querySelectorAll(`.cell`).forEach(async (el) => {
+      for (let i = 0; i <= getFurthestDistance(); i++) {
+          if (el.classList.contains(`.distance0`)) {
+              el.innerHTML = (String.fromCodePoint(0x1F525));
+              el.style.fontSize = 'x-large';
+              el.style.textAlign = 'center';
+          }
+          if (el.classList.contains(`.distance${i}`)) {
+              if ((el.classList.contains(`pondCell`) == false) && (el.classList.contains(`trailCell`) == false)) {
+                setGround = getRandomGroundColor();
+                el.style.backgroundColor = `${setGround}`;
+              };
+
+              if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                el.style.filter = `brightness(0%)`
+                    // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+              } else {
+                  el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+              }
+          }
+
+
+          if (el.classList.contains(`treeCell`) && (el.classList.contains(`.distance${i}`))){
+
+            for (let i = 1; i <= 3; i++){
+              for (let j = 1; j <= 3; j++){
+                let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+                subCellID.style.filter = `brightness(0%)`
                 if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
-                  el.style.filter = `brightness(0%)`
+                  subCellID.style.filter = `brightness(0%)`
                       // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
                 } else {
-                    el.style.filter = `brightness(${100-(i*7)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                    subCellID.style.filter = `brightness(${100-(i*2)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
                 }
+                // subCellID.style.filter = cellBrightness;
 
-
-
-                //need to set brightness so it gets to 0 at max of row or columns
-                // the multiplier of i adjusts size of circle - higher number == smalelr circle
-                // how to make the fading more circular than square?
-                // if (rowDistance >= 12 && columnDistance >= 12) {
-                //     el.style.filter = `brightness(${parseInt(el.style.filter.split('(').pop().split('%')[0])+90}%)`;
-                //     // el.style.backgroundColor = "red"; could make spooky around the edge?
-                // }
+              }
             }
-            if (el.classList.contains(`.distance0`) || el.classList.contains(`.distance1`) || el.classList.contains(`.distance2`)) {
-                // el.style.backgroundColor = "darkred";
+          }
+
+          if (el.classList.contains(`rockCell`) && (el.classList.contains(`.distance${i}`))){
+
+            for (let i = 1; i <= 3; i++){
+              for (let j = 1; j <= 3; j++){
+                let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+                subCellID.style.filter = `brightness(0%)`
+                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                  subCellID.style.filter = `brightness(0%)`
+                      // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+                } else {
+                    subCellID.style.filter = `brightness(${100-(i*2)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                }
+                // subCellID.style.filter = cellBrightness;
+
+              }
             }
+          }
 
-            // let treeSubCells = document.querySelectorAll(`.treeTrunkCell`).forEach(async (subcell) => {
-            //   for (let j = 0; j <= getFurthestDistance(); j++){
-            //     if (treeSubCells.classList.contains)
-            //   }
-            // });
+          if (el.classList.contains(`trailCell`) && (el.classList.contains(`.distance${i}`))){
 
-        await sleep(15); // make sleep start slow and speed up as it goes?
-        }
-        // dayNightCycle();
+            for (let i = 1; i <= 3; i++){
+              for (let j = 1; j <= 3; j++){
+                let subCellID = document.getElementById(`${el.id}-s${i}${j}`)
+                subCellID.style.filter = `brightness(0%)`
+                if (100-(i*7) < 0) { // the number multiplied by i has to be the same as the number multiplied by i in other part of if/else statement
+                  subCellID.style.filter = `brightness(0%)`
+                      // above option sets brightness to zero if above a certain distance, but makes the sparkle text disappear after set distance
+                } else {
+                    subCellID.style.filter = `brightness(${100-(i*2)}%)`; // EDIT THE number after i * to adjust size fof light, bigger number = smaller circle
+                }
+                // subCellID.style.filter = cellBrightness;
+
+              }
+            }
+          }
+
+      await sleep(15); // make sleep start slow and speed up as it goes?
+      }
     });
+
+// what about breaking up the foreach function below into two functions? One sets the distance and creates the closeCellArray and adds the distance to the tree cells, and then the next foreach loop does everything else?
+
+
+
+        // console.log(treeSubCellArray);
     dayNightCycle();
 });
 
@@ -300,27 +553,6 @@ let totalCells = numberOfRows * numberOfColumns;
 
 
 async function sparkle() {
-    // the speed of this is impacted by ratio of width/height, since there are fewer random cell possibilities in a smaller grid
-    // I like the speed that it goes when screen is like half width - how to calculate what it should be set to for about this speed?
-    //
-    // we need like a "target number" - something that has the speed right
-    // and we get it by multiplying the chance number by the total cells
-    // x = 1500
-    // c*t = x
-    // c*t = 1500
-    // c = 500
-    // t = 3
-
-    // 3000
-    // 500
-    // 6
-
-    // 9000
-    // 500
-    // 18
-
-    // could also just do this with setting the chance number with a case statement based on total number of cells
-    // e.g. if cells > 500 && cells < 1000, chance == x. if cells > 1000 && cells < 1500, chance == y
 
     if (randomNumber(0,1000) <= 500) { //this is chance of it running every 100 ms
         return;
@@ -340,9 +572,49 @@ async function sparkle() {
       return;
     };
 
+    if (randomCell.classList.contains(`treeCellBottom`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellMiddle`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellTop`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellTipTop`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellTipTopLeft`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellTipTopRight`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellMiddleLeft`)){
+      return;
+    };
+
+    if (randomCell.classList.contains(`treeCellMiddleRight`)){
+      return;
+    };
+
     if (randomCell.classList.contains(`treeCell`)){
       return;
     };
+
+    if (randomCell.classList.contains(`rockCell`)){
+      return;
+    }
+
+    if (randomCell.classList.contains(`trailCell`)){
+      return;
+    }
 
     randomCell.classList.add('sparkleCell');
     // randomCell.style.filter = "brightness(100%)"
@@ -363,23 +635,23 @@ async function sparkle() {
         }
     }
     let sparklePatternArray = setSparklePatternOption1();
-    let startingPink = getRandomPink(); // try having it be a redder or deeper color closer to the fire, more washed out further away
+    let sparkleColor = getRandomLeafColor(); // try having it be a redder or deeper color closer to the fire, more washed out further away
     let sparkleSubCells = document.querySelectorAll(`.sparkleCounter${sparkleCounter}`).forEach(async (el) => {
         // the waiting portion isn't working
         if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[0]}3`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-            el.style.color = `${startingPink}`;
+            el.style.color = `${sparkleColor}`;
             el.textContent = "*";
         }
         await sleep(250)
         // removeAllChildNodes(el);
         if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[1]}2`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-            el.style.color = `${startingPink}`;
+            el.style.color = `${sparkleColor}`;
             el.textContent = "*";
         }
         await sleep(250)
         // removeAllChildNodes(el);
         if (el.classList.contains(`sparkleCellSubCell${sparklePatternArray[2]}1`) && el.classList.contains(`sparkleCounter${sparkleCounter}`)) {
-            el.style.color = `${startingPink}`;
+            el.style.color = `${sparkleColor}`;
             el.textContent = "*";
         }
         // await sleep(500)
@@ -487,6 +759,113 @@ function getRandomAdjacentCellAddress(cell) {
 };
 
 
+function getCellAboveID(cell){
+  let initialCellID = cell.id;
+  let initialCellRow = getRowIntegerFromID(initialCellID);
+  let initialCellColumn = getColumnIntegerFromID(initialCellID);
+
+  let topCenterCellAddress = `${initialCellRow-1}-${initialCellColumn}`;
+
+  let address = topCenterCellAddress;
+
+  let firstNumber = getRowIntegerFromID(address);
+  let secondNumber = getColumnIntegerFromID(address);
+
+  if (firstNumber < 10 && secondNumber < 10) {
+    return `0${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber < 10 && secondNumber >= 10) {
+    return `0${firstNumber}-${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber < 10) {
+    return `${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber >= 10) {
+    return `${firstNumber}-${secondNumber}`;
+  }
+
+};
+
+function getCellLeftID(cell){
+  let initialCellID = cell.id;
+  let initialCellRow = getRowIntegerFromID(initialCellID);
+  let initialCellColumn = getColumnIntegerFromID(initialCellID);
+
+  let topCenterCellAddress = `${initialCellRow}-${initialCellColumn-1}`;
+
+  let address = topCenterCellAddress;
+
+  let firstNumber = getRowIntegerFromID(address);
+  let secondNumber = getColumnIntegerFromID(address);
+
+  if (firstNumber < 10 && secondNumber < 10) {
+    return `0${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber < 10 && secondNumber >= 10) {
+    return `0${firstNumber}-${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber < 10) {
+    return `${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber >= 10) {
+    return `${firstNumber}-${secondNumber}`;
+  }
+
+};
+
+function getCellRightID(cell){
+  let initialCellID = cell.id;
+  let initialCellRow = getRowIntegerFromID(initialCellID);
+  let initialCellColumn = getColumnIntegerFromID(initialCellID);
+
+  let topCenterCellAddress = `${initialCellRow}-${initialCellColumn+1}`;
+
+  let address = topCenterCellAddress;
+
+  let firstNumber = getRowIntegerFromID(address);
+  let secondNumber = getColumnIntegerFromID(address);
+
+  if (firstNumber < 10 && secondNumber < 10) {
+    return `0${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber < 10 && secondNumber >= 10) {
+    return `0${firstNumber}-${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber < 10) {
+    return `${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber >= 10) {
+    return `${firstNumber}-${secondNumber}`;
+  }
+
+};
+
+function getCellBelowID(cell){
+  let initialCellID = cell.id;
+  let initialCellRow = getRowIntegerFromID(initialCellID);
+  let initialCellColumn = getColumnIntegerFromID(initialCellID);
+
+  let topCenterCellAddress = `${initialCellRow+1}-${initialCellColumn}`;
+
+  let address = topCenterCellAddress;
+
+  let firstNumber = getRowIntegerFromID(address);
+  let secondNumber = getColumnIntegerFromID(address);
+
+  if (firstNumber < 10 && secondNumber < 10) {
+    return `0${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber < 10 && secondNumber >= 10) {
+    return `0${firstNumber}-${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber < 10) {
+    return `${firstNumber}-0${secondNumber}`;
+  }
+  if (firstNumber >= 10 && secondNumber >= 10) {
+    return `${firstNumber}-${secondNumber}`;
+  }
+
+};
 
 function getRandomAdjacentAndDiagonalCellAddress(cell) {
 
@@ -562,15 +941,15 @@ function makePond() {
     randomCell.classList.add(`pondCell`);
     // randomCell.append("Pond Origin");
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
-    let pondSize = randomNumber(500,750); // sets random pond size between two parameters
+    let pondSize = numberOfRows*randomNumber(25,40); // sets random pond size between two parameters
     // pondSize needs to be relative to totalCells (as like a percentage)
-    randomCell.style.backgroundColor = `${getRandomBlue()}`;
+    randomCell.style.backgroundColor = `${getRandomPondColor()}`;
     randomCell.style.filter = `brightness(0%)`
     for (let i = 1; i <= 4; i++) {
       let randomAdjacentCell = document.getElementById(`${getRandomAdjacentCellAddress(randomCell)}`);
       randomAdjacentCell.classList.add(`pondCell`);
       randomAdjacentCell.style.filter = `brightness(0%)`
-      randomAdjacentCell.style.backgroundColor = `${getRandomBlue()}`;
+      randomAdjacentCell.style.backgroundColor = `${getRandomPondColor()}`;
     };
 
     for (let i = 0; i <= pondSize; i++){
@@ -578,7 +957,7 @@ function makePond() {
       let randomAdjacentToPondCell = document.getElementById(`${getRandomAdjacentCellAddress(randomPondCell)}`);
       randomAdjacentToPondCell.classList.add(`pondCell`);
       randomAdjacentToPondCell.style.filter = `brightness(0%)`
-      randomAdjacentToPondCell.style.backgroundColor = `${getRandomBlue()}`;
+      randomAdjacentToPondCell.style.backgroundColor = `${getRandomPondColor()}`;
     };
 
     // need to get distance from pondOrigin cell
@@ -602,9 +981,132 @@ function setTreePattern() {
 
 let treeCounter = 0;
 
+function findDistanceFromClassList(array) {
+  for (let i = 0; i <= array.length-1; i++){
+    if (array[i].includes("distance")) {
+      return array[i];
+    };
+  };
+};
+
+// function getRandomElementsFromArray(array,n) {
+//   let usedNumbers = [];
+//   let returnArray = [];
+//   for (let i = 0; i <= n ; i++){
+//     let random = randomNumber(0,array.length-1);
+//     if usedNumbers.includes(random){
+//
+//     }
+//     returnArray.push(array[random]);
+//     usedNumbers.push(random);
+//   }
+//   return returnArray;
+// }
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let treeCellsArray = [];
+
+let possibleTreeCells = [];
+
+let possibleTreeZones = [`ttl`,`tt`,`ttr`,
+                    `tl`,`t`,`tr`,
+                    `ml`,`m`,`mr`,`b`];
+
+let possibleSubCells = ["11", "21", "31",
+                    "12", "22", "32",
+                    "13", "23", "33"];
+
+function getPossibleTreeCells(treezones,subcells){
+  for (let i = 0; i <= treezones.length-1; i++){
+    for (let j = 0; j <= subcells.length-1; j++){
+      possibleTreeCells.push(`${subcells[j]}-${treezones[i]}`)
+    }
+  }
+}
+
+getPossibleTreeCells(possibleTreeZones,possibleSubCells);
+
+function getOppositeCells(array){
+  let oppositeArray = [];
+  for (let i = 0; i <= possibleTreeCells.length-1; i++){
+    if (array.includes(possibleTreeCells[i])){
+    } else {
+      oppositeArray.push(possibleTreeCells[i]);
+    }
+  }
+  return oppositeArray;
+}
+
+let trunkPattern1 = [`11-m`,`12-m`,`13-m`,`22-m`,`23-m`,`11-b`,`12-b`,`13-b`,`21-b`,`22-b`,`23-b`];
+
+let trunkPattern1Opposite = getOppositeCells(trunkPattern1);
+
+let leafPattern1 = [`33-ttl`,`12-tt`,`22-tt`,`32-tt`,`13-tt`,`23-tt`,`33-tt`,`13-ttr`,`22-tl`,`31-tl`,`32-tl`,`33-tl`,`11-t`,`21-t`,`31-t`,`12-t`,`22-t`,`32-t`,`23-t`,`11-tr`,`21-tr`,`12-tr`,`22-tr`,`23-tr`,`33-tr`,`21-m`,`31-mr`,`32-mr`,`13-t`,`33-t`,`13-tr`,`21-mr`,`22-mr`,`33-mr`,`31-ml`];
+
+let leafPattern1Opposite = getOppositeCells(leafPattern1);
+
+let trunkPattern2 = [`31-b`,`32-b`,`33-b`,`32-m`,`33-m`,`22-m`,`13-mr`];
+
+let trunkPattern2Opposite = getOppositeCells(trunkPattern2);
+
+let trunkPattern3 = [`23-b`,`22-b`,`21-b`,`23-m`,`13-m`,`33-ml`,`32-ml`,`22-m`,`32-m`,`12-mr`,`21-m`,`31-mr`,`22-ml`,`22-mr`,`21-mr`];
+
+let trunkPattern4 = [`23-b`,`22-b`,`21-b`,`23-m`];
+
+let trunkPattern4Opposite = getOppositeCells(trunkPattern4);
+
+let leafPattern4 = [`23-tt`,`33-tl`,`11-t`,`12-t`,`13-t`,`21-t`,`22-t`,`23-t`,`31-t`,`32-t`,`33-t`,`13-tr`,`22-ml`,`23-ml`,`31-ml`,`32-ml`,`33-ml`,`11-m`,`12-m`,`13-m`,`21-m`,`22-m`,`31-m`,`32-m`,`33-m`,`11-mr`,`12-mr`,`13-mr`,`22-mr`,`23-mr`];
+
+let leafPattern4Opposite = getOppositeCells(leafPattern4);
+
+let trunkPattern3Opposite = getOppositeCells(trunkPattern3);
+
+let leafPattern2 = [`32-ttl`,`33-ttl`,`23-ttl`,`12-tt`,`21-tl`,`31-tl`,`32-tl`,`33-tl`,`11-t`,`21-t`,`12-t`,`22-t`,`13-t`,`23-t`,`33-t`,`31-ml`,`32-ml`,`11-m`,`21-m`,`31-m`,`11-mr`,`12-mr`,`23-ml`,`21-ml`,`22-ml`,`12-ml`,`31-t`];
+
+let leafPattern2Opposite = getOppositeCells(leafPattern2);
+
+let leafPattern3 = [`12-ml`,`11-ml`,`21-ml`,`31-ml`,`23-tl`,`33-tl`,`13-t`,`23-t`,`33-t`,`22-t`,`32-t`,`12-tr`,`13-tr`,`21-tr`,`22-tr`,`23-tr`,`32-tr`,`33-tr`];
+
+let leafPattern3Opposite = getOppositeCells(leafPattern3);
+
+let arrayOfTreePatterns = [leafPattern1, leafPattern2, leafPattern3];
+
+let leafMainCellArray = [`ttl`,`tt`,`ttr`,`tl`,`t`,`tr`,`ml`,`m`,`mr`];
+
+let trailPattern1 = [`11`,`12`,`13`,`21`,`22`,`23`,`31`,`32`,`33`];
+
+let trailPattern1Opposite = [];
+
+const leafColorArray = [`#F7D1CD`,`#E8C2CA`,`#D1B3C4`,`#f6bd60`,`#e26d5c`,`#ffaa00`];
+
+// function getRandomLeafColor() {
+//   return leafColorArray[Math.floor(Math.random() * leafColorArray.length)];
+// }
+
+function getChanceOfEachTreePattern() {
+  let randomChance = randomNumber(1,100);
+  if (randomChance < 25){
+    return 1;
+  } else if (randomChance < 60) {
+    return 2;
+  } else if (randomChance < 75) {
+    return 3;
+  } else {
+    return 4;
+  }
+}
+
 function generateTrees() {
-  for (let k = 1; k <= numberOfRows; k++){ //update to numberOfRows once working on one line
-      let chanceOfTree = 30;
+  for (let k = numberOfRows; k >= 4; k--){ //update to numberOfRows once working on one line
+  // for (let k = 4; k <= numberOfRows; k++){
+      // let chanceOfTree = 30;
       let initialCellOptions = document.getElementsByClassName(`row${k}`);
 
       initialCellOptions = Array.from(initialCellOptions);
@@ -614,75 +1116,1131 @@ function generateTrees() {
       for (let o = 0; o <= initialCellOptions.length-1; o++){
         if (
           (initialCellOptions[o].classList.contains("pondCell") == false) &&
-          (initialCellOptions[o].classList.contains("originCell") == false)
-        )
-        cellOptionsIDArray.push(initialCellOptions[o].id);
+          (initialCellOptions[o].classList.contains("originCell") == false) &&
+          (getColumnIntegerFromID(initialCellOptions[o].id) > 1) &&
+          (getColumnIntegerFromID(initialCellOptions[o].id) < numberOfColumns) &&
+          (initialCellOptions[o].classList.contains("trailCell") == false)
+           // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+        ) {
+        cellOptionsIDArray.push(initialCellOptions[o].id)
+      };
       }; //currently working
 
       let randomSelectionOfCellOptions = [];
       let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.25);
 
-      let shuffledCellOptionsIDArray = cellOptionsIDArray.sort(() => .5 - Math.random());
+      let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
+
+      // cellOptionsIDArray.sort(() => .5 - Math.random());
 
       randomSelectionOfCellOptions = shuffledCellOptionsIDArray.slice(0,numberOfCellsToSelect);
 
+      randomSelectionOfCellOptions.sort(function(a, b){return a-b});
+
+      let treePattern = 1;
 
       for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
-        let treeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
+        treePattern = getChanceOfEachTreePattern();
+
+        let bottomTreeCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
+
+        bottomTreeCellClassArray = bottomTreeCell.classList;
+        treeCellDistance = findDistanceFromClassList(bottomTreeCellClassArray);
+
+
         treeCounter += 1;
-        treeCell.classList.add(`treeCell`,`treeCounter${treeCounter}`);
+
+        bottomTreeCell.classList.add(`treeCell`,`treeCellBottom`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
 
         for (let i = 0; i < 3; i++) {
             let treeCellRow = document.createElement('div');
-            treeCell.appendChild(treeCellRow);
+            bottomTreeCell.appendChild(treeCellRow);
             treeCellRow.classList.add(`treeCellRow`);
 
             for (let j = 0; j < 3; j++) {
                 let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}`);
-                // need to add distance for lighting to work
-                // console.log(`sparkleCellSubCell${i+1}${j+1}`);
-                // sparkleCellSubCell.append("*");
+                treeCellSubCell.setAttribute(`id`,`${bottomTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellBottom`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-b`,`treePattern${treePattern}`);
             }
         }
+
+        treeCellsArray.push(bottomTreeCell.id);
+
+        let middleTreeCell;
+
+
+        middleTreeCell = document.getElementById(getCellAboveID(bottomTreeCell));
+        middleTreeCell.classList.add(`treeCell`,`treeCellMiddle`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            middleTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${middleTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddle`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-m`,`treePattern${treePattern}`);
+              }
+        }
+
+        treeCellsArray.push(middleTreeCell.id);
+
+        let middleLeftTreeCell;
+
+        middleLeftTreeCell = document.getElementById(getCellLeftID(middleTreeCell));
+        middleLeftTreeCell.classList.add(`treeCell`,`treeCellMiddleLeft`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            middleLeftTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${middleLeftTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddleLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ml`,`treePattern${treePattern}`);
+              }
+        }
+
+        treeCellsArray.push(middleLeftTreeCell.id);
+
+        let middleRightTreeCell;
+
+        middleRightTreeCell = document.getElementById(getCellRightID(middleTreeCell));
+        middleRightTreeCell.classList.add(`treeCell`,`treeCellMiddleRight`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            middleRightTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${middleRightTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddleRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-mr`,`treePattern${treePattern}`);
+              }
+        }
+
+        treeCellsArray.push(middleRightTreeCell.id);
+
+        let topTreeCell;
+
+        topTreeCell = document.getElementById(getCellAboveID(middleTreeCell));
+        topTreeCell.classList.add(`treeCell`,`treeCellTop`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            topTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${topTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-t`,`treePattern${treePattern}`);
+
+              }
+          }
+
+        treeCellsArray.push(topTreeCell.id);
+
+        let topLeftTreeCell;
+
+        topLeftTreeCell = document.getElementById(getCellLeftID(topTreeCell));
+        topLeftTreeCell.classList.add(`treeCell`,`treeCellTopRight`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            topLeftTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${topLeftTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTopLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tl`,`treePattern${treePattern}`);
+                        // need to add distance for lighting to work
+                        // console.log(`sparkleCellSubCell${i+1}${j+1}`);
+                        // sparkleCellSubCell.append("*");
+                }
+          }
+
+          treeCellsArray.push(topLeftTreeCell.id);
+
+
+          let topRightTreeCell;
+
+          topRightTreeCell = document.getElementById(getCellRightID(topTreeCell));
+          topRightTreeCell.classList.add(`treeCell`,`treeCellTopRight`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+          for (let i = 0; i < 3; i++) {
+              let treeCellRow = document.createElement('div');
+              topRightTreeCell.appendChild(treeCellRow);
+              treeCellRow.classList.add(`treeCellRow`);
+
+              for (let j = 0; j < 3; j++) {
+                  let treeCellSubCell = document.createElement('div');
+                  let parentCellDistance = "";
+                  treeCellRow.appendChild(treeCellSubCell);
+                  treeCellSubCell.setAttribute(`id`,`${topRightTreeCell.id}-s${i+1}${j+1}`);
+                  treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTopRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tr`,`treePattern${treePattern}`);
+                      // need to add distance for lighting to work
+                      // console.log(`sparkleCellSubCell${i+1}${j+1}`);
+                      // sparkleCellSubCell.append("*");
+                }
+            }
+
+        treeCellsArray.push(topRightTreeCell.id);
+
+
+        let tipTopTreeCell;
+
+        tipTopTreeCell = document.getElementById(getCellAboveID(topTreeCell));
+        tipTopTreeCell.classList.add(`treeCell`,`treeCellTipTop`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            tipTopTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${tipTopTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tt`,`treePattern${treePattern}`);
+
+              }
+          }
+
+        treeCellsArray.push(tipTopTreeCell.id);
+
+        let tipTopLeftTreeCell;
+
+        tipTopLeftTreeCell = document.getElementById(getCellLeftID(tipTopTreeCell));
+        tipTopLeftTreeCell.classList.add(`treeCell`,`treeCellTipTopLeft`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            tipTopLeftTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${tipTopLeftTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTopLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ttl`,`treePattern${treePattern}`);
+
+              }
+          }
+
+        treeCellsArray.push(tipTopLeftTreeCell.id);
+
+        let tipTopRightTreeCell;
+
+        tipTopRightTreeCell = document.getElementById(getCellRightID(tipTopTreeCell));
+        tipTopRightTreeCell.classList.add(`treeCell`,`treeCellTipTopRight`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+        for (let i = 0; i < 3; i++) {
+            let treeCellRow = document.createElement('div');
+            tipTopRightTreeCell.appendChild(treeCellRow);
+            treeCellRow.classList.add(`treeCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let treeCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                treeCellRow.appendChild(treeCellSubCell);
+                treeCellSubCell.setAttribute(`id`,`${tipTopRightTreeCell.id}-s${i+1}${j+1}`);
+                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTopRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ttr`,`treePattern${treePattern}`);
+
+              }
+          }
+
+        treeCellsArray.push(tipTopRightTreeCell.id);
+
+
       }
 
-      for (let g = 0; g <= treeCounter; g++) {
-        let treeCellSubCells = document.querySelectorAll(`.treeCounter${g}`).forEach((el) => {
-            // the waiting portion isn't working
-            let startingCell = randomNumber(1,3);
-            let trunkColor = `${getRandomTreeTrunkColor()}`;
-            if (el.classList.contains(`treeCellSubCell23`) && el.classList.contains(`treeCounter${g}`)) {
-              el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(0%)`;
-              el.classList.add(`treeTrunkCell`);
-              // el.textContent = "T";
+      // console.log(`tree pattern for tree ${treeCounter} is ${treePattern}`);
+
+      let trunkColor = `${getRandomTrunkColor()}`;
+      let leafColor = `${getRandomLeafColor()}`;
+
+      let treeCellSubCells1= document.querySelectorAll(`.treePattern1`).forEach((el) => {
+            for (let p = 0; p <= leafPattern1.length-1; p++){
+              if (
+                (el.classList.contains(`treeCellSubCell${leafPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+              ) {
+                el.style.backgroundColor = leafColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${leafColor}`);
+                }
+
+              }
             }
-            if (el.classList.contains(`treeCellSubCell22`) && el.classList.contains(`treeCounter${g}`)) {
-              el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(0%)`;
-              el.classList.add(`treeTrunkCell`);
-              // el.textContent = "M";
+
+            for (let t = 0; t <= trunkPattern1.length-1; t++){
+              if ((el.classList.contains(`treeCellSubCell${trunkPattern1[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+                el.style.backgroundColor = trunkColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${trunkColor}`);
+                }
+
+              }
             }
-            if (el.classList.contains(`treeCellSubCell21`) && el.classList.contains(`treeCounter${g}`)) {
-              el.style.backgroundColor = trunkColor;
-              el.style.filter = `brightness(0%)`;
-              el.classList.add(`treeTrunkCell`);
-              // el.textContent = "O";
+
+            for (let x = 0; x <= leafPattern1Opposite.length-1; x++){
+              if (el.classList.contains(`treeCellSubCell${leafPattern1Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
             }
-          });
-      }
+
+            for (let y = 0; y <= trunkPattern1Opposite.length-1; y++){
+              if (el.classList.contains(`treeCellSubCell${trunkPattern1Opposite[y]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+      });
+
+      let treeCellSubCells2= document.querySelectorAll(`.treePattern2`).forEach((el) => {
+            for (let p = 0; p <= leafPattern2.length-1; p++){
+              if (
+                (el.classList.contains(`treeCellSubCell${leafPattern2[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+              ) {
+                el.style.backgroundColor = leafColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${leafColor}`);
+                }
+
+              }
+            }
+
+            for (let t = 0; t <= trunkPattern2.length-1; t++){
+              if ((el.classList.contains(`treeCellSubCell${trunkPattern2[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+                el.style.backgroundColor = trunkColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${trunkColor}`);
+                }
+
+              }
+            }
+
+            for (let x = 0; x <= leafPattern2Opposite.length-1; x++){
+              if (el.classList.contains(`treeCellSubCell${leafPattern2Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+
+            for (let y = 0; y <= trunkPattern2Opposite.length-1; y++){
+              if (el.classList.contains(`treeCellSubCell${trunkPattern2Opposite[y]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+      });
+
+      let treeCellSubCells3= document.querySelectorAll(`.treePattern3`).forEach((el) => {
+            for (let p = 0; p <= leafPattern3.length-1; p++){
+              if (
+                (el.classList.contains(`treeCellSubCell${leafPattern3[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+              ) {
+                el.style.backgroundColor = leafColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${leafColor}`);
+                }
+
+              }
+            }
+
+            for (let t = 0; t <= trunkPattern3.length-1; t++){
+              if ((el.classList.contains(`treeCellSubCell${trunkPattern3[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+                el.style.backgroundColor = trunkColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${trunkColor}`);
+                }
+
+              }
+            }
+
+            for (let x = 0; x <= leafPattern3Opposite.length-1; x++){
+              if (el.classList.contains(`treeCellSubCell${leafPattern3Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+
+            for (let y = 0; y <= trunkPattern3Opposite.length-1; y++){
+              if (el.classList.contains(`treeCellSubCell${trunkPattern3Opposite[y]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+      });
+
+      let treeCellSubCells4= document.querySelectorAll(`.treePattern4`).forEach((el) => {
+            for (let p = 0; p <= leafPattern4.length-1; p++){
+              if (
+                (el.classList.contains(`treeCellSubCell${leafPattern4[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+              ) {
+                el.style.backgroundColor = leafColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${leafColor}`);
+                }
+
+              }
+            }
+
+            for (let t = 0; t <= trunkPattern4.length-1; t++){
+              if ((el.classList.contains(`treeCellSubCell${trunkPattern4[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+                el.style.backgroundColor = trunkColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${trunkColor}`);
+                }
+
+              }
+            }
+
+            for (let x = 0; x <= leafPattern4Opposite.length-1; x++){
+              if (el.classList.contains(`treeCellSubCell${leafPattern4Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+
+            for (let y = 0; y <= trunkPattern4Opposite.length-1; y++){
+              if (el.classList.contains(`treeCellSubCell${trunkPattern4Opposite[y]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+      });
+
     }
+    reassignSubCellColors();
 };
 
-function setRiverStart() {
-    // set starting pixels by
-    // 1. picking the starting side
-    // 2. randomly picking the left (or top, depending on if start is side or top/bottom) square and selecting other square based on that
-    // 3. setting the path - this wouid be based on picking one of the adjacent squares (that isn't to the right because that's for width), and
-    // then expanding until it hits another wall (check by the address of each cell, and it's hit a wall when either the x or y is over the max)
+function reassignSubCellColors(){
+  subCellColorMap.forEach(function(value,key) {
+    let cellToReassign = document.getElementById(`${key}`);
+    cellToReassign.style.backgroundColor = `${value}`;
+    cellToReassign.classList.add(`colorAssigned`);
+  })
+
+
 }
+
+// function getNonSparkleSubCells(){
+//
+// }
+
+function checkForChildNodes(cell) {
+  return cell.hasChildNodes();
+}
+
+function placeFlowers() {
+}
+
+let rockColorArray = [`#414833`,`#283618`];
+
+let rockPattern1 = [`22`,`13`,`23`,`33`];
+
+let rockPattern1Opposite = [`11`,`21`,`31`,`12`,`32`];
+
+let rockCounter = 1;
+
+let rockCellsArray = [];
+
+function getRandomRockColor() {
+  return rockColorArray[Math.floor(Math.random() * rockColorArray.length)];
+}
+
+function placeRocks() {
+  // this should essentially function the same as the generateTrees function, but need to also check that cell has no child cells to be a viable option
+  // rocks of a few different shapes and colors
+  for (let k = numberOfRows-1; k >= 2; k--){ //update to numberOfRows once working on one line
+  // for (let k = 4; k <= numberOfRows; k++){
+      // let chanceOfTree = 30;
+      let initialCellOptions = document.getElementsByClassName(`row${k}`);
+
+      initialCellOptions = Array.from(initialCellOptions);
+
+      let cellOptionsIDArray = [];
+
+      for (let o = 0; o <= initialCellOptions.length-1; o++){
+        if (
+          (initialCellOptions[o].classList.contains("pondCell") == false) &&
+          (initialCellOptions[o].classList.contains("originCell") == false) &&
+          (getColumnIntegerFromID(initialCellOptions[o].id) > 1) &&
+          (getColumnIntegerFromID(initialCellOptions[o].id) < numberOfColumns) && (initialCellOptions[o].hasChildNodes() == false)
+           // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+        ) {
+        cellOptionsIDArray.push(initialCellOptions[o].id)
+      };
+      }; //currently working
+
+      let randomSelectionOfCellOptions = [];
+      let numberOfCellsToSelect = (parseInt(cellOptionsIDArray.length-1)*.1);
+
+      let shuffledCellOptionsIDArray = shuffleArray(cellOptionsIDArray);
+
+      // cellOptionsIDArray.sort(() => .5 - Math.random());
+
+      randomSelectionOfCellOptions = shuffledCellOptionsIDArray.slice(0,numberOfCellsToSelect);
+
+      randomSelectionOfCellOptions.sort(function(a, b){return a-b});
+
+      let rockPattern = 1;
+
+      for (let x = 0; x <= randomSelectionOfCellOptions.length-1; x++){
+        rockPattern = randomNumber(1,1);
+
+        let rockCell = document.getElementById(`${randomSelectionOfCellOptions[x]}`);
+
+        rockCellClassArray = rockCell.classList;
+        rockCellDistance = findDistanceFromClassList(rockCellClassArray);
+
+
+        rockCounter += 1;
+
+        rockCell.classList.add(`rockCell`,`rockCounter${rockCounter}`,`rockPattern${rockPattern}`);
+
+        for (let i = 0; i < 3; i++) {
+            let rockCellRow = document.createElement('div');
+            rockCell.appendChild(rockCellRow);
+            rockCellRow.classList.add(`rockCellRow`);
+
+            for (let j = 0; j < 3; j++) {
+                let rockCellSubCell = document.createElement('div');
+                let parentCellDistance = "";
+                rockCellRow.appendChild(rockCellSubCell);
+                rockCellSubCell.setAttribute(`id`,`${rockCell.id}-s${i+1}${j+1}`);
+                rockCellSubCell.classList.add( `rockCellSubCell`,`rockCell`,`rockCounter${rockCounter}`,`rockCellSubCell${i+1}${j+1}`,`rockPattern${rockPattern}`);
+            }
+        }
+
+        rockCellsArray.push(rockCell.id);
+
+      }
+
+      // console.log(`tree pattern for tree ${treeCounter} is ${treePattern}`);
+
+      let rockColor = `${getRandomRockColor()}`;
+
+      let rockCellSubCells1= document.querySelectorAll(`.rockPattern1`).forEach((el) => {
+            for (let p = 0; p <= rockPattern1.length-1; p++){
+              if (
+                (el.classList.contains(`rockCellSubCell${rockPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+              ) {
+                el.style.backgroundColor = rockColor;
+                el.style.filter = `brightness(0%)`;
+                el.classList.add(`colorAssigned`);
+                if(subCellColorMap.has(`${el.id}`)) {
+                  // console.log("already assigned")
+                } else {
+                  subCellColorMap.set(`${el.id}`,`${rockColor}`);
+                }
+
+              }
+            }
+
+            for (let x = 0; x <= rockPattern1Opposite.length-1; x++){
+              if (el.classList.contains(`rockCellSubCell${rockPattern1Opposite[x]}`)) {
+                // el.style.backgroundColor = getRandomGreen();
+                el.style.filter = `brightness(0%)`;
+                // el.classList.add(`colorAssigned`);
+              }
+            }
+      });
+
+    }
+    reassignSubCellColors();
+}
+
+let choicesArray = [];
+
+function setTrailStartAndEndQuadrants() {
+  choicesArray = [1,2,3,4,5,6,7,8]; //change back to 1 - 8 when not testing
+  shuffleArray(choicesArray);
+
+  if (choicesArray[0] == 1){
+    choicesArray.splice(choicesArray.indexOf(2),1)
+  } else if (choicesArray[0] == 2) {
+    choicesArray.splice(choicesArray.indexOf(1),1)
+  } else if (choicesArray[0] == 3) {
+    choicesArray.splice(choicesArray.indexOf(4),1)
+  } else if (choicesArray[0] == 4) {
+    choicesArray.splice(choicesArray.indexOf(3),1)
+  } else if (choicesArray[0] == 5) {
+    choicesArray.splice(choicesArray.indexOf(6),1)
+  } else if (choicesArray[0] == 6) {
+    choicesArray.splice(choicesArray.indexOf(5),1)
+  } else if (choicesArray[0] == 7) {
+    choicesArray.splice(choicesArray.indexOf(8),1)
+  } else if (choicesArray[0] == 8) {
+    choicesArray.splice(choicesArray.indexOf(7),1)
+  }
+  console.log(choicesArray);
+  return choicesArray.slice(0,2);
+}
+
+let trailStartEndArray = setTrailStartAndEndQuadrants();
+
+let startingCell;
+let endingCell;
+
+function setTrailStartAndEndCells() {
+  // let initialStartingCellOptions = [];
+  let initialStartingCellOptionsIDArray = [];
+  let initialEndingCellOptionsIDArray = [];
+
+  let startingCellOptionsIDArray = [];
+  let endingCellOptionsIDArray = [];
+
+  let viableStartingCellArray = [];
+  let viableEndingCellArray = [];
+
+  let startingQuadrantNumber = trailStartEndArray[0];
+  let endingQuadrantNumber = trailStartEndArray[1];
+
+  if (startingQuadrantNumber == 1){ //working
+    startingQuadrant = 'top-left';
+    let initialStartingCellOptions = document.getElementsByClassName(`row1`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialStartingCellOptions[i].id) < (numberOfColumns/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 2) { //working
+    startingQuadrant = 'top-right';
+    let initialStartingCellOptions = document.getElementsByClassName(`row1`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialStartingCellOptions[i].id) > (numberOfColumns/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 3) { //working
+    startingQuadrant = 'right-top';
+    let initialStartingCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialStartingCellOptions[i].id) < (numberOfRows/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 4) { //working
+    startingQuadrant = 'right-bottom';
+    let initialStartingCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialStartingCellOptions[i].id) > (numberOfRows/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 5) { //working
+    startingQuadrant = 'bottom-right';
+    let initialStartingCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialStartingCellOptions[i].id) > (numberOfColumns/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 6) { //working
+    startingQuadrant = 'bottom-left';
+    let initialStartingCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialStartingCellOptions[i].id) < (numberOfColumns/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 7) { //working
+    startingQuadrant = 'left-bottom';
+    let initialStartingCellOptions = document.getElementsByClassName(`column1`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialStartingCellOptions[i].id) > (numberOfRows/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (startingQuadrantNumber == 8) { //working
+    startingQuadrant = 'left-top';
+    let initialStartingCellOptions = document.getElementsByClassName(`column1`);
+    for (let i = 0; i <= initialStartingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialStartingCellOptions[i].id) < (numberOfRows/2)){
+      initialStartingCellOptionsIDArray.push(initialStartingCellOptions[i].id);
+      }
+    }
+  }
+
+  for (let i = 0; i <= initialStartingCellOptionsIDArray.length-1; i++){
+    let cell = document.getElementById(initialStartingCellOptionsIDArray[i]);
+    if (
+      (cell.classList.contains("pondCell") == false) &&
+      (cell.classList.contains("originCell") == false) &&
+      (cell.hasChildNodes() == false)
+       // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+    ) {
+    viableStartingCellArray.push(cell)
+    };
+  };
+
+  startingCell = viableStartingCellArray[randomNumber(0,viableStartingCellArray.length)];
+
+
+  if (endingQuadrantNumber == 1){ //working
+    endingQuadrant = 'top-left';
+    let initialEndingCellOptions = document.getElementsByClassName(`row1`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialEndingCellOptions[i].id) < (numberOfColumns/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 2) { //working
+    endingQuadrant = 'top-right';
+    let initialEndingCellOptions = document.getElementsByClassName(`row1`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialEndingCellOptions[i].id) > (numberOfColumns/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 3) { //working
+    endingQuadrant = 'right-top';
+    let initialEndingCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialEndingCellOptions[i].id) < (numberOfRows/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 4) { //working
+    endingQuadrant = 'right-bottom';
+    let initialEndingCellOptions = document.getElementsByClassName(`column${numberOfColumns}`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialEndingCellOptions[i].id) > (numberOfRows/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 5) { //working
+    endingQuadrant = 'bottom-right';
+    let initialEndingCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialEndingCellOptions[i].id) > (numberOfColumns/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 6) { //working
+    endingQuadrant = 'bottom-left';
+    let initialEndingCellOptions = document.getElementsByClassName(`row${numberOfRows}`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getColumnIntegerFromID(initialEndingCellOptions[i].id) < (numberOfColumns/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 7) { //working
+    endingQuadrant = 'left-bottom';
+    let initialEndingCellOptions = document.getElementsByClassName(`column1`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialEndingCellOptions[i].id) > (numberOfRows/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  } else if (endingQuadrantNumber == 8) { //working
+    endingQuadrant = 'left-top';
+    let initialEndingCellOptions = document.getElementsByClassName(`column1`);
+    for (let i = 0; i <= initialEndingCellOptions.length-1; i++){
+      if (getRowIntegerFromID(initialEndingCellOptions[i].id) < (numberOfRows/2)){
+      initialEndingCellOptionsIDArray.push(initialEndingCellOptions[i].id);
+      }
+    }
+    // console.log(initialStartingCellOptionsIDArray);
+  }
+
+  for (let i = 0; i <= initialEndingCellOptionsIDArray.length-1; i++){
+    let cell = document.getElementById(initialEndingCellOptionsIDArray[i]);
+    if (
+      (cell.classList.contains("pondCell") == false) &&
+      (cell.classList.contains("originCell") == false) &&
+      (cell.hasChildNodes() == false)
+       // && (getColumnIntegerFromID(initialCellOptions[o].id) % 2 == 0)
+    ) {
+    viableEndingCellArray.push(cell)
+    };
+  };
+
+  endingCell = viableEndingCellArray[randomNumber(0,viableEndingCellArray.length)];
+
+  console.log(startingQuadrant);
+  console.log(startingCell);
+  // console.log(endingQuadrant);
+  // console.log(endingCell);
+};
+
+let trailCounter = 1;
+
+let trailCellsArray = [];
+
+function getArrayOfAdjacentCells(cell) {
+  let returnArray = [];
+  returnArray.push(getCellAboveID(cell));
+  returnArray.push(getCellLeftID(cell));
+  returnArray.push(getCellRightID(cell));
+  returnArray.push(getCellBelowID(cell));
+  return returnArray
+}
+
+
+
+function setTrailPath() {
+
+  let startCell = document.getElementById(`${startingCell.id}`);
+  startCell.classList.add(`trailStart`);
+  startCell.classList.add(`trailCell`);
+
+  startCell.style.backgroundColor = getRandomTrailColor();
+
+
+  let startingSide = startingQuadrant.substr(0,startingQuadrant.indexOf(`-`));
+
+  let startingSideSecondary = startingQuadrant.substr(startingQuadrant.indexOf(`-`) + 1);
+
+  let startingCellColumn = getColumnIntegerFromID(startCell.id)
+
+  let startingCellRow = getRowIntegerFromID(startCell.id)
+
+  let startPathValue;
+  let trailLength;
+
+
+  let trailOptionsGenerationDirections = [`U`,`R`,`D`,`L`];
+
+  if (startingSide == `top`){
+    trailOptionsGenerationDirections.splice(trailOptionsGenerationDirections.indexOf(`U`),1);
+    trailLength = numberOfRows;
+  } else if (startingSide == `right`) {
+    trailOptionsGenerationDirections.splice(trailOptionsGenerationDirections.indexOf(`R`),1);
+    trailLength = numberOfColumns;
+  } else if (startingSide == `bottom`) {
+    trailOptionsGenerationDirections.splice(trailOptionsGenerationDirections.indexOf(`D`),1);
+    trailLength = numberOfRows;
+  } else if (startingSide == `left`) {
+    trailOptionsGenerationDirections.splice(trailOptionsGenerationDirections.indexOf(`L`),1);
+    trailLength = numberOfColumns;
+  }
+
+  console.log(`Trail length is ${trailLength} and starts at the ${startingSide} ${startingSideSecondary}`)
+
+  let trailOptionsGenerationNumbers = [];
+
+  let numberOfTrailSegments = randomNumber(6,10);
+
+  for (let i = 0; i <= numberOfTrailSegments; i++){
+    let randomValue = randomNumber(6,9);
+    trailLength -= randomValue;
+    trailOptionsGenerationNumbers.push(randomValue);
+    // console.log(trailLength)
+  }
+
+  trailOptionsGenerationNumbers = trailOptionsGenerationNumbers.filter( x => x > 0);
+
+  let trailOptionsGenerationCombined = [];
+
+  for (let i = 0; i <= trailOptionsGenerationNumbers.length-1; i++){
+    //add in the secondary movement here under each startement
+    //means I need to double the if statements with &&s for startingSideSecondary
+    if (startingSide == `top` && startingSideSecondary == `left`){
+      trailOptionsGenerationCombined.push(`D${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`R${randomNumber(2,4)}`);
+    } else if (startingSide == `top` && startingSideSecondary == `right`){
+      trailOptionsGenerationCombined.push(`D${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`L${randomNumber(2,4)}`);
+    } else if (startingSide == `right` && startingSideSecondary == `top`){
+      trailOptionsGenerationCombined.push(`L${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`D${randomNumber(2,4)}`);
+    } else if (startingSide == `right` && startingSideSecondary == `bottom`){
+      trailOptionsGenerationCombined.push(`L${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`U${randomNumber(2,4)}`);
+    } else if (startingSide == `bottom` && startingSideSecondary == `right`){
+      trailOptionsGenerationCombined.push(`U${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`L${randomNumber(2,4)}`);
+    } else if (startingSide == `bottom` && startingSideSecondary == `left`){
+      trailOptionsGenerationCombined.push(`U${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`R${randomNumber(2,4)}`);
+    } else if (startingSide == `left` && startingSideSecondary == `bottom`){
+      trailOptionsGenerationCombined.push(`R${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`U${randomNumber(2,4)}`);
+    } else if (startingSide == `left` && startingSideSecondary == `top`){
+      trailOptionsGenerationCombined.push(`R${trailOptionsGenerationNumbers[i]}`)
+      trailOptionsGenerationCombined.push(`D${randomNumber(2,4)}`);
+    }
+  }
+
+  console.log(trailOptionsGenerationCombined);
+
+
+
+  let trailArray = [];
+
+  startingCellColumn = getColumnIntegerFromID(startCell.id)
+
+  startingCellRow = getRowIntegerFromID(startCell.id)
+
+  let cell1 = startCell;
+
+
+  let startRow = getRowIntegerFromID(cell1.id);
+  let startColumn = getColumnIntegerFromID(cell1.id);
+
+  for (let i = 0; i <= trailOptionsGenerationCombined.length-1; i++){
+    let directionValue = trailOptionsGenerationCombined[i].charAt(0);
+    let lengthValue = trailOptionsGenerationCombined[i].charAt(1);
+
+
+    // trailArray.push(cell1.id);
+
+    // let cell2;
+
+
+
+
+    if (directionValue == `U`) {
+      for (let j = 1; j <= lengthValue; j++) {
+        trailArray.push(`${startRow-j}-${startColumn}`)
+      }
+      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
+      //
+      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
+      //
+      // console.log(trailArray[trailArray.length-1]);
+
+      startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
+
+      startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
+      //outside of the above loop, set new starting values? last value in trailArray
+      // reset cell1 to equal last value in trailArray
+    } else if (directionValue == `R`) {
+      for (let j = 1; j <= lengthValue; j++) {
+        // let startRow = getRowIntegerFromID(cell1.id);
+        // let startColumn = getColumnIntegerFromID(cell1.id);
+
+        trailArray.push(`${startRow}-${startColumn+j}`)
+
+      }
+
+      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
+      //
+      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
+      //
+      //
+      // console.log(trailArray[trailArray.length-1]);
+
+      startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
+
+      startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
+
+
+    } else if (directionValue == `D`) {
+      for (let j = 1; j <= lengthValue; j++) {
+
+        // let startRow = getRowIntegerFromID(cell1.id);
+        // let startColumn = getColumnIntegerFromID(cell1.id);
+
+        trailArray.push(`${startRow+j}-${startColumn}`)
+
+      }
+      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
+      //
+      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
+
+      startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
+
+      startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
+
+    } else if (directionValue == `L`) {
+      for (let j = 1; j <= lengthValue; j++) {
+
+        // let startRow = getRowIntegerFromID(cell1.id);
+        // let startColumn = getColumnIntegerFromID(cell1.id);
+
+        trailArray.push(`${startRow}-${startColumn-j}`)
+
+      }
+
+      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
+      //
+      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
+      //
+      // console.log(trailArray[trailArray.length-1]);
+
+      startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
+
+      startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
+
+    }
+  }
+
+  console.log(trailArray);
+
+  let trailArrayFinal = [];
+
+  let removedOptions = [];
+
+  for (let i = 0; i <= trailArray.length-1; i++){
+    // for each trail array element, if not in xx-yy format (like if it is in x-y or x-yy or xx-y format), reformat into xx-yy format
+
+    // also if it has a NaN or a 0 or negative number, remove that element from the array entirely
+    let rowValue = parseInt(trailArray[i].substr(0,trailArray[i].indexOf('-')),10);
+
+    let columnValue = parseInt(trailArray[i].toString().split(`-`)[1], 10);
+
+    if (trailArray[i].includes(`NaN`)){
+      removedOptions.push(trailArray[i]);
+    } // gets rid of NaN
+
+    if (rowValue <= 0 || rowValue > numberOfRows){
+      removedOptions.push(trailArray[i]);
+    } else if (columnValue <= 0 || columnValue > numberOfColumns){
+      removedOptions.push(trailArray[i]);
+    } else {
+
+
+
+    // these statements below need to run AFTER the statements above?
+    // could i run the array comparison function i used for tree patterns to remove the removedOptions for trailArrayFinal?
+    if (rowValue < 10 && columnValue < 10) {
+        trailArrayFinal.push(`0${rowValue}-0${columnValue}`);
+    }
+    if (rowValue < 10 && columnValue >= 10) {
+        trailArrayFinal.push(`0${rowValue}-${columnValue}`);
+    }
+    if (rowValue >= 10 && columnValue < 10) {
+        trailArrayFinal.push(`${rowValue}-0${columnValue}`);
+    }
+    if (rowValue >= 10 && columnValue >= 10) {
+        trailArrayFinal.push(`${rowValue}-${columnValue}`);
+    } // working
+
+    }
+  }
+
+  console.log(removedOptions);
+  console.log(trailArrayFinal);
+
+  for (let x = 0; x <= trailArrayFinal.length-1; x++){ // works UNLESS there are invalid options in the trailArrayFinal array
+    trailPattern = randomNumber(1,1);
+
+    let trailCell = document.getElementById(`${trailArrayFinal[x]}`);
+
+    trailCellClassArray = trailCell.classList;
+    trailCellDistance = findDistanceFromClassList(trailCellClassArray);
+
+
+    trailCounter += 1;
+
+    trailCell.classList.add(`trailCell`,`trailCounter${trailCounter}`,`trailPattern${trailPattern}`);
+
+    for (let i = 0; i < 3; i++) {
+        let trailCellRow = document.createElement('div');
+        trailCell.appendChild(trailCellRow);
+        trailCellRow.classList.add(`trailCellRow`);
+
+        for (let j = 0; j < 3; j++) {
+            let trailCellSubCell = document.createElement('div');
+            let parentCellDistance = "";
+            trailCellRow.appendChild(trailCellSubCell);
+            trailCellSubCell.setAttribute(`id`,`${trailCell.id}-s${i+1}${j+1}`);
+            trailCellSubCell.classList.add( `trailCellSubCell`,`trailCell`,`trailCounter${trailCounter}`,`trailCellSubCell${i+1}${j+1}`,`trailPattern${trailPattern}`);
+        }
+    }
+
+    // rockCellsArray.push(rockCell.id);
+
+  }
+
+  let trailCellSubCells1= document.querySelectorAll(`.trailPattern1`).forEach((el) => {
+        for (let p = 0; p <= trailPattern1.length-1; p++){
+          if (
+            (el.classList.contains(`trailCellSubCell${trailPattern1[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+          ) {
+            el.style.backgroundColor = getRandomTrailColor();
+            el.style.filter = `brightness(0%)`;
+            el.classList.add(`colorAssigned`);
+            if(subCellColorMap.has(`${el.id}`)) {
+              // console.log("already assigned")
+            } else {
+              // subCellColorMap.set(`${el.id}`,`#008080`);
+            }
+
+          }
+        }
+
+        for (let x = 0; x <= trailPattern1Opposite.length-1; x++){
+          if (el.classList.contains(`trailCellSubCell${trailPattern1Opposite[x]}`)) {
+            // el.style.backgroundColor = getRandomGreen();
+            el.style.filter = `brightness(0%)`;
+            // el.classList.add(`colorAssigned`);
+          }
+        }
+  });
+  reassignSubCellColors();
+}
+
+// currentCell.style.backgroundColor = `#8338ec`;
+
 
 // const dayNightButton = document.getElementById("DayNightCycleButton");
 // dayNightButton.addEventListener("click", dayNightCycle)
