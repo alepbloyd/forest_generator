@@ -11,6 +11,25 @@
 const gridContainer = document.querySelector(`#gridContainer`);
 
 
+let season;
+
+function setSeason(){
+  let randomValue = randomNumber(1,4);
+
+  if (randomValue == 1){
+    season = `spring`;
+  } else if (randomValue == 2){
+    season = `summer`;
+  } else if (randomValue == 3){
+    season = `fall`
+  } else if (randomValue == 4){
+    season = `winter`;
+  }
+}
+
+setSeason();
+
+
 let originArray = [];
 
 let originRow = 0;
@@ -94,9 +113,130 @@ function getRandomBlue() {
     return pondColorArray[Math.floor(Math.random() * greenArray.length)];
 }
 
+
+
+
 let greenArray = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
 
 let pinkArray = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
+
+
+
+
+let springPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let summerPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let fallPondColors = [`#007AB8`, `#0582CA`, `#006494`, `#005A8F`, `#176999`];
+
+let winterPondColors = [`#BBD8ED`,`#CAE9FF`];
+
+
+
+
+let springLeafColors = ["#ffe5ec","#ffc2d1","#ffb3c6","#ff8fab","#fb6f92"];
+
+let summerLeafColors = ["#e3e902","#ccd904","#b5c806","#9eb708","#87a70a","#70960c"];
+
+let fallLeafColors = ["#ff7b00","#ff8800","#ff9500","#ffa200","#ffaa00","#ffb700","#ffc300","#ffd000","#ffdd00","#ffea00"];
+
+let winterLeafColors = [`#f8f9fa`,`#eaf4f4`];
+
+
+
+
+let springTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let summerTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let fallTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+let winterTrunkColors = [`#B08968`,`#7F5539`,`#9C6644`];
+
+
+let springGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let summerGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let fallGroundColors = ['#45BF6C', '#259C4B','#2A964C','#18943F','#19BD4D'];
+
+let winterGroundColors = [`#abc4ff`,`#b6ccfe`];
+
+
+let springSparkleColors = [];
+
+let summerSparkleColors = [];
+
+let fallSparkleColors = [];
+
+let winterSparkleColors = [];
+
+
+
+let springTrailColors = [`#DDBEA9`];
+
+let summerTrailColors = [`#DDBEA9`];
+
+let fallTrailColors = [`#DDBEA9`];
+
+let winterTrailColors = [`#DDBEA9`];
+
+
+
+let pondColors = [];
+
+let leafColors = [];
+
+let trunkColors = [];
+
+let groundColors = [];
+
+let sparkleColors = [];
+
+let trailColors = [];
+
+
+
+function setColors(){
+
+  if (season == `spring`){
+
+    pondColors = springPondColors;
+    leafColors = springLeafColors;
+    trunkColors = springTrunkColors;
+    groundColors = springGroundColors;
+    sparkleColors = springSparkleColors;
+    trailColors = springTrailColors;
+
+  } else if (season == `summer`){
+
+    pondColors = summerPondColors;
+    leafColors = summerLeafColors;
+    trunkColors = summerTrunkColors;
+    groundColors = summerGroundColors;
+    sparkleColors = summerSparkleColors;
+    trailColors = summerTrailColors;
+
+  } else if (season == `fall`){
+
+    pondColors = fallPondColors;
+    leafColors = fallLeafColors;
+    trunkColors = fallTrunkColors;
+    groundColors = fallGroundColors;
+    sparkleColors = fallSparkleColors;
+    trailColors = fallTrailColors;
+
+  } else if (season == `winter`){
+
+    pondColors = winterPondColors;
+    leafColors = winterLeafColors;
+    trunkColors = winterTrunkColors;
+    groundColors = winterGroundColors;
+    sparkleColors = winterSparkleColors;
+    trailColors = winterTrailColors;
+  }
+}
+
 
 function getRow(cell) {
     return Number((cell.id).substring(0,2));
@@ -1831,10 +1971,10 @@ function setTrailPath() {
 
   let trailOptionsGenerationNumbers = [];
 
-  let numberOfTrailSegments = randomNumber(5,8);
+  let numberOfTrailSegments = randomNumber(6,10);
 
   for (let i = 0; i <= numberOfTrailSegments; i++){
-    let randomValue = randomNumber(3,6);
+    let randomValue = randomNumber(6,9);
     trailLength -= randomValue;
     trailOptionsGenerationNumbers.push(randomValue);
     // console.log(trailLength)
@@ -1986,10 +2126,55 @@ function setTrailPath() {
 
   console.log(trailArray);
 
-  for (let x = 0; x <= trailCellsArray.length-1; x++){
+  let trailArrayFinal = [];
+
+  let removedOptions = [];
+
+  for (let i = 0; i <= trailArray.length-1; i++){
+    // for each trail array element, if not in xx-yy format (like if it is in x-y or x-yy or xx-y format), reformat into xx-yy format
+
+    // also if it has a NaN or a 0 or negative number, remove that element from the array entirely
+    let rowValue = parseInt(trailArray[i].substr(0,trailArray[i].indexOf('-')),10);
+
+    let columnValue = parseInt(trailArray[i].toString().split(`-`)[1], 10);
+
+    if (trailArray[i].includes(`NaN`)){
+      removedOptions.push(trailArray[i]);
+    } // gets rid of NaN
+
+    if (rowValue <= 0 || rowValue > numberOfRows){
+      removedOptions.push(trailArray[i]);
+    } else if (columnValue <= 0 || columnValue > numberOfColumns){
+      removedOptions.push(trailArray[i]);
+    } else {
+
+
+
+    // these statements below need to run AFTER the statements above?
+    // could i run the array comparison function i used for tree patterns to remove the removedOptions for trailArrayFinal?
+    if (rowValue < 10 && columnValue < 10) {
+        trailArrayFinal.push(`0${rowValue}-0${columnValue}`);
+    }
+    if (rowValue < 10 && columnValue >= 10) {
+        trailArrayFinal.push(`0${rowValue}-${columnValue}`);
+    }
+    if (rowValue >= 10 && columnValue < 10) {
+        trailArrayFinal.push(`${rowValue}-0${columnValue}`);
+    }
+    if (rowValue >= 10 && columnValue >= 10) {
+        trailArrayFinal.push(`${rowValue}-${columnValue}`);
+    } // working
+
+    }
+  }
+
+  console.log(removedOptions);
+  console.log(trailArrayFinal);
+
+  for (let x = 0; x <= trailArrayFinal.length-1; x++){ // works UNLESS there are invalid options in the trailArrayFinal array
     trailPattern = randomNumber(1,1);
 
-    let trailCell = document.getElementById(`${trailCellsArray[x]}`);
+    let trailCell = document.getElementById(`${trailArrayFinal[x]}`);
 
     trailCellClassArray = trailCell.classList;
     trailCellDistance = findDistanceFromClassList(trailCellClassArray);
