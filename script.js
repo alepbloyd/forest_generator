@@ -76,13 +76,13 @@ let winterSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
 
 
 
-let springTrailColors = [`#DDBEA9`];
+let springTrailColors = [`#B08968`];
 
-let summerTrailColors = [`#DDBEA9`];
+let summerTrailColors = [`#7F5539`];
 
-let fallTrailColors = [`#DDBEA9`];
+let fallTrailColors = [`#9C6644`];
 
-let winterTrailColors = [`#DDBEA9`];
+let winterTrailColors = [`#9C6644`];
 
 
 
@@ -310,13 +310,14 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             if (i >= 10 && j >= 10) {
                 cell.setAttribute('id',`${i}-${j}`)
             }
-            // cell.setAttribute(`id`,`${parseInt(i)}-${parseInt(j)}`);
             gridRow.appendChild(cell);
             cell.addEventListener('click', e => {
                 e.target.classList.add('originCell');
                 e.target.classList.add('originDistance-0');
+                //maybe the problem is with these lines below? If it's a subcell, need to change the way that origin distance is assigned
                 originArray.push(Number((e.target.id).substring(0,2)));
                 originArray.push(Number((e.target.id).substring(3)));
+                //
                 originRow = originArray[0];
                 originColumn = originArray[1];
             })
@@ -327,6 +328,28 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
     makePond();
     generateTrees();
     placeRocks();
+
+    // here - add click event listener to subCells, but if clicked, apply it to (grand)parent, not the
+    document.querySelectorAll(`.subCell`).forEach((subCell) => {
+      subCell.addEventListener('click', e => {
+
+          let parentCell = (subCell.parentElement).parentElement
+
+          console.log(parentCell.id)
+
+          parentCell.classList.add('originCell');
+          parentCell.classList.add('originDistance-0');
+          //maybe the problem is with these lines below? If it's a subcell, need to change the way that origin distance is assigned
+          originArray.push(Number((parentCell.id).substring(0,2)));
+          originArray.push(Number((parentCell.id).substring(3)));
+          //
+          originRow = originArray[0];
+          originColumn = originArray[1];
+      })
+    });
+
+
+
 }
 
 function sleep(ms) {
