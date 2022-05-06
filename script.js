@@ -76,13 +76,13 @@ let winterSparkleColors = [`#FFDDE2`,`#D6949E`,`#E69CA7`,`#F5A2AE`,`#D67A88`];
 
 
 
-let springTrailColors = [`#DDBEA9`];
+let springTrailColors = [`#B08968`];
 
-let summerTrailColors = [`#DDBEA9`];
+let summerTrailColors = [`#7F5539`];
 
-let fallTrailColors = [`#DDBEA9`];
+let fallTrailColors = [`#9C6644`];
 
-let winterTrailColors = [`#DDBEA9`];
+let winterTrailColors = [`#9C6644`];
 
 
 
@@ -183,8 +183,8 @@ let minOfRowsOrColumns = Math.min((Math.floor(documentHeight / 30)),(Math.floor(
 
 let maxOfRowsOrColumns = Math.max((Math.floor(documentHeight / 30)),(Math.floor(documentWidth / 30)));
 
-let numberOfRows = minOfRowsOrColumns;
-let numberOfColumns = minOfRowsOrColumns;
+// let numberOfRows = minOfRowsOrColumns;
+// let numberOfColumns = minOfRowsOrColumns;
 
 let subCellColorMap = new Map();
 
@@ -195,8 +195,8 @@ let subCellColorMap = new Map();
 
 //sets the rows and columns to be a square, larger than view window.
 
-// let numberOfRows = (Math.floor(documentHeight / 30));
-// let numberOfColumns = (Math.floor(documentWidth / 30));
+let numberOfRows = (Math.floor(documentHeight / 30));
+let numberOfColumns = (Math.floor(documentWidth / 30));
 
 // sets at browser width
 // this one looks best
@@ -264,6 +264,9 @@ function getColumn(cell) {
 let distanceArray = [];
 
 function setDistanceFromOrigin(cell) {
+
+  // if cell.classList.contains(`subCell`)
+
     cellRow = getRow(cell);
     cellColumn = getColumn(cell);
     cell.classList.add('dAssigned');
@@ -307,13 +310,14 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
             if (i >= 10 && j >= 10) {
                 cell.setAttribute('id',`${i}-${j}`)
             }
-            // cell.setAttribute(`id`,`${parseInt(i)}-${parseInt(j)}`);
             gridRow.appendChild(cell);
             cell.addEventListener('click', e => {
                 e.target.classList.add('originCell');
                 e.target.classList.add('originDistance-0');
+                //maybe the problem is with these lines below? If it's a subcell, need to change the way that origin distance is assigned
                 originArray.push(Number((e.target.id).substring(0,2)));
                 originArray.push(Number((e.target.id).substring(3)));
+                //
                 originRow = originArray[0];
                 originColumn = originArray[1];
             })
@@ -324,6 +328,28 @@ function makeGrid(numberOfRows,numberOfColumns) { // generates a grid
     makePond();
     generateTrees();
     placeRocks();
+
+    // here - add click event listener to subCells, but if clicked, apply it to (grand)parent, not the
+    document.querySelectorAll(`.subCell`).forEach((subCell) => {
+      subCell.addEventListener('click', e => {
+
+          let parentCell = (subCell.parentElement).parentElement
+
+          console.log(parentCell.id)
+
+          parentCell.classList.add('originCell');
+          parentCell.classList.add('originDistance-0');
+          //maybe the problem is with these lines below? If it's a subcell, need to change the way that origin distance is assigned
+          originArray.push(Number((parentCell.id).substring(0,2)));
+          originArray.push(Number((parentCell.id).substring(3)));
+          //
+          originRow = originArray[0];
+          originColumn = originArray[1];
+      })
+    });
+
+
+
 }
 
 function sleep(ms) {
@@ -629,7 +655,7 @@ async function sparkle() {
         for (let j = 0; j < 3; j++) {
             let sparkleCellSubCell = document.createElement('div');
             sparkleCellRow.appendChild(sparkleCellSubCell);
-            sparkleCellSubCell.classList.add(`sparkleCellSubCell`,`sparkleCounter${sparkleCounter}`,`sparkleCellSubCell${i+1}${j+1}`);
+            sparkleCellSubCell.classList.add(`subCell`,`sparkleCellSubCell`,`sparkleCounter${sparkleCounter}`,`sparkleCellSubCell${i+1}${j+1}`);
             // console.log(`sparkleCellSubCell${i+1}${j+1}`);
             // sparkleCellSubCell.append("*");
         }
@@ -1162,7 +1188,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${bottomTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellBottom`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-b`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellBottom`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-b`,`treePattern${treePattern}`);
             }
         }
 
@@ -1183,7 +1209,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${middleTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddle`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-m`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellMiddle`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-m`,`treePattern${treePattern}`);
               }
         }
 
@@ -1203,7 +1229,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${middleLeftTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddleLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ml`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellMiddleLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ml`,`treePattern${treePattern}`);
               }
         }
 
@@ -1223,7 +1249,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${middleRightTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellMiddleRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-mr`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellMiddleRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-mr`,`treePattern${treePattern}`);
               }
         }
 
@@ -1243,7 +1269,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${topTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-t`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-t`,`treePattern${treePattern}`);
 
               }
           }
@@ -1264,7 +1290,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${topLeftTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTopLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tl`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellTopLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tl`,`treePattern${treePattern}`);
                         // need to add distance for lighting to work
                         // console.log(`sparkleCellSubCell${i+1}${j+1}`);
                         // sparkleCellSubCell.append("*");
@@ -1288,7 +1314,7 @@ function generateTrees() {
                   let parentCellDistance = "";
                   treeCellRow.appendChild(treeCellSubCell);
                   treeCellSubCell.setAttribute(`id`,`${topRightTreeCell.id}-s${i+1}${j+1}`);
-                  treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTopRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tr`,`treePattern${treePattern}`);
+                  treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellTopRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tr`,`treePattern${treePattern}`);
                       // need to add distance for lighting to work
                       // console.log(`sparkleCellSubCell${i+1}${j+1}`);
                       // sparkleCellSubCell.append("*");
@@ -1312,7 +1338,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${tipTopTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tt`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellTipTop`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-tt`,`treePattern${treePattern}`);
 
               }
           }
@@ -1333,7 +1359,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${tipTopLeftTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTopLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ttl`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellTipTopLeft`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ttl`,`treePattern${treePattern}`);
 
               }
           }
@@ -1354,7 +1380,7 @@ function generateTrees() {
                 let parentCellDistance = "";
                 treeCellRow.appendChild(treeCellSubCell);
                 treeCellSubCell.setAttribute(`id`,`${tipTopRightTreeCell.id}-s${i+1}${j+1}`);
-                treeCellSubCell.classList.add( `treeCellSubCell`,`treeCellTipTopRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ttr`,`treePattern${treePattern}`);
+                treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellTipTopRight`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-ttr`,`treePattern${treePattern}`);
 
               }
           }
@@ -1660,7 +1686,7 @@ function placeRocks() {
                 let parentCellDistance = "";
                 rockCellRow.appendChild(rockCellSubCell);
                 rockCellSubCell.setAttribute(`id`,`${rockCell.id}-s${i+1}${j+1}`);
-                rockCellSubCell.classList.add( `rockCellSubCell`,`rockCell`,`rockCounter${rockCounter}`,`rockCellSubCell${i+1}${j+1}`,`rockPattern${rockPattern}`);
+                rockCellSubCell.classList.add(`subCell`, `rockCellSubCell`,`rockCell`,`rockCounter${rockCounter}`,`rockCellSubCell${i+1}${j+1}`,`rockPattern${rockPattern}`);
             }
         }
 
@@ -2050,43 +2076,22 @@ function setTrailPath() {
     let lengthValue = trailOptionsGenerationCombined[i].charAt(1);
 
 
-    // trailArray.push(cell1.id);
-
-    // let cell2;
-
-
-
 
     if (directionValue == `U`) {
       for (let j = 1; j <= lengthValue; j++) {
         trailArray.push(`${startRow-j}-${startColumn}`)
       }
-      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
-      //
-      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
-      //
-      // console.log(trailArray[trailArray.length-1]);
 
       startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
 
       startColumn = parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10);
-      //outside of the above loop, set new starting values? last value in trailArray
-      // reset cell1 to equal last value in trailArray
+
     } else if (directionValue == `R`) {
       for (let j = 1; j <= lengthValue; j++) {
-        // let startRow = getRowIntegerFromID(cell1.id);
-        // let startColumn = getColumnIntegerFromID(cell1.id);
 
         trailArray.push(`${startRow}-${startColumn+j}`)
 
       }
-
-      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
-      //
-      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
-      //
-      //
-      // console.log(trailArray[trailArray.length-1]);
 
       startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
 
@@ -2096,15 +2101,9 @@ function setTrailPath() {
     } else if (directionValue == `D`) {
       for (let j = 1; j <= lengthValue; j++) {
 
-        // let startRow = getRowIntegerFromID(cell1.id);
-        // let startColumn = getColumnIntegerFromID(cell1.id);
-
         trailArray.push(`${startRow+j}-${startColumn}`)
 
       }
-      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
-      //
-      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
 
       startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
 
@@ -2113,18 +2112,9 @@ function setTrailPath() {
     } else if (directionValue == `L`) {
       for (let j = 1; j <= lengthValue; j++) {
 
-        // let startRow = getRowIntegerFromID(cell1.id);
-        // let startColumn = getColumnIntegerFromID(cell1.id);
-
         trailArray.push(`${startRow}-${startColumn-j}`)
 
       }
-
-      // console.log(parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10));
-      //
-      // console.log(parseInt(trailArray[trailArray.length-1].toString().split(`-`)[1], 10));
-      //
-      // console.log(trailArray[trailArray.length-1]);
 
       startRow = parseInt(trailArray[trailArray.length-1].substr(0,trailArray[trailArray.length-1].indexOf('-')),10);
 
@@ -2203,7 +2193,7 @@ function setTrailPath() {
             let parentCellDistance = "";
             trailCellRow.appendChild(trailCellSubCell);
             trailCellSubCell.setAttribute(`id`,`${trailCell.id}-s${i+1}${j+1}`);
-            trailCellSubCell.classList.add( `trailCellSubCell`,`trailCell`,`trailCounter${trailCounter}`,`trailCellSubCell${i+1}${j+1}`,`trailPattern${trailPattern}`);
+            trailCellSubCell.classList.add(`subCell`, `trailCellSubCell`,`trailCell`,`trailCounter${trailCounter}`,`trailCellSubCell${i+1}${j+1}`,`trailPattern${trailPattern}`);
         }
     }
 
