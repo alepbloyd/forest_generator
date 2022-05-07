@@ -1979,6 +1979,9 @@ function setTrailPath() {
 
   startCell.style.backgroundColor = getRandomTrailColor();
 
+  startCell.style.filter = `brightness(0%)`;
+
+
 
   let startingSide = startingQuadrant.substr(0,startingQuadrant.indexOf(`-`));
 
@@ -2018,7 +2021,6 @@ function setTrailPath() {
     let randomValue = randomNumber(6,9);
     trailLength -= randomValue;
     trailOptionsGenerationNumbers.push(randomValue);
-    // console.log(trailLength)
   }
 
   trailOptionsGenerationNumbers = trailOptionsGenerationNumbers.filter( x => x > 0);
@@ -2026,8 +2028,6 @@ function setTrailPath() {
   let trailOptionsGenerationCombined = [];
 
   for (let i = 0; i <= trailOptionsGenerationNumbers.length-1; i++){
-    //add in the secondary movement here under each startement
-    //means I need to double the if statements with &&s for startingSideSecondary
     if (startingSide == `top` && startingSideSecondary == `left`){
       trailOptionsGenerationCombined.push(`D${trailOptionsGenerationNumbers[i]}`)
       trailOptionsGenerationCombined.push(`R${randomNumber(2,4)}`);
