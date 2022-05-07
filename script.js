@@ -447,7 +447,7 @@ gridContainer.addEventListener('click', (e) => {
     let cells2 = document.querySelectorAll(`.cell`).forEach(async (el) => {
       for (let i = 0; i <= getFurthestDistance(); i++) {
           if (el.classList.contains(`.distance0`)) {
-              el.innerHTML = (String.fromCodePoint(0x1F525));
+              // el.innerHTML = (String.fromCodePoint(0x1F525));
               el.style.fontSize = 'x-large';
               el.style.textAlign = 'center';
           }
