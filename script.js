@@ -1731,7 +1731,7 @@ function placeRocks() {
 let choicesArray = [];
 
 function setTrailStartAndEndQuadrants() {
-  choicesArray = [1,2,3,4,5,6,7,8]; //change back to 1 - 8 when not testing
+  choicesArray = [1,2,3,4,5,6,7,8];
   shuffleArray(choicesArray);
 
   if (choicesArray[0] == 1){
@@ -1751,7 +1751,6 @@ function setTrailStartAndEndQuadrants() {
   } else if (choicesArray[0] == 8) {
     choicesArray.splice(choicesArray.indexOf(7),1)
   }
-  console.log(choicesArray);
   return choicesArray.slice(0,2);
 }
 

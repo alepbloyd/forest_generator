@@ -11,11 +11,17 @@ This randomly generates a forest when page loads and brightens in a radius aroun
 1. Generate sparkles (asterisks) in a few different patterns at random intervals on unoccupied cells.
 1. Place little rudimentary rock shapes on a handful of random cells.
 
-This is my first project, before learning any sort of organization or best practices, and mostly just an exercise in "Here's an idea. How far can I get in figuring out that idea with what I know + google?". So, expect some squiggly, messy, unoptimized, code in here - I would love to take a shot at refactoring this in the future though!
+(Chrome does not love this for me, but generally works alright if you shrink your viewing window down and refreshing, or try another browser)
+
+## Why the long README?
+
+Because trying to explain a thought process is hard and I had fun making this project, so I figure this is good practice!
+
+This is my first project, before learning any sort of organization or best practices, and mostly just an exercise in "Here's an idea. How far can I get in figuring out that idea with what I know + google?". So, expect some squiggly, messy, unoptimized, code in here - I'm hoping to use this as a big refactoring and improving project once I learn some more concepts I could apply here.
 
 Below here is a rambly attempt to retrace my thought process in chronological order, from each feature to each feature, and what I remember about how I approached making each feature of this project.
 
-(This is a work-in-progress, and will be updated when I have time between classes and projects at [Turing](https://www.turing.edu)!)
+(This is a work-in-progress, and will be updated if I have time between classes and projects at [Turing](https://www.turing.edu)!)
 
 # Background
 
@@ -32,7 +38,43 @@ I imagine for folks who have been programming for a while, that might seem almos
 
 ## Brightness and Distance!
 
-This was the first part that felt like it was going to be a challenge for me going into it, and hey it definitely was.
+This was the first part that felt like it was going to be a big challenge for me going into it, and hey it definitely was.
+
+What I pictured at first was not 'animated' in any way, just click and an area would appear around the cell you clicked on. I imagined that this would be good practice for needing to put in an event listener, but also to get more practice with dom manipulation, changing the appearance of things with getElementById and getElementsByClassName in response to a user input.
+
+I started out this portion by drawing out a grid on some dotted paper, marking a spot as the origin (might have said 'click' when marking it), and then drew out the distance from the origin cell.
+
+
+|   	|   	|   	|   	|   	|   	|   	|   	|   	|   	|
+|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|
+| 5 	| 5 	| 5 	| 5 	| 5 	| 5 	| 5 	| 5 	| 5 	| 5 	|
+| 4 	| 4 	| 4 	| 4 	| 4 	| 4 	| 4 	| 4 	| 4 	| 5 	|
+| 4 	| 3 	| 3 	| 3 	| 3 	| 3 	| 3 	| 3 	| 4 	| 5 	|
+| 4 	| 3 	| 2 	| 2 	| 2 	| 2 	| 2 	| 3 	| 4 	| 5 	|
+| 4 	| 3 	| 2 	| 1 	| 1 	| 1 	| 2 	| 3 	| 4 	| 5 	|
+| 4 	| 3 	| 2 	| 1 	| X 	| 1 	| 2 	| 3 	| 4 	| 5 	|
+| 4 	| 3 	| 2 	| 1 	| 1 	| 1 	| 2 	| 3 	| 4 	| 5 	|
+| 4 	| 3 	| 2 	| 2 	| 2 	| 2 	| 2 	| 3 	| 4 	| 5 	|
+| 4 	| 3 	| 3 	| 3 	| 3 	| 3 	| 3 	| 3 	| 4 	| 5 	|
+
+This was a decent start, but it resulted in a perfect square going out from the origin, so not really the 'radiating outwards' thing I was going for. Proof of concept though!
+
+``` javascript
+
+function setDistanceFromOrigin(cell) {
+    cellRow = getRow(cell);
+    cellColumn = getColumn(cell);
+    cell.classList.add('dAssigned');
+    columnDistance = (Math.abs(cellColumn - originArray[1]));
+    rowDistance = (Math.abs(cellRow - originArray[0]));
+    greaterDistance = Math.max(columnDistance,rowDistance);
+    averageDistance = Math.floor((columnDistance+rowDistance)/2);
+    cell.classList.add(`.distance${averageDistance+greaterDistance}`);
+    distanceArray.push(averageDistance+greaterDistance);
+}
+
+```
+
 
 ### Async (or swim)!
 
@@ -42,11 +84,11 @@ This was the first part that felt like it was going to be a challenge for me goi
 
 ## Trees
 
-### Placement
+#### Trees - Placement
 
 
 
-### Shapes!
+#### Trees - Shapes!
 
 How do I make a tree? When was the last time I saw a tree?
 
@@ -106,9 +148,79 @@ etc
 etc
 ```
 
+From there came the functions for breaking up each cell into sub-cells and assigning them an address (this is for the 'middle' cell in each tree, but same general pattern applies to each cell and would like to get a function going for at some point):
+
+``` javascript
+let middleTreeCell;
+
+middleTreeCell = document.getElementById(getCellAboveID(bottomTreeCell));
+middleTreeCell.classList.add(`treeCell`,`treeCellMiddle`,`treeCounter${treeCounter}`,`treePattern${treePattern}`);
+for (let i = 0; i < 3; i++) {
+    let treeCellRow = document.createElement('div');
+    middleTreeCell.appendChild(treeCellRow);
+    treeCellRow.classList.add(`treeCellRow`);
+
+    for (let j = 0; j < 3; j++) {
+        let treeCellSubCell = document.createElement('div');
+        let parentCellDistance = "";
+        treeCellRow.appendChild(treeCellSubCell);
+        treeCellSubCell.setAttribute(`id`,`${middleTreeCell.id}-s${i+1}${j+1}`);
+        treeCellSubCell.classList.add(`subCell`, `treeCellSubCell`,`treeCellMiddle`,`treeCounter${treeCounter}`,`treeCellSubCell${i+1}${j+1}-m`,`treePattern${treePattern}`);
+      }
+}
+```
+
+And finally, the function to assign the colors now that each subcell contains the information about what pattern it is a part of and where in that pattern it is. The code essentially iterates through the `leafpatterns` that match up with `getChanceOfEachTreePattern()` - which just picks a number 1-4. The other things going on are assigning the subCells `brightness(0%)`, and doing this with the subCells that are *not* the tree or trunk, so they also end up being assigned '`brightness(0%)`':
+
+``` javascript
+let treeCellSubCells2= document.querySelectorAll(`.treePattern2`).forEach((el) => {
+      for (let p = 0; p <= leafPattern2.length-1; p++){
+        if (
+          (el.classList.contains(`treeCellSubCell${leafPattern2[p]}`)) && (el.classList.contains(`colorAssigned`) == false)
+        ) {
+          el.style.backgroundColor = leafColor;
+          el.style.filter = `brightness(0%)`;
+          el.classList.add(`colorAssigned`);
+          if(subCellColorMap.has(`${el.id}`)) {
+          } else {
+            subCellColorMap.set(`${el.id}`,`${leafColor}`);
+          }
+
+        }
+      }
+
+      for (let t = 0; t <= trunkPattern2.length-1; t++){
+        if ((el.classList.contains(`treeCellSubCell${trunkPattern2[t]}`)) && (el.classList.contains(`colorAssigned`) == false)) {
+          el.style.backgroundColor = trunkColor;
+          el.style.filter = `brightness(0%)`;
+          el.classList.add(`colorAssigned`);
+          if(subCellColorMap.has(`${el.id}`)) {
+          } else {
+            subCellColorMap.set(`${el.id}`,`${trunkColor}`);
+          }
+
+        }
+      }
+
+      for (let x = 0; x <= leafPattern2Opposite.length-1; x++){
+        if (el.classList.contains(`treeCellSubCell${leafPattern2Opposite[x]}`)) {
+          el.style.filter = `brightness(0%)`;
+        }
+      }
+
+      for (let y = 0; y <= trunkPattern2Opposite.length-1; y++){
+        if (el.classList.contains(`treeCellSubCell${trunkPattern2Opposite[y]}`)) {
+          el.style.filter = `brightness(0%)`;
+        }
+      }
+});
+```
+
+And that's how you make a tree! Ta-da!
+
 ### Tree perspective - Stickers
 
-Trees that don't overlap don't create perspective, and I wanted to create perspective.
+Now that trees were being placed and shaped and colored, the next goal was to create a sense of overlap, density, and perspective.
 
 I realized that if I wanted to simulate a sort-of top-down-angle view, the trees that are *lower* in the grid need to appear to be in front the ones that are higher in the grid.
 
@@ -142,7 +254,43 @@ Is there definitely an easier way to do this? Definitely there is an easier way 
 
 Was I fast approaching the start of classes and just wanted to get *a* solution working? I was fast approaching the start of classes and just wanted to get *a* solution working.
 
+What I wanted to make here was a randomly generated trail that would start at an edge and follow a random path that *looks nice*, as in no harsh zig-zags or patterns that aren't clearly identifiable as 'trail'.
+
+I started out by breaking the edges up into eight quadrants (top-left, top-right, right-top, right-bottom, bottom-right, bottom-left, left-bottom, left-top), and randomly selecting two that were not on the same side - so the trail would have to start on one side and end on another.
+
+``` javascript
+let choicesArray = [];
+
+function setTrailStartAndEndQuadrants() {
+  choicesArray = [1,2,3,4,5,6,7,8];
+  shuffleArray(choicesArray);
+
+  if (choicesArray[0] == 1){
+    choicesArray.splice(choicesArray.indexOf(2),1)
+  } else if (choicesArray[0] == 2) {
+    choicesArray.splice(choicesArray.indexOf(1),1)
+  } else if (choicesArray[0] == 3) {
+    choicesArray.splice(choicesArray.indexOf(4),1)
+  } else if (choicesArray[0] == 4) {
+    choicesArray.splice(choicesArray.indexOf(3),1)
+  } else if (choicesArray[0] == 5) {
+    choicesArray.splice(choicesArray.indexOf(6),1)
+  } else if (choicesArray[0] == 6) {
+    choicesArray.splice(choicesArray.indexOf(5),1)
+  } else if (choicesArray[0] == 7) {
+    choicesArray.splice(choicesArray.indexOf(8),1)
+  } else if (choicesArray[0] == 8) {
+    choicesArray.splice(choicesArray.indexOf(7),1)
+  }
+  return choicesArray.slice(0,2);
+}
+```
+
+
+
 ## Place Rocks?
 So the appearance of this is pretty phoned in compared to everything else, and admittedly it was on the easier end of the struggle spectrum, but I am happy to have figured it out.
 
 It's less about the shapes and colors of each individual rock that gets placed, but more was about figuring out how to identify cells that were 'vacant', meaning that there was no other object occupying the cell.
+
+(Whoops that's all I've got right now, but will update when/if I have time!)
