@@ -196,7 +196,7 @@ let subCellColorMap = new Map();
 //sets the rows and columns to be a square, larger than view window.
 
 let numberOfRows = (Math.floor(documentHeight / 30));
-let numberOfColumns = (Math.floor(documentWidth / 30));
+let numberOfColumns = Math.min(Math.floor(documentWidth / 30),26);
 
 // sets at browser width
 // this one looks best
@@ -204,13 +204,6 @@ let numberOfColumns = (Math.floor(documentWidth / 30));
 
 function randomNumber(min,max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-function getRandomColor() {
-    let redValue = randomNumber(0,255);
-    let greenValue = randomNumber(0,255);
-    let blueValue = randomNumber(0,255);
-    return `rgb(${redValue},${greenValue},${blueValue})`
 }
 
 function getRandomGreen() {
@@ -967,7 +960,7 @@ function makePond() {
     randomCell.classList.add(`pondCell`);
     // randomCell.append("Pond Origin");
     let pondOrigin = randomCell.id; // sets pondOrigin to the xx-yy style cell address
-    let pondSize = Math.min(numberOfRows,numberOfColumns)*randomNumber(25,40); // sets random pond size between two parameters
+    let pondSize = Math.floor(totalCells/100)*randomNumber(50,80); // sets random pond size between two parameters
     // pondSize needs to be relative to totalCells (as like a percentage)
     randomCell.style.backgroundColor = `${getRandomPondColor()}`;
     randomCell.style.filter = `brightness(0%)`
