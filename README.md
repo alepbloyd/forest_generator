@@ -11,7 +11,7 @@ This randomly generates a forest when page loads and brightens in a radius aroun
 1. Generate sparkles (asterisks) in a few different patterns at random intervals on unoccupied cells.
 1. Place little rudimentary rock shapes on a handful of random cells.
 
-(Chrome does not love this for me, but generally works alright if you shrink your viewing window down and refreshing, or try another browser)
+Chrome does not run this too smoothly above a certain window size, but generally works alright if you shrink your viewing window down and refreshing, or generally runs smoother in Firefox. In addition - this is a work-in-progress-first-ever project, so code contains comments and is disorganized. 
 
 ## Why the long README?
 
@@ -21,11 +21,11 @@ This is my first project, before learning any sort of organization or best pract
 
 Below here is a rambly attempt to retrace my thought process in chronological order, from each feature to each feature, and what I remember about how I approached making each feature of this project.
 
-(This is a work-in-progress, and will be updated if I have time between classes and projects at [Turing](https://www.turing.edu)!)
+(This (as in the readme itself, not just the code) is a work-in-progress, and will be updated if I have time between classes and projects at [Turing](https://www.turing.edu)!)
 
 # Background
 
-This is my first project, and hooooo boy I feel like I learned a lot while stumbling through this, and at least 75% of what I learned is what *not* to do in future projects.
+Hooooo boy I feel like I learned a lot while stumbling through this, and at least 75% of what I learned is what *not* to do in future projects.
 - Maybe sticking all of my script into one file is not the right way to handle things?
 - What the heck is a branch, or a commit, or git? Doesn't everyone code and hope that it works, break everything, try to fix it, get frustrated, and then hold down ```cmd+z``` for a few minutes to try to get back to a functional point and try to remember what aspects of what they did worked?
 - What is 'planning ahead?'
