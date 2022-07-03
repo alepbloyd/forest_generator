@@ -2,6 +2,8 @@
 
 https://alepbloyd.github.io/forest_generator/
 
+![springwinter 2](https://user-images.githubusercontent.com/17027357/177023434-b1b0f1d7-c64d-417c-888e-b9a1a12c1870.png)
+
 This randomly generates a forest when page loads and brightens in a radius around wherever the user clicks. It contains a number of random functions that build off of each other to:
 
 1. Choose a season and set colors accordingly.
