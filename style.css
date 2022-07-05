@@ -1,7 +1,19 @@
 body {
-  background-color: black;
+  background-color: #776885;
   display: flex;
-  border: 3px solid white;
+}
+
+#backgroundLeft {
+    flex: 1;
+    background-color: #776885;
+    z-index:1;
+    position:relative;
+}
+
+#backgroundRight {
+    flex: 1;
+    background-color: #776885;    z-index:1;
+    position:relative;
 }
 
 #gridContainer {
@@ -11,10 +23,10 @@ body {
     width: 100%;
     /* height: 1000px; */
     flex-direction: column;
-    background-color: black;
     padding: 2px
-    border: 3px solid white;
-
+    background-color: #776885;
+    justify-content: center;
+    position:relative;
     /* border-width: 3px;
     border-color: grey;
     border-style: solid; */
@@ -43,6 +55,7 @@ body {
     /* border: 1px solid black; */
     flex-direction: row;
     flex-shrink: 0;
+    background-color: #5f5b6b;
 }
 
 .cell {
