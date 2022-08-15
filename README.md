@@ -154,6 +154,12 @@ etc
 etc
 ```
 
+Or in some very-organized and legible notes:
+
+<img src="https://user-images.githubusercontent.com/17027357/184696682-d5a1d006-b9e6-4209-8d39-da968c0e9373.jpg" width="400" />
+
+<img src="https://user-images.githubusercontent.com/17027357/184696702-84828e25-2b73-4c87-9f6e-18927ae0c840.jpg" width="400" />
+
 From there came the functions for breaking up each cell into sub-cells and assigning them an address (this is for the 'middle' cell in each tree, but same general pattern applies to each cell and would like to get a function going for at some point):
 
 ``` javascript
