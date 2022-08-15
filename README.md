@@ -46,6 +46,9 @@ What I pictured at first was not 'animated' in any way, just click and an area w
 
 I started out this portion by drawing out a grid on some dotted paper, marking a spot as the origin (might have said 'click' when marking it), and then drew out the distance from the origin cell.
 
+![image](https://user-images.githubusercontent.com/17027357/184698285-cce457a2-1a82-4aa7-9440-27a9d8d610d6.png)
+
+
 
 |   	|   	|   	|   	|   	|   	|   	|   	|   	|   	|
 |---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|
