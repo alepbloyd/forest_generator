@@ -78,17 +78,21 @@ function setDistanceFromOrigin(cell) {
 ```
 
 
-### Async (or swim)!
+## Async (or swim)!
 
-## Sparkles
+(Coming soon! Write up on learning async and sleep functions for creating/deleting the little asterisk sparkles that show up on vacant cells.)
 
 ## Making a Pond
 
+(Coming soon! Write up on creating a random blob of adjacent cells, including a random starting location and shape, as well as tweaking parameters so that it visually reads as 'pond' for the user).   
+
 ## Trees
+
+(Section intro coming soon!)
 
 #### Trees - Placement
 
-
+(Oops also coming soon!)
 
 #### Trees - Shapes!
 
